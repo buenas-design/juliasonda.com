@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  Partes comuns a todas as páginas. Os TEXTOS ficam em content/site.yml — edite lá.
+-->
+<title>Contact · Julia Sonda</title>
+<meta name="description" content="White-label branding and graphic design for agencies. Julia Sonda is a Brazilian brand and graphic designer based in Spain, with 9 years of experience working with clients around the world.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Julia Sonda · The branding &amp; design specialist your agency can count on">
+<meta property="og:description" content="Brand identities, social media, presentations and other design projects for marketing agencies and creative studios.">
+<meta property="og:image" content="https://juliasonda.com/assets/og-image.png">
+<meta property="og:url" content="https://juliasonda.com/contact/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://juliasonda.com/contact/">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Neue Haas Grotesk Display: crie um "Web Project" no Adobe Fonts (fonts.adobe.com,
+     incluso no Creative Cloud), adicione a família e cole o <link> do kit aqui:
+     <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
+     Enquanto isso, a Inter Tight entra no lugar dela. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
+<link rel="stylesheet" href="../assets/styles.css?v=a6da5001">
+<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="is-contact">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="logo" href="../">Julia Sonda</a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="../work/">Work</a>
+      <a href="../about/">About</a>
+      <a href="../contact/" aria-current="page">Contact</a>
+    </nav>
+    <a class="btn btn--sm hdr__cta" href="../contact/">Let&#39;s talk</a>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+<main id="main">
+
+<section class="contact-hero" data-tone="mist" aria-labelledby="page-title">
+  <div class="wrap contact__grid">
+    <div class="contact__copy">
+      <p class="label" data-reveal>Contact</p>
+      <h1 class="h1" id="page-title" data-reveal="title">Hey, let&#39;s <em>talk!</em></h1>
+      <p data-reveal>I&#39;d love to know a little about your agency and the type of work you need help with.</p><p data-reveal>You can send me a project brief if you already have one, or just introduce yourself and tell me what you have in mind.</p><p data-reveal>I&#39;ll get back to you as soon as I can.</p>
+      <p class="contact__direct" data-reveal><a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a></p>
+      <figure class="contact__photo"><img data-reveal="img" src="../assets/photos/contact-hello.jpg" alt="Julia smiling at her desk" width="900" height="1125" loading="lazy"></figure>
+    </div>
+
+    <form class="form" id="contact-form" data-endpoint="" data-email="oi@juliasonda.com" data-error="Please add your name and a valid email, so I can get back to you." data-fallback="Your email app should open with your message ready. If it doesn&#39;t, write to me at" novalidate data-reveal>
+      <div class="form__fields" id="form-fields">
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Your name</span>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+          </label>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </label>
+        </div>
+        <label class="field">
+          <span class="field__label">Agency / Studio name</span>
+          <input id="f-agency" name="agency" type="text" autocomplete="organization">
+        </label>
+        <fieldset class="field field--set">
+          <legend class="field__label">What are you looking for help with?</legend>
+          <div class="chips">
+            <label class="chip"><input id="f-need-1" type="checkbox" name="needs" value="Branding &amp; Visual Identity"><span>Branding &amp; Visual Identity</span></label><label class="chip"><input id="f-need-2" type="checkbox" name="needs" value="Creative Direction"><span>Creative Direction</span></label><label class="chip"><input id="f-need-3" type="checkbox" name="needs" value="Graphic Design"><span>Graphic Design</span></label><label class="chip"><input id="f-need-4" type="checkbox" name="needs" value="Ongoing Support"><span>Ongoing Support</span></label><label class="chip"><input id="f-need-5" type="checkbox" name="needs" value="Something Else"><span>Something Else</span></label>
+          </div>
+        </fieldset>
+        <label class="field">
+          <span class="field__label">Tell me a little about it</span>
+          <textarea id="f-message" name="message" rows="5" placeholder="A few details about your project, your timeline, or your agency would be great!"></textarea>
+        </label>
+        <button class="btn btn--block" type="submit">Send Message</button>
+        <p class="form__status" id="form-status" role="status"></p>
+      </div>
+      <div class="form__done" id="form-done" hidden tabindex="-1">
+        <p>Thanks for reaching out! Your message is on its way, and I&#39;ll get back to you soon.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FAQ: perguntas numeradas, sempre abertas (nada de acordeão) -->
+<section class="sec faq" data-tone="pink" aria-labelledby="faq-title">
+  <div class="wrap">
+    <p class="label" id="faq-title" data-reveal>FAQ</p>
+    <ol class="faq-list">
+      <li class="faq__item" data-reveal="left">
+        <span class="faq__n">01</span>
+        <h2 class="faq__q">Do you work completely white-label?</h2>
+        <p class="faq__a">Yes. I can work directly with your agency without being involved in client communication. I also won&#39;t share your projects publicly without permission.</p>
+      </li>
+      <li class="faq__item" data-reveal="left">
+        <span class="faq__n">02</span>
+        <h2 class="faq__q">Can I hire you for a single project?</h2>
+        <p class="faq__a">Of course! A lot of agency partnerships start with one project. We can talk about ongoing work later if it makes sense.</p>
+      </li>
+      <li class="faq__item" data-reveal="left">
+        <span class="faq__n">03</span>
+        <h2 class="faq__q">Can you follow our creative direction?</h2>
+        <p class="faq__a">Yes. I&#39;m used to working with creative directors and existing brand guidelines. I can also develop the visual direction when that&#39;s part of the project.</p>
+      </li>
+      <li class="faq__item" data-reveal="left">
+        <span class="faq__n">04</span>
+        <h2 class="faq__q">How do you charge?</h2>
+        <p class="faq__a">I offer fixed project fees and hourly pricing, depending on the work. Send me the details and I&#39;ll prepare an estimate.</p>
+      </li>
+      <li class="faq__item" data-reveal="left">
+        <span class="faq__n">05</span>
+        <h2 class="faq__q">Can we work together if we&#39;re in different countries?</h2>
+        <p class="faq__a">Absolutely. I&#39;m based in Spain and I&#39;ve worked with clients in 9 countries, most of them in the US and Canada.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+</main>
+<footer class="ftr">
+  <div class="wrap">
+    <a class="ftr__cta" href="../contact/" data-reveal>Let&#39;s talk! <span class="arrow" aria-hidden="true">→</span></a>
+    <ul class="ftr__rows">
+      <li data-reveal><a href="https://www.behance.net/juliasonda" target="_blank" rel="noopener">Behance <span class="arrow" aria-hidden="true">→</span></a></li>
+      <li data-reveal><a href="https://www.linkedin.com/in/juliasonda/" target="_blank" rel="noopener">LinkedIn <span class="arrow" aria-hidden="true">→</span></a></li>
+      <li data-reveal><a href="https://www.instagram.com/buenas.designstudio/" target="_blank" rel="noopener">Instagram <span class="arrow" aria-hidden="true">→</span></a></li>
+    </ul>
+    <div class="ftr__cols">
+      <p class="ftr__line">Brand identity &amp; graphic design for creative agencies.</p>
+      <p>Based in Spain · Working worldwide</p>
+      <p class="ftr__nav"><a href="../work/">Work</a><a href="../about/">About</a><a href="../contact/">Contact</a></p>
+    </div>
+  </div>
+  <p class="ftr__mark" aria-hidden="true">Julia Sonda</p>
+  <div class="wrap ftr__base">
+    <p>© <span id="year">2026</span> Julia Sonda</p>
+    <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
+  </div>
+</footer>
+<script src="../assets/app.js?v=059775bf" defer></script>
+</body>
+</html>
