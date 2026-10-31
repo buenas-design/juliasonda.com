@@ -459,7 +459,8 @@ mark {
 .qcard { transition: box-shadow .4s var(--ease); }
 .qcard:hover { box-shadow: 0 30px 50px -30px rgba(58, 28, 30, 0.45); }
 .js .qcard.is-in:hover { transform: translateY(-6px) rotate(-0.6deg); transition: transform .5s var(--ease), box-shadow .4s var(--ease); }
-.qcard__big { font: 400 var(--fs-quote)/1.16 var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
+/* testimonials use the text font (not Florentia), so they never read as titles */
+.qcard__big { font: 500 clamp(1.2rem, 1.7vw, 1.5rem)/1.3 var(--f-sans); letter-spacing: -0.005em; text-wrap: balance; }
 .qcard__mark { display: block; height: 0.5em; margin-bottom: 0.1em; font: 400 2.2em/1 var(--f-display); color: var(--tomato); }
 .qcard__full { margin: 0; }
 .qcard__full p { font-size: 0.98rem; line-height: 1.62; }
@@ -480,7 +481,7 @@ mark {
 .qband__mark { font: 400 clamp(5rem, 10vw, 9rem)/0.6 var(--f-display); color: var(--tomato); margin-bottom: -0.18em; }   /* the quote glyph sits high in its box */
 /* the section before the big testimonial doesn't need its full bottom space */
 main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
-.qband__text { margin: 0; max-width: 22ch; font: 400 var(--fs-h1)/1.08 var(--f-display); letter-spacing: -0.015em; text-wrap: balance; }
+.qband__text { margin: 0; max-width: 30ch; font: 400 clamp(1.6rem, 3vw, 2.5rem)/1.25 var(--f-sans); letter-spacing: -0.01em; text-wrap: balance; }
 .qband__who { display: flex; align-items: center; gap: 12px; font: 600 0.8rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
 
 /* ───────── 04 services ───────── */
@@ -744,7 +745,8 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .contact__direct a { font: 400 clamp(1.4rem, 2.4vw, 1.9rem)/1.2 var(--f-display); color: var(--tomato); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; overflow-wrap: anywhere; }
 /* "Prefer to talk first?" box with the Calendly button */
 .call { display: grid; justify-items: start; gap: 10px; margin-top: 10px; padding: clamp(20px, 2.4vw, 28px); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 70%, transparent); }
-.call__title { font: 400 clamp(1.3rem, 2vw, 1.6rem)/1.2 var(--f-display); color: var(--berry); }
+.call__title { font: 400 clamp(1.3rem, 2vw, 1.6rem)/1.2 var(--f-display); color: var(--ink); }
+.call__title em { font-style: normal; color: var(--tomato); }
 .contact__copy .call p:not(.call__title) { font-size: 1rem; }
 .call .btn { margin-top: 6px; }
 .form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
