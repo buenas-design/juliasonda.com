@@ -23,7 +23,7 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="../../assets/styles.css?v=9233ba6d">
+<link rel="stylesheet" href="../../assets/styles.css?v=2f2d4d94">
 <!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
 <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -33,9 +33,14 @@
   <div class="wrap hdr__in">
     <a class="logo" href="../../">Julia Sonda</a>
     <nav class="nav" id="nav" aria-label="Main">
+      <!-- só no celular, com o menu aberto: fotos da Julia trocando como um GIF -->
+      <div class="nav__pics" aria-hidden="true">
+        <img src="../../assets/photos/menu-1.jpg" alt="" loading="lazy" style="--i:0"><img src="../../assets/photos/menu-2.jpg" alt="" loading="lazy" style="--i:1"><img src="../../assets/photos/menu-3.jpg" alt="" loading="lazy" style="--i:2"><img src="../../assets/photos/menu-4.jpg" alt="" loading="lazy" style="--i:3"><img src="../../assets/photos/menu-5.jpg" alt="" loading="lazy" style="--i:4">
+      </div>
       <a href="../../work/" aria-current="page">Work</a>
       <a href="../../about/">About</a>
       <a href="../../contact/">Contact</a>
+      <a class="nav__cta" href="../../contact/">Let&#39;s talk</a>
     </nav>
     <a class="btn btn--sm hdr__cta" href="../../contact/">Let&#39;s talk</a>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
