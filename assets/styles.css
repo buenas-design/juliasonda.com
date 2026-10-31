@@ -327,7 +327,7 @@ mark {
 }
 /* phones: the photos stay around the title, two above it and two below, slightly off the edges */
 @media (max-width: 760px) {
-  .hero { min-height: 0; padding: calc(var(--hdr) + 46vw) 0 60vw; }
+  .hero { min-height: 0; padding: calc(var(--hdr) + 60vw) 0 74vw; }
   .hp--tall { width: 31vw; }
   .hp--wide { width: 40vw; }
   .hp--1 { left: -3vw; top: calc(var(--hdr) + 4vw); }
