@@ -119,7 +119,7 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
    H1     one per page: the home title, the Work / About / Contact titles, a project's name.
           Florentia Regular, --fs-h1. **bold** in site.yml for emphasis.
    H2     every section title, including the big statements, CTA titles and "Next project".
-          Florentia Regular, --fs-h2. *italic* in site.yml for emphasis.
+          Florentia Regular, --fs-h2. *word* in site.yml = coral accent (never italic).
    H3     service names, FAQ questions, fun-fact titles, project names on cards.
           Grotesk semibold caps, --fs-h3.
    Label  the small caps line with a dash above titles (.label).
@@ -141,7 +141,8 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
 .hero__title, .h1, .proj__title { font-size: var(--fs-h1); line-height: 1.06; }
 .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title, .ind__name, .next__name { font-size: var(--fs-h2); line-height: 1.1; }
 .h2 { max-width: 20ch; }
-:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) em { font-style: italic; font-weight: 500; }
+/* no italics anywhere (her call): a *word* in site.yml becomes a coral accent in the same regular weight */
+:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) em { font-style: normal; font-weight: inherit; color: var(--tomato); }
 :is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) strong { font-weight: 700; }
 .h1 em, .hero__title em { color: var(--tomato); }
 
@@ -343,7 +344,7 @@ mark {
 .ticker:hover .ticker__track { animation-play-state: paused; }
 .ticker__list { display: flex; margin: 0; padding: 0; list-style: none; }
 .ticker__list li { display: flex; align-items: center; font: 400 clamp(1.08rem, 1.84vw, 1.68rem)/1 var(--f-display); white-space: nowrap; }
-.ticker__list li:nth-child(even) { font-style: italic; font-weight: 500; color: var(--sage); }
+.ticker__list li:nth-child(even) { color: var(--sage); }
 .ticker__list li::after { content: ""; flex: none; width: 9px; height: 9px; margin-inline: clamp(22px, 3vw, 44px); border-radius: 50%; background: var(--tomato); }
 @keyframes ticker { to { transform: translateX(-50%); } }
 
@@ -430,7 +431,7 @@ mark {
 .quotes__list { display: grid; }
 .quote { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px clamp(32px, 4vw, 64px); align-items: start; }
 .quote__big { grid-column: 1 / -1; font: 300 clamp(2.3rem, 5.4vw, 5.2rem)/1.04 var(--f-display); letter-spacing: -0.012em; text-wrap: balance; }
-.quote__mark { display: inline-block; margin-right: 0.04em; font-style: italic; font-weight: 500; color: var(--berry); }
+.quote__mark { display: inline-block; margin-right: 0.04em; color: var(--berry); }
 .quote__full { margin: 0; grid-column: 2; }
 .quote__full p { font-size: 1.05rem; line-height: 1.65; }
 .quote figcaption { grid-column: 1; grid-row: 2; display: flex; align-items: center; gap: 12px; font: 600 0.78rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
@@ -459,7 +460,7 @@ mark {
 .qcard:hover { box-shadow: 0 30px 50px -30px rgba(58, 28, 30, 0.45); }
 .js .qcard.is-in:hover { transform: translateY(-6px) rotate(-0.6deg); transition: transform .5s var(--ease), box-shadow .4s var(--ease); }
 .qcard__big { font: 400 var(--fs-quote)/1.16 var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
-.qcard__mark { display: block; height: 0.5em; margin-bottom: 0.1em; font: italic 500 2.2em/1 var(--f-display); color: var(--tomato); }
+.qcard__mark { display: block; height: 0.5em; margin-bottom: 0.1em; font: 400 2.2em/1 var(--f-display); color: var(--tomato); }
 .qcard__full { margin: 0; }
 .qcard__full p { font-size: 0.98rem; line-height: 1.62; }
 .qcard__who { display: flex; align-items: center; gap: 12px; font: 600 0.76rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
@@ -469,14 +470,14 @@ mark {
 /* "Clients seen on" line under the intro */
 .seen { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-top: 10px; padding-top: 18px; border-top: 1px solid rgba(58, 28, 30, 0.22); }
 .seen__label { font: 600 0.74rem/1.4 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; }
-.seen__name { font: italic 500 1.12rem/1.2 var(--f-display); }
+.seen__name { font: 400 1.12rem/1.2 var(--f-display); }
 .seen__name + .seen__name::before { content: "·"; margin-right: 12px; font-style: normal; color: var(--tomato); }
 .seen { column-gap: 12px; }
 
 /* a single testimonial, very big, on an orange band */
 .qband { color: var(--ink); padding-block: clamp(20px, 3vw, 40px) clamp(80px, 10vw, 150px); overflow: hidden; }
 .qband__in { position: relative; display: grid; justify-items: center; text-align: center; gap: 18px; }
-.qband__mark { font: italic 500 clamp(5rem, 10vw, 9rem)/0.6 var(--f-display); color: var(--tomato); margin-bottom: -0.18em; }   /* the quote glyph sits high in its box */
+.qband__mark { font: 400 clamp(5rem, 10vw, 9rem)/0.6 var(--f-display); color: var(--tomato); margin-bottom: -0.18em; }   /* the quote glyph sits high in its box */
 /* the section before the big testimonial doesn't need its full bottom space */
 main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 .qband__text { margin: 0; max-width: 22ch; font: 400 var(--fs-h1)/1.08 var(--f-display); letter-spacing: -0.015em; text-wrap: balance; }
@@ -491,7 +492,7 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 .svc { border-top: 1px solid rgba(58, 28, 30, 0.2); }
 .svc__sum { display: grid; grid-template-columns: 54px minmax(0, 1fr) 24px; align-items: center; gap: 14px; padding-block: clamp(20px, 2.4vw, 30px); list-style: none; cursor: pointer; }
 .svc__sum::-webkit-details-marker { display: none; }
-.svc__n { font: italic 500 1.6rem/1 var(--f-display); color: var(--tomato); }
+.svc__n { font: 400 1.6rem/1 var(--f-display); color: var(--tomato); }
 .svc__name { transition: color .25s; }
 .svc__sum:hover .svc__name { color: var(--tomato); }
 .svc__plus { position: relative; width: 22px; height: 22px; }
@@ -550,10 +551,10 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 @media (max-width: 560px) { .ind-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .ind__card { display: grid; align-content: space-between; gap: 22px; min-height: clamp(130px, 11vw, 170px); padding: clamp(20px, 2vw, 28px); border-radius: var(--radius); background: var(--paper); box-shadow: 0 20px 36px -30px rgba(58, 28, 30, 0.45); transition: translate .4s var(--ease), background-color .3s, color .3s; }
 .ind__card:hover { translate: 0 -6px; background: var(--berry); color: var(--ivory); }
-.ind__n { font: italic 500 1.6rem/1 var(--f-display); color: var(--tomato); }
+.ind__n { font: 400 1.6rem/1 var(--f-display); color: var(--tomato); }
 .ind__card:hover .ind__n { color: var(--sage); }
 .ind__label { font: 600 0.9rem/1.35 var(--f-sans); letter-spacing: 0.06em; text-transform: uppercase; }
-.ind__closing { margin-top: 36px; font: italic 400 clamp(1.3rem, 2vw, 1.7rem)/1.3 var(--f-display); }
+.ind__closing { margin-top: 36px; font: 400 clamp(1.3rem, 2vw, 1.7rem)/1.3 var(--f-display); }
 @media (max-width: 860px) {
   .ind__head { grid-template-columns: 1fr; }
 }
@@ -598,7 +599,7 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
     var(--berry-deep) var(--fade));
 }
 .ftr { color: var(--ivory); padding-top: calc(var(--fade) * 0.8); padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); overflow: hidden; }
-.ftr__cta { display: inline-flex; align-items: baseline; gap: 18px; font: italic 500 clamp(2.8rem, 7vw, 6.2rem)/1 var(--f-display); color: var(--sage); text-decoration: none; }
+.ftr__cta { display: inline-flex; align-items: baseline; gap: 18px; font: 400 clamp(2.8rem, 7vw, 6.2rem)/1 var(--f-display); color: var(--sage); text-decoration: none; }
 .ftr__cta .arrow { font-family: var(--f-sans); font-style: normal; font-size: 0.6em; color: var(--tomato); transition: transform .35s var(--ease); }
 .ftr__cta:hover .arrow { transform: translateX(10px); }
 .ftr__rows { list-style: none; margin: clamp(40px, 5vw, 64px) 0 0; padding: 0; border-top: 1px solid var(--line-light); }
@@ -680,7 +681,6 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 /* About page type & colour system (one rule set for the whole page):
    titles = Florentia Regular in ink, never italic · paragraphs = 1.12rem in soft plum, ~58ch wide ·
    plum only for blocks/buttons · coral only for small accents (highlight, quote mark, title accent) */
-.is-about .h1 em { font-style: normal; font-weight: 400; }
 .about-hero__copy p:not(.label), .about-body p, .working__p, .outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
 .about-hero__photos { position: relative; padding: 0 0 30% 14%; }
 .ah { object-fit: cover; }
@@ -726,7 +726,7 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .fun__inner { display: grid; height: 100%; min-height: clamp(240px, 21vw, 290px); transform-style: preserve-3d; }
 .fun__face { grid-area: 1 / 1; display: grid; padding: clamp(26px, 3vw, 40px); border-radius: var(--radius); box-shadow: 0 24px 40px -30px rgba(58, 28, 30, 0.5); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .fun__front { place-content: center; text-align: center; background: var(--berry); color: var(--ivory); }
-.fun__back { align-content: center; background: var(--paper); color: var(--ink); transform: rotateY(180deg); }
+.fun__back { align-content: center; background: var(--tomato); color: var(--ink); transform: rotateY(180deg); }
 .fun__back p { font-size: 1rem; line-height: 1.6; }
 .fun__q { color: var(--ivory); }
 .fun__card.is-open .fun__inner, .fun__card:focus-visible .fun__inner { transform: rotateY(180deg); transition: transform .8s var(--ease); }
@@ -741,7 +741,7 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .contact__copy { display: grid; gap: 18px; }
 .contact__copy .h1 { margin-bottom: 14px; max-width: 12ch; }
 .contact__copy p:not(.label):not(.contact__direct) { font-size: 1.12rem; color: #563537; max-width: 50ch; }
-.contact__direct a { font: italic 500 clamp(1.4rem, 2.4vw, 1.9rem)/1.2 var(--f-display); color: var(--tomato); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; overflow-wrap: anywhere; }
+.contact__direct a { font: 400 clamp(1.4rem, 2.4vw, 1.9rem)/1.2 var(--f-display); color: var(--tomato); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; overflow-wrap: anywhere; }
 /* "Prefer to talk first?" box with the Calendly button */
 .call { display: grid; justify-items: start; gap: 10px; margin-top: 10px; padding: clamp(20px, 2.4vw, 28px); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 70%, transparent); }
 .call__title { font: 400 clamp(1.3rem, 2vw, 1.6rem)/1.2 var(--f-display); color: var(--berry); }
@@ -804,7 +804,7 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 
 .faq-list { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid rgba(58, 28, 30, 0.2); }
 .faq__item { display: grid; grid-template-columns: 90px minmax(0, 5fr) minmax(0, 5fr); gap: 12px clamp(24px, 4vw, 64px); align-items: baseline; padding-block: clamp(22px, 2.6vw, 34px); border-top: 1px solid rgba(58, 28, 30, 0.2); }
-.faq__n { font: italic 500 1.4rem/1 var(--f-display); color: var(--tomato); }
+.faq__n { font: 400 1.4rem/1 var(--f-display); color: var(--tomato); }
 
 .faq__a { color: #563537; }
 @media (max-width: 860px) { .faq__item { grid-template-columns: 52px minmax(0, 1fr); } .faq__a { grid-column: 2; } }
