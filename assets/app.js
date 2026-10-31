@@ -288,36 +288,41 @@
     }
 
     const fd = new FormData(form);
+    // the boxes ticked under "What are you looking for help with?" go as one line
+    const needs = fd.getAll('needs');
+    fd.delete('needs');
+    fd.append('needs', needs.join(', ') || '-');
     const done = () => {
       $('#form-fields').hidden = true;
       const box = $('#form-done');
       box.hidden = false;
       box.focus();
     };
-    // Without a Formspree address (or if it fails), the visitor's email app opens with the message.
-    const viaEmail = () => {
-      const body = [
-        `Name: ${fd.get('name')}`,
-        `Email: ${fd.get('email')}`,
-        `Agency / Studio: ${fd.get('agency') || '-'}`,
-        `Looking for help with: ${fd.getAll('needs').join(', ') || '-'}`,
-        '',
-        String(fd.get('message') || ''),
-      ].join('\n');
-      const subject = `Website message from ${fd.get('agency') || fd.get('name')}`;
-      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      status.textContent = `${form.dataset.fallback} ${form.dataset.email}.`;
+    // If sending fails, say so and show the address (the visitor's email app never opens by itself).
+    const failed = () => {
+      status.textContent = `${form.dataset.fallback} `;
+      const a = document.createElement('a');
+      a.href = `mailto:${form.dataset.email}`;
+      a.textContent = form.dataset.email;
+      status.append(a, '.');
+      status.classList.add('is-error');
     };
 
+    // The message goes straight to Julia's inbox through FormSubmit (contact.form_endpoint).
     const endpoint = (form.dataset.endpoint || '').trim();
-    if (!endpoint) return viaEmail();
+    if (!endpoint) return failed();
+    const btn = form.querySelector('[type="submit"]');
+    btn.disabled = true;
     try {
       const res = await fetch(endpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) === 'false') throw new Error(data.message || String(res.status));
       form.reset();
       done();
     } catch {
-      viaEmail();
+      failed();
+    } finally {
+      btn.disabled = false;
     }
   });
 

@@ -729,6 +729,12 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .contact__copy .h1 { margin-bottom: 14px; max-width: 12ch; }
 .contact__copy p:not(.label):not(.contact__direct) { font-size: 1.12rem; color: #563537; max-width: 50ch; }
 .contact__direct a { font: italic 500 clamp(1.4rem, 2.4vw, 1.9rem)/1.2 var(--f-display); color: var(--tomato); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; overflow-wrap: anywhere; }
+/* "Prefer to talk first?" box with the Calendly button */
+.call { display: grid; justify-items: start; gap: 10px; margin-top: 10px; padding: clamp(20px, 2.4vw, 28px); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 70%, transparent); }
+.call__title { font: 400 clamp(1.3rem, 2vw, 1.6rem)/1.2 var(--f-display); color: var(--berry); }
+.contact__copy .call p:not(.call__title) { font-size: 1rem; }
+.call .btn { margin-top: 6px; }
+.form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 .contact__photo { margin: 18px 0 0; width: min(62%, 300px); overflow: hidden; border-radius: var(--radius); }
 .contact__photo img { aspect-ratio: 4 / 5; object-fit: cover; }
 
@@ -742,6 +748,7 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .form .btn:hover { background: var(--ivory); border-color: var(--ivory); color: var(--ink); }
 .form .form__status { color: rgba(235, 227, 214, 0.85); }
 .form .form__status.is-error { color: var(--sage); }
+.form__status a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 .form .form__done p { color: var(--sage); }
 .form__fields { display: grid; gap: 20px; }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
