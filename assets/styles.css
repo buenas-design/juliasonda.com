@@ -166,10 +166,10 @@ mark {
 }
 .js [data-reveal] mark { background-size: 0% 0.4em; transition: background-size 1.1s var(--ease) 0.75s; }
 .js .is-in mark { background-size: 100% 0.4em; }
-/* "your agency" rewrites itself (app.js): the phrase never breaks across lines and a caret blinks while typing */
-mark.tw { white-space: nowrap; }
+/* [[your agency]] rewrites itself (app.js), no background: the phrase never breaks across lines and a caret blinks */
+.tw { white-space: nowrap; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-mark.tw::after { content: ""; display: inline-block; width: 0.06em; height: 0.85em; margin-left: 0.04em; vertical-align: -0.05em; background: currentColor; animation: tw-caret 1s steps(1) infinite; }
+.tw::after { content: ""; display: inline-block; width: 0.06em; height: 0.85em; margin-left: 0.04em; vertical-align: -0.05em; background: currentColor; animation: tw-caret 1s steps(1) infinite; }
 @keyframes tw-caret { 50% { opacity: 0; } }
 
 

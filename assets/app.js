@@ -157,9 +157,7 @@
   // original words; only the visible copy changes.
   const twWords = ($('#hdr')?.dataset.tw || '').split('|').filter(Boolean);
   if (twWords.length > 1) {
-    $$('mark').forEach((m) => {
-      if (m.textContent.trim().toLowerCase() !== twWords[0].toLowerCase()) return;
-      m.classList.add('tw');
+    $$('.tw').forEach((m) => {
       m.setAttribute('aria-hidden', 'true');
       const sr = document.createElement('span');
       sr.className = 'sr-only';
