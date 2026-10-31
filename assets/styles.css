@@ -166,8 +166,11 @@ mark {
 }
 .js [data-reveal] mark { background-size: 0% 0.4em; transition: background-size 1.1s var(--ease) 0.75s; }
 .js .is-in mark { background-size: 100% 0.4em; }
-/* [[your agency]] rewrites itself (app.js), no background: the phrase never breaks across lines and a caret blinks */
-.tw { white-space: nowrap; }
+/* [[your agency]] rewrites itself (app.js), no background. Its box keeps the width of the longest word
+   (set by app.js), so the rest of the title never moves while it types; a caret blinks after the text.
+   In the home's main title it sits on a line of its own. */
+.tw { display: inline-block; white-space: nowrap; text-align: left; }
+.hero__title .tw { display: block; margin-inline: auto; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .tw::after { content: ""; display: inline-block; width: 0.06em; height: 0.85em; margin-left: 0.04em; vertical-align: -0.05em; background: currentColor; animation: tw-caret 1s steps(1) infinite; }
 @keyframes tw-caret { 50% { opacity: 0; } }

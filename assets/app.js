@@ -159,6 +159,19 @@
   if (twWords.length > 1) {
     $$('.tw').forEach((m) => {
       m.setAttribute('aria-hidden', 'true');
+      // reserve the width of the longest word, so typing never pushes the rest of the title around
+      // (measured once the title has finished appearing, and again when the window changes size)
+      const fit = () => {
+        const keep = m.textContent;
+        m.style.width = '';
+        m.style.display = 'inline-block';
+        let w = 0;
+        for (const word of twWords) { m.textContent = word; w = Math.max(w, m.getBoundingClientRect().width); }
+        m.textContent = keep;
+        m.style.display = '';
+        m.style.width = `${Math.ceil(w)}px`;
+      };
+      window.addEventListener('resize', fit);
       const sr = document.createElement('span');
       sr.className = 'sr-only';
       sr.textContent = twWords[0];
@@ -168,6 +181,7 @@
       const wait = (ms) => new Promise((r) => setTimeout(r, ms));
       const run = async () => {
         await wait(3200); // let the title appear first
+        fit();
         for (;;) {
           const next = twWords[(k + 1) % twWords.length];
           let text = m.textContent;
