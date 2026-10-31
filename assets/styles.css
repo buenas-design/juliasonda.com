@@ -291,7 +291,7 @@ mark {
   overflow: hidden;
 }
 .hero__in { position: relative; z-index: 1; display: grid; justify-items: center; text-align: center; }
-.hero__title { max-width: 17ch; }
+.hero__title { max-width: 19ch; }
 .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 44px; }
 .hero__photos { position: absolute; inset: 0; pointer-events: none; }
 .hp { position: absolute; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 50px -34px rgba(58, 28, 30, 0.5); pointer-events: auto; cursor: pointer; }
