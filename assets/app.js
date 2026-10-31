@@ -152,6 +152,38 @@
     update();
   }
 
+  /* ───────── "your agency" types itself again as "your studio", "your team"… ───────── */
+  // Words come from site.typewriter (site.yml), passed on the header as data-tw. Screen readers keep the
+  // original words; only the visible copy changes.
+  const twWords = ($('#hdr')?.dataset.tw || '').split('|').filter(Boolean);
+  if (twWords.length > 1) {
+    $$('mark').forEach((m) => {
+      if (m.textContent.trim().toLowerCase() !== twWords[0].toLowerCase()) return;
+      m.classList.add('tw');
+      m.setAttribute('aria-hidden', 'true');
+      const sr = document.createElement('span');
+      sr.className = 'sr-only';
+      sr.textContent = twWords[0];
+      m.after(sr);
+      if (reduceMotion) return;
+      let k = 0;
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const run = async () => {
+        await wait(3200); // let the title appear first
+        for (;;) {
+          const next = twWords[(k + 1) % twWords.length];
+          let text = m.textContent;
+          while (text.length) { text = text.slice(0, -1); m.textContent = text; await wait(55); }
+          await wait(250);
+          for (const ch of next) { text += ch; m.textContent = text; await wait(95); }
+          k = (k + 1) % twWords.length;
+          await wait(2200);
+        }
+      };
+      run();
+    });
+  }
+
   /* ───────── page colour changes while scrolling ───────── */
   // Each section names its colour (data-tone). One gradient runs down the whole page: every tone
   // sits in the middle of its section and blends slowly into the next one, with no hard edges.
