@@ -760,8 +760,9 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .form .form__status { color: rgba(235, 227, 214, 0.85); }
 .form .form__status.is-error { color: var(--sage); }
 .form__status a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-.form .form__done p { color: var(--sage); }
+
 .form__fields { display: grid; gap: 20px; }
+.form__fields[hidden] { display: none; }   /* "display: grid" would otherwise beat the hidden attribute */
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .field { display: grid; gap: 8px; min-width: 0; margin: 0; }
 .field--set { border: 0; padding: 0; }
@@ -788,8 +789,13 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .chip input:focus-visible + span { outline: 2px solid var(--tomato); outline-offset: 2px; }
 .form__status { min-height: 1.4em; font-size: 0.92rem; color: var(--ink-soft); }
 .form__status.is-error { color: var(--error); font-weight: 600; }
-.form__done { padding: clamp(24px, 4vw, 48px) 0; }
-.form__done p { font: italic 500 clamp(1.6rem, 2.8vw, 2.3rem)/1.25 var(--f-display); color: var(--berry); }
+/* sent: the whole card turns coral, the fields go away, and a big ✓ says it worked */
+.form.is-sent { background: var(--tomato); color: var(--ink); transition: background-color .5s var(--ease); }
+.form__done { display: grid; justify-items: start; gap: 14px; padding: clamp(12px, 2vw, 24px) 0; }
+.form__done[hidden] { display: none; }
+.form__check { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--ivory); color: var(--berry); font: 600 1.9rem/1 var(--f-sans); }
+.form__done-title { font: 400 clamp(2rem, 4vw, 3rem)/1.05 var(--f-display); }
+.form__done p:not(.form__done-title) { font-size: 1.12rem; line-height: 1.55; max-width: 36ch; }
 .form__done:focus { outline: none; }
 @media (max-width: 900px) { .contact__grid { grid-template-columns: 1fr; } .form { position: static; } }
 @media (max-width: 520px) { .form__row { grid-template-columns: 1fr; } }

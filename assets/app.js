@@ -294,6 +294,7 @@
     fd.append('needs', needs.join(', ') || '-');
     const done = () => {
       $('#form-fields').hidden = true;
+      form.classList.add('is-sent');
       const box = $('#form-done');
       box.hidden = false;
       box.focus();
