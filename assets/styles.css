@@ -621,6 +621,10 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .ftr__rows .arrow { color: var(--tomato); }
 .ftr__rows a:hover { color: var(--sage); padding-left: 12px; }
 .ftr__cols { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 18px 40px; margin-top: clamp(40px, 5vw, 60px); font-size: 0.92rem; color: rgba(235, 227, 214, 0.75); }
+.ftr__studio { margin-top: 10px; }
+.ftr__studio strong { color: var(--ivory); font-weight: 600; }
+.ftr__studio a { color: var(--ivory); text-decoration-color: rgba(235, 227, 214, 0.5); }
+.ftr__studio a:hover { color: var(--sage); }
 .ftr__nav { display: flex; gap: 24px; }
 .ftr__nav a { color: var(--ivory); text-decoration: none; font-weight: 600; }
 .ftr__nav a:hover { color: var(--sage); }
@@ -754,7 +758,7 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .contact__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px clamp(40px, 6vw, 100px); align-items: start; }
 .contact__copy { display: grid; gap: 18px; }
 .contact__copy .h1 { margin-bottom: 14px; max-width: 12ch; }
-.contact__copy p:not(.label):not(.contact__direct) { font-size: 1.12rem; color: #563537; max-width: 50ch; }
+.contact__copy p:not(.label):not(.contact__direct):not(.contact__studio) { font-size: 1.12rem; color: #563537; max-width: 50ch; }
 .contact__direct a { font: 400 clamp(1.4rem, 2.4vw, 1.9rem)/1.2 var(--f-display); color: var(--tomato); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 5px; overflow-wrap: anywhere; }
 /* "Prefer to talk first?" box with the Calendly button */
 .call { display: grid; justify-items: start; gap: 10px; margin-top: 10px; padding: clamp(20px, 2.4vw, 28px); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 70%, transparent); }
@@ -762,6 +766,11 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .call__title em { font-style: normal; color: var(--tomato); }
 .contact__copy .call p:not(.call__title) { font-size: 1rem; }
 .call .btn { margin-top: 6px; }
+.contact__copy .contact__studio { margin-top: 4px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 1rem; color: #563537; max-width: 50ch; }
+.contact__studio strong { color: var(--ink); font-weight: 600; }
+.contact__studio a, .ftr__studio a { font-weight: 600; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; white-space: nowrap; }
+.contact__studio a { color: var(--ink); text-decoration-color: var(--tomato); }
+.contact__studio a:hover { color: var(--tomato); }
 .form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 /* home: what white-label means, between two thin rules right after the presentation */
 .wl { padding-block: clamp(50px, 6vw, 90px) 0; }
