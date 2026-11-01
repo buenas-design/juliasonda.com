@@ -873,6 +873,16 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .author__name { font: 400 1.45rem/1.2 var(--f-display); color: var(--ink); }
 .more-posts .h2 { margin-bottom: clamp(32px, 4vw, 56px); }
 
+/* Home: more air between sections than the inner pages (her call, 01/11/2026: "aumente o espaçamento
+   em todos da home, ficou muito próximo"). Around 140 px between sections on a ~1000 px wide window. */
+.is-home { --section: clamp(60px, 7vw, 104px); }
+.is-home .intro { padding-block: clamp(56px, 6.5vw, 96px); }
+.is-home .wl { padding-top: clamp(12px, 2vw, 28px); }
+.is-home .strip { padding-top: clamp(56px, 6.5vw, 96px); }
+.is-home .selected__foot { margin-top: clamp(56px, 6vw, 88px); }
+.is-home main > :has(+ .cta) { padding-bottom: clamp(56px, 6.5vw, 96px); }
+.is-home .cta { padding-top: clamp(40px, 5vw, 72px); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; }
