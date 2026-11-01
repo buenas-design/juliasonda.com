@@ -555,8 +555,16 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 .ind-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 18px); }
 @media (max-width: 1180px) { .ind-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .ind-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* hovering a card brings up pictures of projects from that industry (they take turns, app.js) */
+.ind__card { position: relative; overflow: hidden; isolation: isolate; }
+.ind__pics { position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .4s var(--ease); }
+.ind__pics img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s; }
+.ind__pics img.is-on { opacity: 1; }
+.ind__pics::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(58, 28, 30, 0.15), rgba(58, 28, 30, 0.78)); }
+.ind__card:hover .ind__pics { opacity: 1; }
 .ind__card { display: grid; align-content: space-between; gap: 22px; min-height: clamp(130px, 11vw, 170px); padding: clamp(20px, 2vw, 28px); border-radius: var(--radius); background: var(--paper); box-shadow: 0 20px 36px -30px rgba(58, 28, 30, 0.45); transition: translate .4s var(--ease), background-color .3s, color .3s; }
 .ind__card:hover { translate: 0 -6px; background: var(--berry); color: var(--ivory); }
+.ind__card:hover .ind__label { text-shadow: 0 1px 8px rgba(58, 28, 30, 0.5); }
 .ind__n { font: 400 1.6rem/1 var(--f-display); color: var(--tomato); }
 .ind__card:hover .ind__n { color: var(--sage); }
 .ind__label { font: 600 0.9rem/1.35 var(--f-sans); letter-spacing: 0.06em; text-transform: uppercase; }
@@ -755,6 +763,12 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .contact__copy .call p:not(.call__title) { font-size: 1rem; }
 .call .btn { margin-top: 6px; }
 .form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+/* home: what white-label means, between two thin rules right after the presentation */
+.wl { padding-block: clamp(50px, 6vw, 90px) 0; }
+.wl__in { display: grid; justify-items: center; text-align: center; gap: 14px; padding-block: clamp(40px, 5vw, 70px); border-block: 1px solid var(--line); }
+.wl .label { justify-content: center; margin-bottom: -6px; }
+.wl__title { max-width: 24ch; }
+.wl__text { max-width: 58ch; font-size: 1.12rem; line-height: 1.65; color: #563537; }
 .contact__photo { margin: 18px 0 0; width: min(62%, 300px); overflow: hidden; border-radius: var(--radius); }
 .contact__photo img { aspect-ratio: 4 / 5; object-fit: cover; }
 

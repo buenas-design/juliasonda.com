@@ -196,6 +196,23 @@
     });
   }
 
+  /* ───────── industry cards: project pictures take turns while hovered ───────── */
+  $$('.ind__card').forEach((card) => {
+    const pics = $$('.ind__pics img', card);
+    if (!pics.length) return;
+    pics[0].classList.add('is-on');
+    let k = 0, timer = null;
+    card.addEventListener('mouseenter', () => {
+      if (reduceMotion || pics.length < 2) return;
+      timer = setInterval(() => {
+        pics[k].classList.remove('is-on');
+        k = (k + 1) % pics.length;
+        pics[k].classList.add('is-on');
+      }, 900);
+    });
+    card.addEventListener('mouseleave', () => clearInterval(timer));
+  });
+
   /* ───────── page colour changes while scrolling ───────── */
   // Each section names its colour (data-tone). One gradient runs down the whole page: every tone
   // sits in the middle of its section and blends slowly into the next one, with no hard edges.
