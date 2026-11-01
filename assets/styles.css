@@ -39,7 +39,7 @@
 
   --gutter: clamp(16px, 4vw, 56px);
   --maxw: 1360px;
-  --section: clamp(40px, 4vw, 60px);   /* space above and below every section (tightened site-wide on 01/11/2026, her call) */
+  --section: clamp(48px, 5.5vw, 80px);   /* space above and below every section: a middle ground (01/11/2026, she found 150 too much and 60 too tight) */
   --hdr: 76px;
   --radius: 16px;           /* every image and card uses this one radius */
   --ease: cubic-bezier(.2, .7, .2, 1);
@@ -97,9 +97,6 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
   padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
 }
 .sec { padding-block: var(--section); }
-/* duas seções seguidas somavam o espaço de baixo de uma com o de cima da outra (~100–120px no computador);
-   ela achou enorme (01/11/2026): a de baixo começa com menos espaço */
-.sec + .sec { padding-top: calc(var(--section) * 0.4); }
 .sec--tight { padding-top: 0; }
 .band-sage, .band-pink { background: var(--sage); }
 .band-lilac { background: var(--lilac); }
@@ -345,7 +342,7 @@ mark {
 @keyframes ticker { to { transform: translateX(-50%); } }
 
 /* the rest of the hero copy, on a sage band */
-.intro { padding-block: clamp(40px, 4vw, 60px); }
+.intro { padding-block: clamp(48px, 5vw, 80px); }
 .intro__in {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -367,7 +364,7 @@ mark {
 }
 
 /* ───────── project strip: two rows sliding in opposite directions ───────── */
-.strip { display: grid; gap: clamp(12px, 1.6vw, 22px); padding-block: clamp(36px, 4vw, 56px) 0; overflow: hidden; }
+.strip { display: grid; gap: clamp(12px, 1.6vw, 22px); padding-block: clamp(44px, 5vw, 72px) 0; overflow: hidden; }
 .strip__row {
   position: relative; left: 50%;
   display: flex; gap: clamp(12px, 1.6vw, 22px);
@@ -379,7 +376,7 @@ mark {
 .strip__img { height: clamp(150px, 20vw, 290px); width: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
 
 /* ───────── section heads ───────── */
-.sec-head { margin-bottom: clamp(28px, 3vw, 44px); }
+.sec-head { margin-bottom: clamp(32px, 3.5vw, 52px); }
 .sec-head--center { display: grid; justify-items: center; text-align: center; }
 .sec-head--center .h2 { max-width: 18ch; }
 .sec-head__intro { margin-top: 20px; max-width: 52ch; color: var(--ink-soft); font-size: 1.1rem; }
@@ -406,7 +403,7 @@ mark {
   .pgrid--1 .pcard__img { aspect-ratio: 5 / 4; }
 }
 
-.selected__foot { display: grid; justify-items: center; gap: 22px; margin-top: clamp(40px, 4vw, 60px); text-align: center; }
+.selected__foot { display: grid; justify-items: center; gap: 22px; margin-top: clamp(48px, 5vw, 72px); text-align: center; }
 .selected__btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
 
 /* "And so much more." at the end of the Work grid */
@@ -464,11 +461,11 @@ mark {
 
 
 /* a single testimonial, very big, on an orange band */
-.qband { color: var(--ink); padding-block: clamp(16px, 2vw, 28px) clamp(40px, 4vw, 60px); overflow: hidden; }
+.qband { color: var(--ink); padding-block: clamp(16px, 2vw, 28px) clamp(48px, 5.5vw, 80px); overflow: hidden; }
 .qband__in { position: relative; display: grid; justify-items: center; text-align: center; gap: 18px; }
 .qband__mark { font: 400 clamp(5rem, 10vw, 9rem)/0.6 var(--f-display); color: var(--tomato); margin-bottom: -0.18em; }   /* the quote glyph sits high in its box */
 /* the section before the big testimonial doesn't need its full bottom space */
-main > :has(+ .qband) { padding-bottom: clamp(28px, 3vw, 44px); }
+main > :has(+ .qband) { padding-bottom: clamp(36px, 4vw, 60px); }
 .qband__text { margin: 0; max-width: 30ch; font: 400 clamp(1.6rem, 3vw, 2.5rem)/1.25 var(--f-sans); letter-spacing: -0.01em; text-wrap: balance; }
 .qband__who { display: flex; align-items: center; gap: 12px; font: 600 0.8rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
 
@@ -524,7 +521,7 @@ main > :has(+ .qband) { padding-bottom: clamp(28px, 3vw, 44px); }
 }
 
 /* ───────── 06 industries ───────── */
-.ind__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px clamp(40px, 6vw, 110px); align-items: end; margin-bottom: clamp(28px, 3vw, 44px); }
+.ind__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px clamp(40px, 6vw, 110px); align-items: end; margin-bottom: clamp(32px, 3.5vw, 52px); }
 .ind__intro { display: grid; gap: 16px; color: var(--ink-soft); font-size: 1.1rem; }
 /* industries: small cards in one row (turn plum on hover) */
 /* always full rows: 6 in one row, or 3 + 3, or 2 + 2 + 2 on phones (never one left alone) */
@@ -548,9 +545,9 @@ main > :has(+ .qband) { padding-bottom: clamp(28px, 3vw, 44px); }
 }
 
 /* ───────── CTA (fades into the footer) + footer ───────── */
-.cta { color: var(--ink); padding-block: clamp(20px, 3vw, 50px) clamp(20px, 3vw, 40px); }
+.cta { color: var(--ink); padding-block: clamp(32px, 4vw, 60px) clamp(20px, 3vw, 40px); }
 /* less empty space between the last section and the closing block */
-main > :has(+ .cta) { padding-bottom: clamp(24px, 3vw, 40px); }
+main > :has(+ .cta) { padding-bottom: clamp(40px, 4.5vw, 64px); }
 /* a thin rule on top separates the closing block from whatever comes before it */
 .cta__in { display: grid; justify-items: center; text-align: center; gap: 24px; }
 .cta__title { max-width: 24ch; }
@@ -617,13 +614,13 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 760px) { .ftr__cols { grid-template-columns: 1fr; } }
 
 /* ───────── page heads (work, about, contact) ───────── */
-.page-head { padding: calc(var(--hdr) + clamp(32px, 4vw, 64px)) 0 clamp(28px, 3vw, 44px); }
+.page-head { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(32px, 3.5vw, 52px); }
 .page-head .h1 { max-width: 16ch; }
 .page-head__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px clamp(32px, 5vw, 80px); margin-top: clamp(32px, 4vw, 52px); max-width: 1000px; font-size: 1.12rem; color: var(--ink-soft); }
 @media (max-width: 760px) { .page-head__cols { grid-template-columns: 1fr; } }
 
 /* ───────── project page ───────── */
-.proj__head { padding: calc(var(--hdr) + clamp(32px, 4vw, 64px)) 0 clamp(28px, 3vw, 44px); }
+.proj__head { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(32px, 3.5vw, 52px); }
 .back { display: inline-flex; gap: 8px; margin-bottom: clamp(28px, 4vw, 48px); font: 600 0.76rem/1 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
 .back:hover { color: var(--ink); }
 .proj__title { max-width: 18ch; }
@@ -654,7 +651,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .proj__cover { overflow: hidden; border-radius: var(--radius); }
 .proj__cover img { width: 100%; }
 
-.next { display: block; margin-top: clamp(24px, 3vw, 40px); padding-block: clamp(36px, 4vw, 60px); text-decoration: none; }
+.next { display: block; margin-top: clamp(32px, 3.5vw, 52px); padding-block: clamp(44px, 5vw, 72px); text-decoration: none; }
 .next__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 32px clamp(32px, 5vw, 80px); }
 .next__name { display: block; }
 .next__name span { display: inline-block; color: var(--tomato); transition: transform .4s var(--ease); }
@@ -665,7 +662,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 760px) { .next__in { grid-template-columns: 1fr; } }
 
 /* ───────── about page ───────── */
-.about-hero { padding: calc(var(--hdr) + clamp(32px, 4vw, 64px)) 0 clamp(24px, 3vw, 44px); }   /* close to the band below (her call, 01/11/2026) */
+.about-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(24px, 3vw, 44px); }   /* close to the band below (her call, 01/11/2026) */
 .about-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 60px clamp(40px, 6vw, 100px); align-items: start; }
 .about-hero__copy { display: grid; gap: 20px; }
 .about-hero__copy .h1 { margin-bottom: 18px; max-width: 14ch; }
@@ -681,7 +678,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 
 /* About: the big line sits between two thin rules, so it reads as its own block */
 .statement-band { color: var(--ink); padding-block: 0; }
-.statement-band .wrap { padding-block: clamp(28px, 3vw, 44px); }
+.statement-band .wrap { padding-block: clamp(36px, 4vw, 60px); }
 .statement--center { text-align: center; margin-inline: auto; max-width: 36ch; text-wrap: balance; }
 .about-body { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
 .about-body__copy { display: grid; gap: 20px; }
@@ -706,7 +703,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .fun { background: none; }
 /* "When I'm not designing…" logo depois dos cartões, sem o vão de duas seções somadas */
 .fun + .outside { padding-top: clamp(16px, 2.5vw, 40px); }
-.fun__head { display: grid; justify-items: center; text-align: center; gap: 6px; margin-bottom: clamp(28px, 3vw, 44px); }
+.fun__head { display: grid; justify-items: center; text-align: center; gap: 6px; margin-bottom: clamp(32px, 3.5vw, 52px); }
 
 .fun__sub { font-size: 1.12rem; color: #563537; }
 .fun__list { --fun-gap: clamp(18px, 2vw, 28px); list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--fun-gap); }
@@ -729,7 +726,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 640px) { .fun__card { flex-basis: 100%; } }
 
 /* ───────── contact page ───────── */
-.contact-hero { padding: calc(var(--hdr) + clamp(32px, 4vw, 64px)) 0 clamp(40px, 4vw, 60px); }
+.contact-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(48px, 5vw, 72px); }
 .contact__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px clamp(40px, 6vw, 100px); align-items: start; }
 .contact__copy { display: grid; gap: 18px; }
 .contact__copy .h1 { margin-bottom: 14px; max-width: 12ch; }
@@ -832,7 +829,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 760px) { .bcard--feature, .bgrid { grid-template-columns: 1fr; } }
 
 /* a post: title, who wrote it, cover, then the text with "In this post" beside it */
-.post-head { display: grid; justify-items: start; gap: 22px; padding-top: calc(var(--hdr) + clamp(32px, 4vw, 64px)); }
+.post-head { display: grid; justify-items: start; gap: 22px; padding-top: calc(var(--hdr) + clamp(40px, 5vw, 80px)); }
 .crumbs { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.92rem; color: var(--ink-soft); }
 .crumbs a { text-underline-offset: 3px; }
 .post-head__title { max-width: 21ch; }
@@ -842,7 +839,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .post-head__by a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .post-cover { margin-top: clamp(28px, 3.5vw, 48px); }
 .post-cover img { width: 100%; aspect-ratio: 2 / 1; object-fit: cover; border-radius: var(--radius); }
-.post-body { display: grid; grid-template-columns: minmax(170px, 230px) minmax(0, 1fr); gap: clamp(40px, 6vw, 110px); padding-block: clamp(36px, 4vw, 60px) clamp(24px, 3vw, 40px); }
+.post-body { display: grid; grid-template-columns: minmax(170px, 230px) minmax(0, 1fr); gap: clamp(40px, 6vw, 110px); padding-block: clamp(40px, 4.5vw, 68px) clamp(32px, 3.5vw, 52px); }
 .post-body > .prose:only-child { grid-column: 1 / -1; margin-inline: auto; }
 .toc { position: sticky; top: calc(var(--hdr) + 32px); align-self: start; font-size: 0.92rem; }
 .toc__title { margin-bottom: 14px; font-weight: 600; }
