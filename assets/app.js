@@ -248,33 +248,6 @@
     tones.forEach((el) => toneIo.observe(el));
   }
 
-  /* ───────── photos follow the mouse ───────── */
-  // Each photo moves with the cursor by its own amount (some the other way), so they feel layered.
-  // Used by the hero and by any photo group marked data-follow (About, home "about me").
-  const follow = (area, photos, depth) => {
-    area.addEventListener('mousemove', (e) => {
-      const r = area.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      photos.forEach((img, i) => {
-        const d = depth[i % depth.length];
-        img.style.setProperty('--mx', `${(x * d * 1.6).toFixed(1)}px`);
-        img.style.setProperty('--my', `${(y * d).toFixed(1)}px`);
-      });
-    });
-    area.addEventListener('mouseleave', () =>
-      photos.forEach((img) => {
-        img.style.setProperty('--mx', '0px');
-        img.style.setProperty('--my', '0px');
-      }),
-    );
-  };
-  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
-    const hero = $('.hero');
-    if (hero) follow(hero, $$('.hero .hp'), [26, -20, 16, -30]);
-    $$('[data-follow]').forEach((box) => follow(box.closest('section') || box, $$('img', box), [18, -14]));
-  }
-
   /* ───────── testimonials: one row that slides sideways ───────── */
   const qcards = $('#qcards');
   if (qcards) {

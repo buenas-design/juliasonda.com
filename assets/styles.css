@@ -112,7 +112,7 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
   text-transform: uppercase;
   color: var(--ink-soft);
 }
-.sec-head--center .label, .hero .label, .cta .label { justify-content: center; }
+.hero .label { justify-content: center; }
 .label--light { color: rgba(235, 227, 214, 0.78); }
 
 /* ───────── type scale (use only these) ─────────
@@ -141,10 +141,10 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
 .hero__title, .h1, .proj__title { font-size: var(--fs-h1); line-height: 1.06; }
 .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title, .ind__name, .next__name { font-size: var(--fs-h2); line-height: 1.1; }
 .h2 { max-width: 20ch; }
-/* no italics anywhere (her call): a *word* in site.yml becomes a coral accent in the same regular weight */
-:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) em { font-style: normal; font-weight: inherit; color: var(--tomato); }
+/* a *word* in site.yml becomes Florentia Italic in the same color (her call, 01/11/2026: italic instead of
+   coral, which made every title look templated). The only coral left in titles is the ==underline== in the hero. */
+:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) em { font-style: italic; font-weight: inherit; color: inherit; }
 :is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) strong { font-weight: 700; }
-.h1 em, .hero__title em { color: var(--tomato); }
 
 .svc__name, .faq__q, .fun__q, .pcard__name {
   font-family: var(--f-sans);
@@ -293,10 +293,10 @@ mark {
 .hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 44px; }
 .hero__photos { position: absolute; inset: 0; pointer-events: none; }
 .hp { position: absolute; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 50px -34px rgba(58, 28, 30, 0.5); pointer-events: auto; cursor: pointer; }
-/* hero photos move three ways at once: scroll (--sx, --py, --rot), the mouse over the hero (--mx, --my)
-   and hovering a photo (--hx, --hr), which nudges it further to its own side */
+/* hero photos move two ways at once: scroll (--sx, --py, --rot) and hovering a photo (--hx, --hr),
+   which nudges it further to its own side. (Following the mouse was taken out on 01/11/2026.) */
 .hero .hp[data-speed] {
-  translate: calc(var(--sx, 0px) + var(--mx, 0px) + var(--hx, 0px)) calc(var(--py, 0px) + var(--my, 0px));
+  translate: calc(var(--sx, 0px) + var(--hx, 0px)) var(--py, 0px);
   rotate: calc(var(--rot, 0deg) + var(--hr, 0deg));
 }
 .js .hero .hp[data-reveal="img"] {
@@ -305,19 +305,6 @@ mark {
 }
 .hero .hp:hover { --hx: calc(var(--side, 1) * 28px); --hr: calc(var(--side, 1) * 3deg); box-shadow: 0 40px 60px -30px rgba(58, 28, 30, 0.55); }
 .js .hero .hp.is-in:hover { scale: 1.05; }
-/* other photo groups (data-follow): follow the mouse a little and lean when hovered */
-[data-follow] img {
-  translate: calc(var(--sx, 0px) + var(--mx, 0px)) calc(var(--py, 0px) + var(--my, 0px));
-  rotate: calc(var(--rot, 0deg) + var(--hr, 0deg)); cursor: pointer;
-}
-.js [data-follow] img[data-reveal="img"] {
-  transition: clip-path 1.4s var(--ease), scale 1.9s var(--ease), translate .9s var(--ease), rotate .6s var(--ease), box-shadow .5s var(--ease);
-  transition-delay: var(--d, 0s), var(--d, 0s), 0s, 0s, 0s;
-}
-[data-follow] img:hover { --hr: -2.5deg; box-shadow: 0 40px 60px -30px rgba(58, 28, 30, 0.55); }
-[data-follow] img:nth-of-type(even):hover { --hr: 2.5deg; }
-.js [data-follow] img.is-in:hover { scale: 1.04; transition: scale .6s var(--ease), translate .9s var(--ease), rotate .6s var(--ease), box-shadow .5s var(--ease); }
-@media (max-width: 760px), (hover: none) { [data-follow] img { translate: none; rotate: none; } }
 .hp--tall { width: clamp(120px, 12.5vw, 200px); aspect-ratio: 4 / 5; }
 .hp--wide { width: clamp(150px, 16vw, 260px); aspect-ratio: 5 / 4; }
 .hp--1 { left: 3.5%; top: 17%; }
@@ -365,7 +352,6 @@ mark {
   align-items: start;
 }
 .intro__lead { grid-area: lead; }
-.intro__lead em { color: var(--tomato); }
 .intro__side { grid-area: side; display: grid; gap: 20px; }
 .intro__side p { font-size: 1.12rem; color: #563537; }
 .intro__btn { justify-self: start; margin-top: 6px; }
@@ -473,12 +459,6 @@ mark {
 @media (max-width: 760px) {
 }
 
-/* "Clients seen on" line under the intro */
-.seen { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-top: 10px; padding-top: 18px; border-top: 1px solid rgba(58, 28, 30, 0.22); }
-.seen__label { font: 600 0.74rem/1.4 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; }
-.seen__name { font: 400 1.12rem/1.2 var(--f-display); }
-.seen__name + .seen__name::before { content: "·"; margin-right: 12px; font-style: normal; color: var(--tomato); }
-.seen { column-gap: 12px; }
 
 /* a single testimonial, very big, on an orange band */
 .qband { color: var(--ink); padding-block: clamp(20px, 3vw, 40px) clamp(80px, 10vw, 150px); overflow: hidden; }
@@ -492,7 +472,6 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 /* ───────── 04 services ───────── */
 .services__in { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 40px clamp(40px, 6vw, 110px); align-items: start; }
 .services__sticky { position: sticky; top: calc(var(--hdr) + 32px); display: grid; justify-items: start; gap: 28px; }
-.services__sticky .label { margin: 0 0 -18px; }
 /* services: an accordion, one open at a time */
 .svc-list { border-bottom: 1px solid rgba(58, 28, 30, 0.2); }
 .svc { border-top: 1px solid rgba(58, 28, 30, 0.2); }
@@ -562,11 +541,9 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 .ind__pics img.is-on { opacity: 1; }
 .ind__pics::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(58, 28, 30, 0.15), rgba(58, 28, 30, 0.78)); }
 .ind__card:hover .ind__pics { opacity: 1; }
-.ind__card { display: grid; align-content: space-between; gap: 22px; min-height: clamp(130px, 11vw, 170px); padding: clamp(20px, 2vw, 28px); border-radius: var(--radius); background: var(--paper); box-shadow: 0 20px 36px -30px rgba(58, 28, 30, 0.45); transition: translate .4s var(--ease), background-color .3s, color .3s; }
+.ind__card { display: grid; align-content: end; gap: 22px; min-height: clamp(96px, 8vw, 120px); padding: clamp(20px, 2vw, 28px); border-radius: var(--radius); background: var(--paper); box-shadow: 0 20px 36px -30px rgba(58, 28, 30, 0.45); transition: translate .4s var(--ease), background-color .3s, color .3s; }
 .ind__card:hover { translate: 0 -6px; background: var(--berry); color: var(--ivory); }
 .ind__card:hover .ind__label { text-shadow: 0 1px 8px rgba(58, 28, 30, 0.5); }
-.ind__n { font: 400 1.6rem/1 var(--f-display); color: var(--tomato); }
-.ind__card:hover .ind__n { color: var(--sage); }
 .ind__label { font: 600 0.9rem/1.35 var(--f-sans); letter-spacing: 0.06em; text-transform: uppercase; }
 .ind__closing { margin-top: 36px; font: 400 clamp(1.3rem, 2vw, 1.7rem)/1.3 var(--f-display); }
 @media (max-width: 860px) {
@@ -579,13 +556,9 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 /* a thin rule on top separates the closing block from whatever comes before it */
 .cta__in { display: grid; justify-items: center; text-align: center; gap: 24px; padding-top: clamp(50px, 6vw, 90px); border-top: 1px solid var(--line); }
-.cta__title { max-width: 18ch; }
+.cta__title { max-width: 24ch; }
 .cta__text { max-width: 54ch; font-size: 1.12rem; }
-.cta .label { color: var(--ink); margin-bottom: -14px; }   /* "Get in touch" sits close to its title */
 /* in the text columns that are grids, cancel the column gap under the label too */
-.contact__copy > .label { margin-bottom: -8px; }
-.about-hero__copy > .label { margin-bottom: -10px; }
-.working__in > .label { margin-bottom: -12px; }
 .cta .btn { margin-top: 12px; }
 .cta .btn:hover { background: var(--berry); border-color: var(--berry); color: var(--ivory); }
 
@@ -613,6 +586,9 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
     var(--berry-deep) var(--fade));
 }
 .ftr { color: var(--ivory); padding-top: calc(var(--fade) * 0.8); padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); overflow: hidden; }
+/* after a closing CTA ("Let's work together" etc.) the fade starts behind the button, so "Let's talk!"
+   sits closer to it while the gradient keeps the same length and softness (her call, 01/11/2026) */
+main:has(> .cta:last-child) + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .ftr__cta { display: inline-flex; align-items: baseline; gap: 18px; font: 400 clamp(2.8rem, 7vw, 6.2rem)/1 var(--f-display); color: var(--sage); text-decoration: none; }
 .ftr__cta .arrow { font-family: var(--f-sans); font-style: normal; font-size: 0.6em; color: var(--tomato); transition: transform .35s var(--ease); }
 .ftr__cta:hover .arrow { transform: translateX(10px); }
@@ -728,12 +704,6 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .outside__copy .h2 { margin-bottom: 10px; }
 
 @media (max-width: 860px) { .outside__in { grid-template-columns: 1fr; } }
-/* round badge with text turning around it */
-/* small, sitting on the right edge of the top photo, just above the second one */
-.spin { position: absolute; left: 64%; top: 38%; translate: -50% -50%; z-index: 2; display: grid; place-items: center; width: clamp(130px, 11vw, 160px); aspect-ratio: 1; color: var(--berry); }
-.spin svg { grid-area: 1 / 1; width: 100%; height: 100%; animation: spin 22s linear infinite; }
-.spin text { fill: currentColor; font: 600 24px var(--f-sans); letter-spacing: 0.05em; text-transform: uppercase; }
-@keyframes spin { to { rotate: 360deg; } }
 
 /* fun facts on the About page: cards on lilac that flip over to show the answer, 3 + 2 centered */
 .fun { background: none; padding-bottom: clamp(56px, 6vw, 90px); }
@@ -781,9 +751,8 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .contact__studio a:hover { color: var(--tomato); }
 .form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 /* home: what white-label means, between two thin rules right after the presentation */
-.wl { padding-block: clamp(50px, 6vw, 90px) 0; }
-.wl__in { display: grid; justify-items: center; text-align: center; gap: 14px; padding-block: clamp(40px, 5vw, 70px); border-block: 1px solid var(--line); }
-.wl .label { justify-content: center; margin-bottom: -6px; }
+.wl { padding-block: clamp(4px, 1.5vw, 20px) 0; }   /* close to the intro above, no lines (her call, 01/11/2026) */
+.wl__in { display: grid; justify-items: center; text-align: center; gap: 14px; }
 .wl__title { max-width: 24ch; }
 .wl__text { max-width: 58ch; font-size: 1.12rem; line-height: 1.65; color: #563537; }
 .contact__photo { margin: 18px 0 0; width: min(62%, 300px); overflow: hidden; border-radius: var(--radius); }
@@ -846,6 +815,69 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 
 .faq__a { color: #563537; }
 @media (max-width: 860px) { .faq__item { grid-template-columns: 52px minmax(0, 1fr); } .faq__a { grid-column: 2; } }
+
+/* ───────── blog (/blog/ and each post) ───────── */
+/* cards: the newest post big, the others in two columns */
+.bcard { display: grid; gap: 12px; align-content: start; }
+.bcard__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 3; background: var(--paper); }
+.bcard__img img { width: 100%; height: 100%; object-fit: cover; transition: scale .9s var(--ease); }
+.bcard:hover .bcard__img img { scale: 1.03; }
+.bcard__meta { margin-top: 6px; font-size: 0.92rem; color: var(--ink-soft); }
+.bcard__title { font: 400 clamp(1.5rem, 2.2vw, 2rem)/1.15 var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
+.bcard__title a { text-decoration: none; }
+.bcard__title a:hover { color: var(--berry); }
+.bcard__excerpt { max-width: 52ch; font-size: 1.02rem; line-height: 1.6; color: #563537; }
+.bcard__date { font-size: 0.88rem; color: var(--ink-soft); }
+.bcard--feature { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: center; margin-bottom: clamp(56px, 7vw, 100px); }
+.bcard--feature .bcard__title { font-size: var(--fs-h2); line-height: 1.08; }
+.bcard__copy { display: grid; gap: 14px; }
+.bgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(44px, 5vw, 72px) clamp(24px, 3vw, 48px); }
+@media (max-width: 760px) { .bcard--feature, .bgrid { grid-template-columns: 1fr; } }
+
+/* a post: title, who wrote it, cover, then the text with "In this post" beside it */
+.post-head { display: grid; justify-items: start; gap: 22px; padding-top: calc(var(--hdr) + clamp(40px, 6vw, 90px)); }
+.crumbs { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.92rem; color: var(--ink-soft); }
+.crumbs a { text-underline-offset: 3px; }
+.post-head__title { max-width: 21ch; }
+.post-head__lead { max-width: 58ch; font-size: clamp(1.15rem, 1.6vw, 1.32rem); line-height: 1.55; color: #563537; }
+.post-head__by { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: var(--ink-soft); }
+.post-head__by img { flex: none; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; }
+.post-head__by a { color: var(--ink); font-weight: 600; text-decoration: none; }
+.post-cover { margin-top: clamp(36px, 5vw, 64px); }
+.post-cover img { width: 100%; aspect-ratio: 2 / 1; object-fit: cover; border-radius: var(--radius); }
+.post-body { display: grid; grid-template-columns: minmax(170px, 230px) minmax(0, 1fr); gap: clamp(40px, 6vw, 110px); padding-block: clamp(48px, 6vw, 90px) clamp(70px, 8vw, 120px); }
+.post-body > .prose:only-child { grid-column: 1 / -1; margin-inline: auto; }
+.toc { position: sticky; top: calc(var(--hdr) + 32px); align-self: start; font-size: 0.92rem; }
+.toc__title { margin-bottom: 14px; font-weight: 600; }
+.toc ol { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; border-left: 1px solid var(--line); }
+.toc a { display: block; margin-left: -1px; padding: 4px 0 4px 16px; border-left: 2px solid transparent; color: var(--ink-soft); line-height: 1.35; text-decoration: none; }
+.toc a:hover { color: var(--ink); border-left-color: var(--tomato); }
+@media (max-width: 980px) { .post-body { grid-template-columns: 1fr; } .toc { display: none; } }
+
+/* the text itself: one comfortable column, Florentia for subtitles */
+.prose { max-width: 68ch; font-size: 1.12rem; line-height: 1.75; color: #3f2426; }
+.prose > * + * { margin-top: 1.15em; }
+.prose h2 { margin-top: 2.1em; font: 400 clamp(1.7rem, 2.6vw, 2.3rem)/1.15 var(--f-display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; scroll-margin-top: calc(var(--hdr) + 24px); }
+.prose h3 { margin-top: 1.9em; font: 600 1.18rem/1.4 var(--f-sans); color: var(--ink); }
+.prose h2 + *, .prose h3 + * { margin-top: 0.6em; }
+.prose a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--tomato); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.prose a:hover { color: var(--berry); }
+.prose strong { font-weight: 600; color: var(--ink); }
+.prose ul, .prose ol { display: grid; gap: 0.55em; padding-left: 1.3em; }
+.prose li { padding-left: 0.2em; }
+.prose li::marker { color: var(--tomato); }
+.prose__quote { margin: 2em 0 0; padding: clamp(24px, 3vw, 36px); border-radius: var(--radius); background: var(--paper); }
+.prose__quote blockquote { margin: 0; }
+.prose__quote blockquote p { font: 400 clamp(1.3rem, 2vw, 1.6rem)/1.35 var(--f-display); color: var(--ink); }
+.prose__quote figcaption { margin-top: 14px; font: 600 0.78rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.prose__img { margin: 2em 0 0; }
+.prose__img img { width: 100%; border-radius: var(--radius); }
+.prose__img figcaption { margin-top: 10px; font-size: 0.9rem; color: var(--ink-soft); }
+.author { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 3em !important; padding-top: 2em; border-top: 1px solid var(--line); font-size: 1rem; line-height: 1.6; }
+.author img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: 50% 22%; }
+.author > div { display: grid; gap: 8px; justify-items: start; }
+.author__name { font: 400 1.45rem/1.2 var(--f-display); color: var(--ink); }
+.more-posts .h2 { margin-bottom: clamp(32px, 4vw, 56px); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

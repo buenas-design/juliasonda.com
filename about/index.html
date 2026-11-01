@@ -14,11 +14,12 @@
 <meta property="og:image" content="https://juliasonda.com/assets/og-image-v6.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="I'm the branding & design specialist your agency can count on. Julia Sonda, juliasonda.com">
+<meta property="og:image:alt" content="I'm the branding &amp; design specialist your agency can count on. Julia Sonda, juliasonda.com">
 <meta property="og:url" content="https://juliasonda.com/about/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://juliasonda.com/assets/og-image-v6.jpg">
 <link rel="canonical" href="https://juliasonda.com/about/">
+<link rel="alternate" type="application/rss+xml" title="Julia Sonda · White-label design notes" href="https://juliasonda.com/blog/feed.xml">
 <!-- favicon: o .ico na raiz é o que o Safari e outros procuram; o .svg fica nítido no Chrome e Firefox -->
 <link rel="icon" href="../favicon.ico" sizes="32x32">
 <link rel="icon" href="../assets/icon-circle.svg" type="image/svg+xml">
@@ -31,9 +32,10 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="../assets/styles.css?v=ce5660fc">
+<link rel="stylesheet" href="../assets/styles.css?v=8f69373c">
 <!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
 <script>document.documentElement.classList.add('js')</script>
+
 </head>
 <body class="is-about">
 <a class="skip" href="#main">Skip to content</a>
@@ -49,6 +51,7 @@
       <a href="../">Home</a>
       <a href="../work/">Work</a>
       <a href="../about/" aria-current="page">About</a>
+      <a href="../blog/">Blog</a>
       <a href="../contact/">Contact</a>
       <a class="nav__cta" href="../contact/">Let&#39;s talk</a>
     </nav>
@@ -61,11 +64,10 @@
 <section class="about-hero" data-tone="ivory" aria-labelledby="page-title">
   <div class="wrap about-hero__in">
     <div class="about-hero__copy">
-      <p class="label" data-reveal>About</p>
       <h1 class="h1" id="page-title" data-reveal="title">A little more about <em>me</em></h1>
       <p data-reveal>I&#39;m Julia, a Brazilian brand and graphic designer currently based in Spain, and the founder and creative director of Buenas Design Studio.</p><p data-reveal>I&#39;ve been in the design industry for <strong>9 years</strong>, working with businesses, creative studios, and <strong>marketing agencies in different countries</strong>.</p><p data-reveal>I started Buenas Design Studio as a way to build my own design business and work with clients internationally. Along the way, <strong>collaborating with other agencies</strong> became a big part of what I do.</p>
     </div>
-    <div class="about-hero__photos" data-follow>
+    <div class="about-hero__photos">
       <img class="ah ah--big" data-reveal="img" src="../assets/julia-hero.jpg" alt="Julia Sonda laughing on a balcony, holding a mug that says Never lost, always exploring" width="1200" height="1500">
       <img class="ah ah--small" data-reveal="img" data-speed="-0.12" src="../assets/julia-working.jpg" alt="Julia working on her laptop on a mustard sofa" width="900" height="1125" loading="lazy">
     </div>
@@ -82,8 +84,8 @@
     <div class="about-body__copy">
       <p data-reveal>I enjoy being involved in <strong>someone else&#39;s creative process</strong>, exchanging ideas with other designers, and seeing a project come together as a team.</p><p data-reveal>I also really enjoy getting to know the people I work with. Some of my agency collaborations have turned into <strong>long-term relationships</strong>, which is something I value a lot.</p><p data-reveal><strong>Brand identity is where I feel most at home.</strong> I like working through different concepts, exploring typography, developing visual systems, and thinking about how everything will work once the brand leaves the presentation.</p><p data-reveal>I&#39;m also quite <strong>organized and detail-oriented</strong>. I care about <strong>the files I deliver</strong>, keeping track of feedback, and making sure the person I&#39;m working with <strong>knows what&#39;s happening with their project</strong>.</p><p data-reveal>I think those things matter just as much as doing good design.</p>
     </div>
-    <!-- lado direito: foto dela trabalhando + um projeto por cima (seguem o mouse, como as do topo) -->
-    <div class="about-body__photos" data-follow>
+    <!-- lado direito: foto dela trabalhando + um projeto por cima -->
+    <div class="about-body__photos">
       <img class="ab ab--big" data-reveal="img" src="../assets/photos/about-mountains.jpg" alt="Julia working on her laptop on a balcony facing snowy mountains" width="900" height="1469" loading="lazy">
       <img class="ab ab--small" data-reveal="img" data-speed="-0.1" src="../assets/projects/strip-xxperience-card.jpg" alt="Xxperience card over a burgundy envelope" width="960" height="720" loading="lazy">
     </div>
@@ -92,13 +94,12 @@
 
 <!-- "A little about how I work": texto com imagens de projetos flutuando (veio da home) -->
 <section class="sec working" data-tone="mist" id="how-i-work" aria-labelledby="working-title">
-  <!-- imagens maiores que se mexem ao rolar (data-sway), seguem o mouse e inclinam no hover (data-follow) -->
-  <div class="working__floats" data-follow aria-hidden="true">
+  <!-- imagens maiores que se mexem ao rolar (data-sway) -->
+  <div class="working__floats" aria-hidden="true">
     <img class="wfloat wfloat--1 wfloat--wide" data-reveal="img" data-speed="0.08" data-sway="-1" src="../assets/projects/float-midlothian.jpg" alt="" loading="lazy"><img class="wfloat wfloat--2 wfloat--tall" data-reveal="img" data-speed="-0.1" data-sway="1" src="../assets/photos/work-desk.jpg" alt="" loading="lazy"><img class="wfloat wfloat--3 wfloat--wide" data-reveal="img" data-speed="0.05" data-sway="-1" src="../assets/projects/float-lekitchen-posters.jpg" alt="" loading="lazy">
   </div>
   <div class="wrap working__in">
-    <p class="label" data-reveal>Working with agencies</p>
-    <h2 class="h2" id="working-title" data-reveal="title">A little about <em>how I work</em></h2>
+    <h2 class="h2" id="working-title" data-reveal="title">How I work <em>with agencies</em></h2>
     <p class="working__p" data-reveal>Most of the time, I work directly with an agency owner, creative director, or project manager. You send me the brief and whatever your team has put together so far. I&#39;ll have a look, ask questions if I need to, and we&#39;ll agree on the scope and timeline.</p><p class="working__p" data-reveal>I&#39;m comfortable following an established process and creative direction. I also enjoy being involved earlier in a branding project, when we&#39;re still exploring ideas.</p><p class="working__p" data-reveal>Communication is important to me. I like keeping people updated, sharing work at the agreed stages, and making sure we&#39;re on the same page before moving forward.</p><p class="working__p" data-reveal>And yes, I&#39;m happy to work completely white-label. Your client relationship stays with you, and I won&#39;t share the work publicly without your permission.</p>
   </div>
 </section>
@@ -108,8 +109,8 @@
 <section class="sec fun" data-tone="ivory" aria-labelledby="fun-title">
   <div class="wrap">
     <header class="fun__head">
-      <h2 class="fun__title" id="fun-title" data-reveal="title">All you need to <em>know</em></h2>
-      <p class="fun__sub" data-reveal>(And some things you probably don&#39;t)</p>
+      <h2 class="fun__title" id="fun-title" data-reveal="title">A few <em>fun facts</em></h2>
+      <p class="fun__sub" data-reveal>Hover over a card (or tap it) to see the answer.</p>
     </header>
     <ul class="fun__list">
       <li class="fun__card" data-reveal tabindex="0">
@@ -148,14 +149,8 @@
 
 <section class="sec outside" data-tone="pink" aria-labelledby="outside-title">
   <div class="wrap outside__in">
-    <div class="outside__photos" data-follow>
+    <div class="outside__photos">
       <img class="op op--tall" data-reveal="img" src="../assets/photos/outside-ski.jpg" alt="Julia skiing, with snowy mountains and a blue lake behind her" width="900" height="1200" loading="lazy">
-      <!-- texto girando em círculo (texto em content/site.yml → about_page.outside_badge) -->
-      <div class="spin" data-reveal aria-hidden="true">
-        <!-- a frase aparece duas vezes em volta do círculo, assim as letras ficam próximas -->
-        <svg viewBox="0 0 260 260"><defs><path id="spin-path" d="M130,130 m-108,0 a108,108 0 1,1 216,0 a108,108 0 1,1 -216,0"/></defs>
-          <text><textPath href="#spin-path" textLength="676" lengthAdjust="spacing">A little more about me · A little more about me ·</textPath></text></svg>
-      </div>
       <img class="op op--wide" data-reveal="img" data-speed="-0.1" src="../assets/photos/outside-tropea.jpg" alt="Julia on a terrace above the sea and the cliffside town of Tropea, Italy" width="1400" height="785" loading="lazy">
     </div>
     <div class="outside__copy">
@@ -176,8 +171,8 @@
 
 <section class="cta" data-tone="pink" aria-labelledby="cta-title">
   <div class="wrap cta__in">
-    <h2 class="cta__title" id="cta-title" data-reveal="title">Let&#39;s work <em>together</em></h2>
-    <p class="cta__text" data-reveal>If you run an agency or creative studio and think I could be a good fit for your team, I&#39;d love to hear from you.</p>
+    <h2 class="cta__title" id="cta-title" data-reveal="title">Think I&#39;d be a <em>good fit</em> for your team?</h2>
+    <p class="cta__text" data-reveal>If you run an agency or creative studio, I&#39;d love to hear from you.</p>
     <a class="btn" href="../contact/" data-reveal>Get in Touch</a>
   </div>
 </section>
@@ -199,7 +194,7 @@
         <p class="ftr__studio"><strong>Not an agency?</strong> Businesses can find my studio at <a href="https://buenas.design" target="_blank" rel="noopener">buenas.design <span aria-hidden="true">↗</span></a></p>
       </div>
       <p>Based in Spain · Working worldwide</p>
-      <p class="ftr__nav"><a href="../">Home</a><a href="../work/">Work</a><a href="../about/">About</a><a href="../contact/">Contact</a></p>
+      <p class="ftr__nav"><a href="../">Home</a><a href="../work/">Work</a><a href="../about/">About</a><a href="../blog/">Blog</a><a href="../contact/">Contact</a></p>
     </div>
   </div>
   <p class="ftr__mark" aria-hidden="true">Julia Sonda</p>
@@ -208,6 +203,6 @@
     <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
   </div>
 </footer>
-<script src="../assets/app.js?v=67c276f8" defer></script>
+<script src="../assets/app.js?v=674cf776" defer></script>
 </body>
 </html>

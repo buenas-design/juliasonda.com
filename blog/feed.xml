@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Julia Sonda · White-label design notes</title>
+    <link>https://juliasonda.com/blog/</link>
+    <atom:link href="https://juliasonda.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Notes on white-label design and branding for agencies.</description>
+    <language>en</language>
+    <item>
+      <title>White-label design, from the designer&apos;s side</title>
+      <link>https://juliasonda.com/blog/what-is-white-label-design/</link>
+      <guid>https://juliasonda.com/blog/what-is-white-label-design/</guid>
+      <pubDate>Sun, 01 Nov 2026 09:00:00 GMT</pubDate>
+      <description>What white-label design means for an agency, how a project actually runs and what stays with you, explained by a designer who works this way.</description>
+    </item>
+    <item>
+      <title>How to outsource a brand identity and still own it</title>
+      <link>https://juliasonda.com/blog/white-label-branding-for-agencies/</link>
+      <guid>https://juliasonda.com/blog/white-label-branding-for-agencies/</guid>
+      <pubDate>Sun, 01 Nov 2026 09:00:00 GMT</pubDate>
+      <description>A practical guide for agencies outsourcing a brand identity: the creative direction, the brief, the concepts, the feedback and the final files.</description>
+    </item>
+    <item>
+      <title>What to ask a white-label designer before you say yes</title>
+      <link>https://juliasonda.com/blog/questions-to-ask-a-white-label-designer/</link>
+      <guid>https://juliasonda.com/blog/questions-to-ask-a-white-label-designer/</guid>
+      <pubDate>Sun, 01 Nov 2026 09:00:00 GMT</pubDate>
+      <description>Ten questions to ask before hiring a white-label designer for your agency, and what a good answer sounds like, from the designer&apos;s side of the table.</description>
+    </item>
+  </channel>
+</rss>
