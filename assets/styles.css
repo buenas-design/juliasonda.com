@@ -736,7 +736,9 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 @keyframes spin { to { rotate: 360deg; } }
 
 /* fun facts on the About page: cards on lilac that flip over to show the answer, 3 + 2 centered */
-.fun { background: none; }
+.fun { background: none; padding-bottom: clamp(56px, 6vw, 90px); }
+/* "When I'm not designing…" logo depois dos cartões, sem o vão de duas seções somadas */
+.fun + .outside { padding-top: clamp(16px, 2.5vw, 40px); }
 .fun__head { display: grid; justify-items: center; text-align: center; gap: 6px; margin-bottom: clamp(44px, 5vw, 70px); }
 
 .fun__sub { font-size: 1.12rem; color: #563537; }
