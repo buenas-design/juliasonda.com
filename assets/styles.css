@@ -98,6 +98,8 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
 }
 .sec { padding-block: var(--section); }
 .sec--tight { padding-top: 0; }
+/* About: a tighter rhythm between sections, less empty space (her call, 01/11/2026) */
+.is-about .sec { padding-block: clamp(48px, 5vw, 80px); }
 .band-sage, .band-pink { background: var(--sage); }
 .band-lilac { background: var(--lilac); }
 .band-berry { background: var(--berry); color: var(--ivory); }
@@ -498,32 +500,26 @@ main > :has(+ .qband) { padding-bottom: clamp(50px, 6vw, 90px); }
 }
 @media (max-width: 600px) { .svc__open { grid-template-columns: 1fr; padding-left: 0; } .svc__sum { grid-template-columns: 40px minmax(0, 1fr) 22px; } }
 
-/* ───────── 05 working together (berry block, floating photos) ───────── */
-.working { position: relative; overflow-x: clip; }
-.working__in { position: relative; z-index: 1; max-width: 800px; display: grid; gap: 22px; }
+/* ───────── "How I work with agencies" (About): text on the left, at the same indent as every other
+   section, and the three photos grouped on the right (01/11/2026: no more floating photos far apart) ───────── */
+.working__grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
+.working__in { display: grid; gap: 22px; }
 .working .h2 { margin-bottom: 18px; }
 .working__p:last-child { font-weight: 600; }
 .band-lilac .label { color: var(--ink); }
-.working__floats { position: absolute; inset: 0; pointer-events: none; }
-.wfloat { position: absolute; width: clamp(180px, 19vw, 300px); aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 60px -30px rgba(58, 28, 30, 0.5); pointer-events: auto; }
-.wfloat--wide { width: clamp(240px, 26vw, 420px); aspect-ratio: 5 / 4; }
-.wfloat--1 { right: 3%; top: 10px; }
-.wfloat--2 { right: 26%; top: 42%; width: clamp(150px, 14vw, 220px); }
-.wfloat--3 { left: 3%; bottom: -230px; }
-@media (min-width: 1181px) { .working__in { margin-left: max(var(--gutter), calc((100vw - var(--maxw)) / 2 + var(--gutter))); } }
-@media (max-width: 1180px) {
-  .wfloat--2 { display: none; }
-  .wfloat--1 { right: 2%; width: 230px; }
-  .wfloat--3 { left: 2%; width: 220px; bottom: -150px; }
-  .working__in { padding-right: 260px; }
-}
-@media (max-width: 760px) {
-  .working__floats { position: relative; display: flex; gap: 12px; padding: 0 var(--gutter); margin: -150px 0 40px; }
-  .wfloat, .wfloat--1, .wfloat--3 { position: static; width: 44%; }
-  .wfloat--3 { margin-top: 40px; }
-  .working__in { padding-right: var(--gutter); }
-  .wfloat[data-speed] { translate: none; }
-  .working { padding-top: calc(var(--section) + 40px); }
+.working__photos { position: relative; min-height: clamp(440px, 44vw, 620px); }
+.wph { position: absolute; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 60px -30px rgba(58, 28, 30, 0.5); }
+.wph--1 { top: 0; right: 0; width: 74%; aspect-ratio: 5 / 4; }
+.wph--2 { left: 0; top: 33%; z-index: 2; width: 40%; aspect-ratio: 4 / 5; }
+.wph--3 { right: 6%; bottom: 0; width: 54%; aspect-ratio: 5 / 4; }
+@media (max-width: 860px) {
+  .working__grid { grid-template-columns: 1fr; }
+  .working__photos { min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .wph { position: static; width: 100%; }
+  .wph--1 { grid-column: 1 / -1; }
+  .wph--2 { aspect-ratio: 4 / 5; }
+  .wph--3 { align-self: end; aspect-ratio: 4 / 5; }
+  .wph[data-speed] { translate: none; }
 }
 
 /* ───────── 06 industries ───────── */
@@ -668,7 +664,7 @@ main:has(> .cta:last-child) + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 760px) { .next__in { grid-template-columns: 1fr; } }
 
 /* ───────── about page ───────── */
-.about-hero { padding: calc(var(--hdr) + clamp(48px, 7vw, 100px)) 0 clamp(60px, 7vw, 110px); }
+.about-hero { padding: calc(var(--hdr) + clamp(48px, 7vw, 100px)) 0 clamp(24px, 3vw, 48px); }   /* close to the band below (her call, 01/11/2026) */
 .about-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 60px clamp(40px, 6vw, 100px); align-items: start; }
 .about-hero__copy { display: grid; gap: 20px; }
 .about-hero__copy .h1 { margin-bottom: 18px; max-width: 14ch; }
@@ -683,7 +679,7 @@ main:has(> .cta:last-child) + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 860px) { .about-hero__in { grid-template-columns: 1fr; } .about-hero__photos { max-width: 520px; } }
 
 /* About: the big line sits between two thin rules, so it reads as its own block */
-.statement-band { color: var(--ink); padding-block: clamp(30px, 4vw, 60px) 0; }
+.statement-band { color: var(--ink); padding-block: 0; }
 .statement-band .wrap { padding-block: clamp(44px, 5.5vw, 80px); border-block: 1px solid var(--line); }
 .statement--center { text-align: center; margin-inline: auto; max-width: 36ch; text-wrap: balance; }
 .about-body { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
