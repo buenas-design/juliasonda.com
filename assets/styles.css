@@ -97,6 +97,9 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
   padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
 }
 .sec { padding-block: var(--section); }
+/* duas seções seguidas somavam o espaço de baixo de uma com o de cima da outra (~100–120px no computador);
+   ela achou enorme (01/11/2026): a de baixo começa com menos espaço */
+.sec + .sec { padding-top: calc(var(--section) * 0.4); }
 .sec--tight { padding-top: 0; }
 .band-sage, .band-pink { background: var(--sage); }
 .band-lilac { background: var(--lilac); }
