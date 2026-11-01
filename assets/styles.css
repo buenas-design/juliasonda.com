@@ -455,7 +455,7 @@ mark {
 .qnav { display: flex; gap: 10px; }
 .qnav__btn { width: 52px; height: 52px; border: 1.5px solid var(--ink); border-radius: 50%; background: none; color: var(--ink); font: 400 1.2rem/1 var(--f-sans); cursor: pointer; transition: background-color .25s, color .25s, border-color .25s; }
 .qnav__btn:hover { background: var(--berry); border-color: var(--berry); color: var(--ivory); }
-.qcards { display: grid; grid-auto-flow: column; grid-auto-columns: min(560px, 84%); gap: clamp(18px, 2vw, 28px); align-items: stretch; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 10px 30px; margin-block: -10px -30px; margin-right: min(0px, calc(50% - 50vw)); padding-right: var(--gutter); cursor: grab; }
+.qcards { display: grid; grid-auto-flow: column; grid-auto-columns: min(560px, 84%); gap: clamp(18px, 2vw, 28px); align-items: stretch; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 10px 30px; margin-block: -10px -30px; margin-right: min(0px, calc(50% - 50vw)); padding-right: var(--gutter); cursor: grab; }
 .qcards::-webkit-scrollbar { display: none; }
 .qcards.is-dragging { cursor: grabbing; scroll-snap-type: none; }
 .qcard { scroll-snap-align: start; }
@@ -710,8 +710,14 @@ main > :has(+ .cta) { padding-bottom: clamp(40px, 5vw, 70px); }
 .statement-band { color: var(--ink); padding-block: clamp(30px, 4vw, 60px) 0; }
 .statement-band .wrap { padding-block: clamp(44px, 5.5vw, 80px); border-block: 1px solid var(--line); }
 .statement--center { text-align: center; margin-inline: auto; max-width: 36ch; text-wrap: balance; }
-.about-body { display: grid; gap: 20px; }
-.about-body p:last-child { font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.25 var(--f-display); color: var(--ink); max-width: 30ch; margin-top: 10px; }
+.about-body { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
+.about-body__copy { display: grid; gap: 20px; }
+.about-body__photos { position: relative; padding: 0 0 26% 16%; }
+.ab { object-fit: cover; border-radius: var(--radius); }
+.ab--big { width: 100%; aspect-ratio: 4 / 5; object-position: 50% 72%; }
+.ab--small { position: absolute; left: 0; bottom: 0; width: 56%; aspect-ratio: 4 / 3; box-shadow: 0 26px 48px -26px rgba(58, 28, 30, 0.55); }
+@media (max-width: 860px) { .about-body { grid-template-columns: 1fr; } .about-body__photos { max-width: 520px; } }
+.about-body__copy p:last-child { font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.25 var(--f-display); color: var(--ink); max-width: 30ch; margin-top: 10px; }
 
 .outside__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px clamp(40px, 7vw, 120px); align-items: center; }
 .outside__photos { position: relative; padding-bottom: 26%; }

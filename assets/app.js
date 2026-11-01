@@ -282,8 +282,47 @@
     $$('[data-qdir]').forEach((b) =>
       b.addEventListener('click', () => qcards.scrollBy({ left: step() * Number(b.dataset.qdir), behavior: reduceMotion ? 'auto' : 'smooth' })),
     );
-    // drag with the mouse (touch already scrolls on its own)
+    // endless row: a copy of the cards on each side, and when the row drifts into a copy it jumps back
+    // by exactly one set (same cards, same spot), so after the last testimonial the first one comes again
+    const originals = $$('.qcard', qcards);
+    const copyOf = (card) => {
+      const c = card.cloneNode(true);
+      c.removeAttribute('data-reveal');
+      c.classList.add('is-in');
+      c.setAttribute('aria-hidden', 'true');
+      return c;
+    };
+    if (originals.length > 1) {
+      originals.forEach((card) => qcards.append(copyOf(card)));
+      [...originals].reverse().forEach((card) => qcards.prepend(copyOf(card)));
+    }
+    const setWidth = () => (originals.length > 1 ? qcards.children[originals.length * 2].offsetLeft - originals[0].offsetLeft : 0);
     let startX = 0, startLeft = 0, dragging = false;
+    const recenter = () => {
+      const w = setWidth();
+      if (!w) return;
+      let shift = 0;
+      if (qcards.scrollLeft < w * 0.5) shift = w;
+      else if (qcards.scrollLeft > w * 1.5) shift = -w;
+      if (!shift) return;
+      qcards.style.scrollSnapType = 'none';
+      qcards.scrollLeft += shift;
+      startLeft += shift;
+      qcards.style.scrollSnapType = '';
+    };
+    if (originals.length > 1) {
+      qcards.scrollLeft = setWidth();
+      let settle = null;
+      qcards.addEventListener('scroll', () => {
+        clearTimeout(settle);
+        // close to either end (a long flick): jump right away; otherwise wait until the row stops
+        const room = qcards.scrollWidth - qcards.clientWidth - qcards.scrollLeft;
+        if (qcards.scrollLeft < setWidth() * 0.25 || room < setWidth() * 0.25) recenter();
+        else settle = setTimeout(recenter, 140);
+      }, { passive: true });
+      window.addEventListener('resize', () => { qcards.scrollLeft = setWidth() + (qcards.scrollLeft % setWidth()); });
+    }
+    // drag with the mouse (touch already scrolls on its own)
     qcards.addEventListener('pointerdown', (e) => {
       if (e.pointerType !== 'mouse') return;
       dragging = true; startX = e.clientX; startLeft = qcards.scrollLeft;
