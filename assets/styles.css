@@ -882,6 +882,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .is-home .selected__foot { margin-top: clamp(56px, 6vw, 88px); }
 .is-home main > :has(+ .cta) { padding-bottom: clamp(56px, 6.5vw, 96px); }
 .is-home .cta { padding-top: clamp(40px, 5vw, 72px); }
+.is-home .industries { padding-top: calc(var(--section) * 0.55); }   /* "Industries" a little closer to the services above (her call) */
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
