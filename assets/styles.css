@@ -887,7 +887,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 /* ───────── CV (cv/, hidden page for job applications; texts in content/cv.yml) ─────────
    On screen: a "site" version with motion (her call, 02/11/2026: "não é pra ser realmente um currículo").
    Printed, and in the PDF from tools/cv/render.sh: only .cv-doc, the classic one-page CV on A4. */
-.cv-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(48px, 6vw, 96px); }
+.cv-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(16px, 2vw, 32px); }   /* the timeline comes right after (the numbers band left, her call) */
 .cv-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px clamp(40px, 6vw, 100px); align-items: center; }
 .cv-hero__title { max-width: 13ch; }
 .cv-hero__role { margin-top: 18px; font: 600 0.8rem/1.4 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
@@ -904,15 +904,6 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .cvp--3 { right: 0; bottom: 0; rotate: 3deg; width: 44%; }
 .cvp--2:hover, .cvp--3:hover { rotate: 0deg; }
 .js .cvp--2.is-in:hover, .js .cvp--3.is-in:hover { scale: 1.04; }
-
-/* numbers that count up (app.js, data-count) */
-.cv-numbers .wrap { padding-block: clamp(28px, 3vw, 44px); }
-.cv-nums { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 28px clamp(20px, 3vw, 48px); margin: 0; padding: 0; list-style: none; }
-.cv-num { display: grid; gap: 6px; align-content: start; }
-/* small words above the number ("Clients in"); empty ones keep the numbers on one line */
-.cv-num__b { min-height: 1.4em; font-size: 0.98rem; line-height: 1.4; color: var(--ink-soft); }
-.cv-num__n { font: 400 clamp(2.6rem, 4.6vw, 4.2rem)/0.9 var(--f-display); letter-spacing: -0.03em; color: var(--berry); font-variant-numeric: tabular-nums; }
-.cv-num__l { font-size: 0.98rem; line-height: 1.4; color: var(--ink-soft); max-width: 18ch; }
 
 /* "How I got here": the big year on the left follows the step in the middle of the screen,
    and the line on the right fills up as you scroll (app.js sets --fill and .is-lit) */

@@ -198,28 +198,6 @@
     run();
   });
 
-  /* ───────── numbers that count up as they appear (data-count, the CV) ───────── */
-  // The finished number is in the HTML; it only goes back to 0 at the moment it starts counting.
-  const counters = $$('[data-count]');
-  if (counters.length && !reduceMotion && 'IntersectionObserver' in window) {
-    const count = (el) => {
-      const end = Number(el.dataset.count) || 0;
-      const t0 = performance.now();
-      const tick = (t) => {
-        const p = Math.min((t - t0) / 1500, 1);
-        el.textContent = String(Math.round(end * (1 - (1 - p) ** 3)));
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      el.textContent = '0';
-      requestAnimationFrame(tick);
-    };
-    const countIo = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) { count(e.target); countIo.unobserve(e.target); } }),
-      { threshold: 0.6 },
-    );
-    counters.forEach((el) => countIo.observe(el));
-  }
-
   /* ───────── CV timeline: the big year follows the step in the middle of the screen ───────── */
   // and the line fills up to the middle of the screen, lighting each dot it passes (--fill, .is-lit)
   const steps = $('.cv-steps');
