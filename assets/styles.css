@@ -406,8 +406,6 @@ mark {
 .selected__foot { display: grid; justify-items: center; gap: 22px; margin-top: clamp(48px, 5vw, 72px); text-align: center; }
 .selected__btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px; }
 
-/* "And so much more." at the end of the Work grid */
-.more-card { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; padding: clamp(32px, 4vw, 56px); border-radius: var(--radius); background: var(--sage); }
 .note { max-width: 60ch; color: var(--ink-soft); font-size: 0.98rem; }
 
 /* ───────── 03 testimonials: a big excerpt, then the full words ───────── */
@@ -461,8 +459,16 @@ mark {
 
 
 /* a single testimonial, very big, on an orange band */
-.qband { color: var(--ink); padding-block: clamp(16px, 2vw, 28px) clamp(48px, 5.5vw, 80px); overflow: hidden; }
-.qband__in { position: relative; display: grid; justify-items: center; text-align: center; gap: 18px; }
+.qband { color: var(--ink); padding-block: clamp(16px, 2vw, 28px) clamp(48px, 5.5vw, 80px); }
+/* the quote sits in a translucent white box, so it reads as its own block between the sections around it */
+.qband__in {
+  position: relative; display: grid; justify-items: center; gap: 18px;
+  max-width: 1000px; margin-inline: auto; padding: clamp(40px, 5vw, 72px) clamp(24px, 5vw, 80px);
+  border: 1px solid rgba(255, 255, 255, 0.55); border-radius: calc(var(--radius) * 1.5);
+  background: rgba(255, 255, 255, 0.38); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 30px 60px -44px rgba(58, 28, 30, 0.4);
+  text-align: center;
+}
 .qband__mark { font: 400 clamp(5rem, 10vw, 9rem)/0.6 var(--f-display); color: var(--tomato); margin-bottom: -0.18em; }   /* the quote glyph sits high in its box */
 /* the section before the big testimonial doesn't need its full bottom space */
 main > :has(+ .qband) { padding-bottom: clamp(36px, 4vw, 60px); }
@@ -519,6 +525,82 @@ main > :has(+ .qband) { padding-bottom: clamp(36px, 4vw, 60px); }
   .wph--3 { align-self: end; aspect-ratio: 4 / 5; }
   .wph[data-speed] { translate: none; }
 }
+
+/* text that fades away from the bottom up as it scrolls past the upper half of the screen (app.js sets --fade) */
+[data-scroll-fade] > p {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade, 0) * 140%), rgb(0 0 0 / 0.08) calc(140% - var(--fade, 0) * 140%));
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade, 0) * 140%), rgb(0 0 0 / 0.08) calc(140% - var(--fade, 0) * 140%));
+}
+
+/* ───────── Work page (02/11/2026, inspired by THURO, the studio site she sent; not copied) ─────────
+   a mosaic that opens up as you scroll, big project panels that stack, a dark plum note, a photo to finish */
+.mosaic { position: relative; height: 230vh; background: var(--ink); }
+.mosaic__stick { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.mosaic__grid {
+  --g: clamp(8px, 1.1vw, 16px);
+  position: absolute; left: 0; top: 0;
+  display: grid; gap: var(--g); width: 100%; height: 100%; padding: var(--g);
+  grid-template-columns: 1fr 1.15fr 2fr 1.15fr 1fr; grid-template-rows: 1fr 1.7fr 1fr;
+  transform-origin: 50% 50%; will-change: transform;
+}
+.mosaic__tile { overflow: hidden; border-radius: calc(var(--g) * 0.35); background: var(--berry-deep); }
+.mosaic__tile img { width: 100%; height: 100%; object-fit: cover; }
+.mosaic__tile--center { grid-column: 3; grid-row: 2; }
+
+/* each panel stays at the top while the next one slides up over it */
+.panels { padding-top: clamp(40px, 5vw, 72px); }
+.panel {
+  position: sticky; top: calc(var(--hdr) + 12px); display: block;
+  height: calc(100vh - var(--hdr) - 28px); height: calc(100svh - var(--hdr) - 28px); min-height: 420px;
+  margin-bottom: clamp(16px, 2vw, 24px); overflow: hidden; border-radius: var(--radius);
+  color: var(--ivory); text-decoration: none; box-shadow: 0 -24px 50px -34px rgba(40, 14, 16, 0.55);
+}
+.panel:last-child { margin-bottom: 0; }
+.panel__img, .panel__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.panel__img img { object-fit: cover; transition: scale 1.2s var(--ease); }
+.panel:hover .panel__img img { scale: 1.03; }
+.panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(40, 14, 16, 0.55) 0%, rgba(40, 14, 16, 0) 34%, rgba(40, 14, 16, 0) 66%, rgba(40, 14, 16, 0.5) 100%); }
+.panel__top, .panel__bottom { position: absolute; z-index: 1; left: clamp(20px, 3vw, 44px); right: clamp(20px, 3vw, 44px); display: flex; justify-content: space-between; gap: 16px 32px; }
+.panel__top { top: clamp(20px, 3vw, 40px); align-items: flex-start; }
+.panel__bottom { bottom: clamp(20px, 3vw, 36px); align-items: flex-end; }
+.panel__name { max-width: 14ch; font: 400 clamp(2rem, 4.4vw, 4rem)/1.02 var(--f-display); letter-spacing: -0.01em; }
+.panel__note { max-width: 32ch; font-size: clamp(0.9rem, 1vw, 1rem); line-height: 1.5; opacity: 0.94; }
+.panel__go { padding-bottom: 4px; border-bottom: 1.5px solid currentColor; font: 600 0.78rem/1 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; }
+.panel__tags { font: 600 0.72rem/1.3 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; text-align: right; opacity: 0.92; }
+.work-more__title { margin-bottom: clamp(28px, 3vw, 44px); }
+
+/* the dark plum note with her photo */
+.dark-note { padding-block: clamp(56px, 7vw, 110px); background: var(--ink); color: var(--ivory); }
+main > .dark-note:has(+ .qband) { padding-bottom: clamp(56px, 7vw, 110px); }
+.dark-note + .qband { padding-top: clamp(48px, 5.5vw, 80px); }
+.dark-note__in { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 40px clamp(40px, 6vw, 110px); align-items: center; }
+.dark-note__img { width: 100%; max-width: 440px; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+.dark-note__copy { display: grid; gap: 20px; justify-items: start; }
+.dark-note__title { max-width: 16ch; font: 400 var(--fs-h2)/1.1 var(--f-display); text-wrap: balance; }
+.dark-note__copy p { max-width: 46ch; font-size: 1.12rem; line-height: 1.65; color: rgba(235, 227, 214, 0.85); }
+.dark-note__copy strong { color: var(--ivory); }
+
+/* the finish: a big photo with the invitation over it */
+.end-photo { padding-block: var(--section) calc(var(--fade) * 0.5); }   /* clear of the footer's fade, which climbs over the end of the page */
+.end-photo__box { position: relative; display: grid; align-items: end; min-height: clamp(420px, 52vw, 640px); overflow: hidden; border-radius: var(--radius); color: var(--ivory); }
+.end-photo__img { position: absolute; left: 0; top: -6%; width: 100%; height: 112%; object-fit: cover; }
+.end-photo__box::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(40, 14, 16, 0.75) 0%, rgba(40, 14, 16, 0.25) 55%, rgba(40, 14, 16, 0.05) 100%); }
+.end-photo__copy { position: relative; z-index: 1; display: grid; gap: 16px; justify-items: start; max-width: 660px; padding: clamp(28px, 4vw, 56px); }
+.end-photo__title { font: 400 var(--fs-h2)/1.1 var(--f-display); text-wrap: balance; }
+.end-photo__copy p { font-size: 1.08rem; line-height: 1.6; color: rgba(235, 227, 214, 0.92); }
+
+@media (max-width: 760px) {
+  /* on a phone: 3 × 3, so the pictures aren't thin strips */
+  .mosaic__grid { grid-template-columns: 1fr 1.7fr 1fr; grid-template-rows: 1fr 1.3fr 1fr; }
+  .mosaic__tile--center { grid-column: 2; }
+  .mosaic__tile:nth-child(n + 10) { display: none; }
+  .panel { height: 72svh; min-height: 0; }
+  .panel__top { flex-direction: column; }
+  .panel__note { font-size: 0.88rem; }
+  .dark-note__in { grid-template-columns: 1fr; }
+  .dark-note__img { max-width: 320px; }
+}
+@media (prefers-reduced-motion: reduce) { .mosaic { height: auto; } .mosaic__stick { position: relative; } }
 
 /* ───────── 06 industries ───────── */
 .ind__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px clamp(40px, 6vw, 110px); align-items: end; margin-bottom: clamp(32px, 3.5vw, 52px); }
@@ -662,33 +744,86 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 760px) { .next__in { grid-template-columns: 1fr; } }
 
 /* ───────── about page ───────── */
+/* About page type & colour system (one rule set for the whole page):
+   titles = Florentia Regular in ink, never italic · paragraphs = 1.12rem in soft plum, ~58ch wide ·
+   plum only for blocks/buttons · coral only for small accents (highlight, quote mark, title accent) */
+.working__p, .outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
+
 .about-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(24px, 3vw, 44px); }   /* close to the band below (her call, 01/11/2026) */
 .about-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 60px clamp(40px, 6vw, 100px); align-items: start; }
 .about-hero__copy { display: grid; gap: 20px; }
 .about-hero__copy .h1 { margin-bottom: 18px; max-width: 14ch; }
-/* About page type & colour system (one rule set for the whole page):
-   titles = Florentia Regular in ink, never italic · paragraphs = 1.12rem in soft plum, ~58ch wide ·
-   plum only for blocks/buttons · coral only for small accents (highlight, quote mark, title accent) */
-.about-hero__copy p:not(.label), .about-body p, .working__p, .outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
+.about-hero__copy p:not(.label) { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
 .about-hero__photos { position: relative; padding: 0 0 30% 14%; }
 .ah { object-fit: cover; }
 .ah--big { width: 100%; aspect-ratio: 4 / 5; border-radius: var(--radius); }
 .ah--small { position: absolute; left: 0; bottom: 0; width: 48%; aspect-ratio: 4 / 5; border-radius: var(--radius); box-shadow: 0 26px 48px -26px rgba(58, 28, 30, 0.55); }
 @media (max-width: 860px) { .about-hero__in { grid-template-columns: 1fr; } .about-hero__photos { max-width: 520px; } }
 
+/* "What I can help with": three columns, a small title on top and the list in big type */
+.caps__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px clamp(40px, 6vw, 110px); align-items: end; margin-bottom: clamp(36px, 4vw, 56px); }
+.caps__head p { max-width: 42ch; font-size: 1.12rem; line-height: 1.6; color: var(--ink-soft); }
+.caps__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px clamp(24px, 4vw, 64px); }
+.caps__t { margin-bottom: 16px; font: 600 0.74rem/1.3 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.caps__col ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.caps__col li { font-size: clamp(1.08rem, 1.3vw, 1.2rem); line-height: 1.45; color: var(--ink); }
+.caps__link { margin-top: clamp(32px, 3.6vw, 48px); }
+@media (max-width: 860px) { .caps__head, .caps__cols { grid-template-columns: 1fr; } }
+
 /* About: the big line sits between two thin rules, so it reads as its own block */
 .statement-band { color: var(--ink); padding-block: 0; }
 .statement-band .wrap { padding-block: clamp(36px, 4vw, 60px); }
 .statement--center { text-align: center; margin-inline: auto; max-width: 36ch; text-wrap: balance; }
-.about-body { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
-.about-body__copy { display: grid; gap: 20px; }
-.about-body__photos { position: relative; padding: 0 0 26% 16%; }
-.ab { object-fit: cover; border-radius: var(--radius); }
-.ab--big { width: 100%; aspect-ratio: 4 / 5; object-position: 50% 72%; }
-.ab--small { position: absolute; left: 0; bottom: 0; width: 56%; aspect-ratio: 4 / 3; box-shadow: 0 26px 48px -26px rgba(58, 28, 30, 0.55); }
-@media (max-width: 860px) { .about-body { grid-template-columns: 1fr; } .about-body__photos { max-width: 520px; } }
-.about-body__copy p:last-child { font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.25 var(--f-display); color: var(--ink); max-width: 30ch; margin-top: 10px; }
+/* ───────── About: the personal paragraphs as a postcard (her idea, 02/11/2026): the message on the left,
+   signed; stamp (her photo, perforated edge), postmark and "To" on the right; the front of another
+   postcard (a project) peeks out behind it. ───────── */
+.postcard-stack { position: relative; max-width: 1080px; margin-inline: auto; padding: clamp(28px, 4vw, 56px) 0 0 clamp(0px, 3vw, 40px); }
+.postcard-back { position: absolute; left: 0; top: 0; z-index: 0; width: min(44%, 440px); aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; rotate: -6deg; box-shadow: 0 30px 50px -30px rgba(58, 28, 30, 0.5); }
+.postcard {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  padding: clamp(28px, 4vw, 60px);
+  border-radius: 10px; background: var(--paper);
+  box-shadow: 0 44px 80px -44px rgba(58, 28, 30, 0.5), 0 1px 0 rgba(58, 28, 30, 0.06);
+  rotate: 1deg; transition: rotate .7s var(--ease);
+}
+.postcard:hover { rotate: 0deg; }
+.postcard__msg { display: grid; align-content: start; gap: 14px; padding-right: clamp(24px, 4vw, 56px); border-right: 1px solid var(--line); }
+.postcard__msg p { font-size: 1.08rem; line-height: 1.65; color: #563537; }   /* the text font: Florentia is for titles only (her rule) */
+.postcard__msg strong { font-weight: 600; color: var(--ink); }
+.postcard__hi, .postcard__sign span { font-family: var(--f-display); font-style: italic; color: var(--ink); }
+.postcard__hi { font-size: clamp(1.35rem, 1.9vw, 1.7rem) !important; }
+.postcard__sign { margin-top: 6px; }
+.postcard__sign span { font-size: clamp(1.8rem, 2.6vw, 2.4rem); line-height: 1.2; }
+.postcard__side { display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding-left: clamp(24px, 4vw, 56px); }
+.postcard__top { display: flex; justify-content: flex-end; align-items: flex-start; }
+.postmark { position: relative; z-index: 2; width: clamp(170px, 17vw, 230px); margin: 22px -54px 0 0; color: var(--berry); opacity: 0.7; rotate: -10deg; }
+/* the stamp: a white paper edge with round perforations (the mask cuts half-circles along the border) */
+.stamp {
+  --r: 6px;
+  flex: none; width: clamp(110px, 11vw, 148px); padding: calc(var(--r) * 1.4); background: #fff; rotate: 3deg;
+  -webkit-mask: radial-gradient(circle, #0000 calc(var(--r) * 0.6), #000 calc(var(--r) * 0.6 + 0.5px)) calc(var(--r) * -1) calc(var(--r) * -1) / calc(var(--r) * 2) calc(var(--r) * 2) round, linear-gradient(#000 0 0) content-box;
+  mask: radial-gradient(circle, #0000 calc(var(--r) * 0.6), #000 calc(var(--r) * 0.6 + 0.5px)) calc(var(--r) * -1) calc(var(--r) * -1) / calc(var(--r) * 2) calc(var(--r) * 2) round, linear-gradient(#000 0 0) content-box;
+  filter: drop-shadow(0 6px 10px rgba(58, 28, 30, 0.18));
+}
+.stamp img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 72%; }
+.postcard__to p { padding: 16px 0 8px; border-bottom: 1px solid var(--line); font: italic 400 clamp(1.15rem, 1.6vw, 1.4rem)/1.2 var(--f-display); color: var(--ink); }
+.postcard__to small { margin-right: 12px; font: 600 0.7rem/1 var(--f-sans); font-style: normal; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+@media (max-width: 760px) {
+  .postcard { grid-template-columns: 1fr; rotate: 0deg; }
+  .postcard__msg { padding: 0 0 28px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .postcard__side { padding: 28px 0 0; gap: 24px; }
+  .postcard__top { justify-content: flex-start; flex-direction: row-reverse; }
+  .postmark { width: 150px; margin: 18px 0 0 -40px; }
+  .postcard-back { width: 62%; }
+}
 
+/* "When I'm not designing…" sits in a dark plum block (02/11/2026, like the founder's note at THURO) */
+.outside--dark { background: var(--ink); color: var(--ivory); }
+.outside--dark .h2 { color: var(--ivory); }
+.outside--dark .outside__copy p { color: rgba(235, 227, 214, 0.85); }
+main > .outside--dark:has(+ .qband) { padding-bottom: var(--section); }
+.outside--dark + .qband { padding-top: clamp(48px, 5.5vw, 80px); }
 .outside__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px clamp(40px, 7vw, 120px); align-items: center; }
 .outside__photos { position: relative; padding-bottom: 26%; }
 .op { object-fit: cover; }
@@ -701,8 +836,8 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 
 /* fun facts on the About page: cards on lilac that flip over to show the answer, 3 + 2 centered */
 .fun { background: none; }
-/* "When I'm not designing…" logo depois dos cartões, sem o vão de duas seções somadas */
-.fun + .outside { padding-top: clamp(16px, 2.5vw, 40px); }
+/* "When I'm not designing…" logo depois dos cartões, sem o vão de duas seções somadas (não no bloco escuro) */
+.fun + .outside:not(.outside--dark) { padding-top: clamp(16px, 2.5vw, 40px); }
 .fun__head { display: grid; justify-items: center; text-align: center; gap: 6px; margin-bottom: clamp(32px, 3.5vw, 52px); }
 
 .fun__sub { font-size: 1.12rem; color: #563537; }

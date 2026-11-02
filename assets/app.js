@@ -235,6 +235,70 @@
     paintSteps();
   }
 
+  /* ───────── text that fades away as it scrolls up (data-scroll-fade, About "How I work") ───────── */
+  // Each block keeps its full colour until its bottom passes the upper half of the screen; then a gradient
+  // climbs over it from the bottom (her reference: Cember Studio's About). The next one is already rising in.
+  const fading = $$('[data-scroll-fade] > p'); // the paragraphs, not the title
+  if (fading.length && !reduceMotion) {
+    let queuedFade = false;
+    const paintFade = () => {
+      queuedFade = false;
+      const vh = window.innerHeight;
+      for (const el of fading) {
+        const r = el.getBoundingClientRect();
+        // 0 while its bottom is below 45% of the screen, 1 once it reaches 10%
+        el.style.setProperty('--fade', Math.min(Math.max((vh * 0.45 - r.bottom) / (vh * 0.35), 0), 1).toFixed(3));
+      }
+    };
+    const queueFade = () => {
+      if (!queuedFade) { queuedFade = true; requestAnimationFrame(paintFade); }
+    };
+    window.addEventListener('scroll', queueFade, { passive: true });
+    window.addEventListener('resize', queueFade);
+    paintFade();
+  }
+
+  /* ───────── Work: the mosaic opens up as you scroll (data-mosaic) ───────── */
+  // It starts zoomed in on the middle picture (filling the screen) and shrinks back to the whole mosaic
+  // while its section passes; the section is taller than the screen and the mosaic stays put (sticky).
+  // The mosaic is laid out at the big size and scaled DOWN (not a small one scaled up), so the
+  // pictures are drawn at full size and stay sharp while zoomed in (her note, 02/11/2026).
+  const mosaic = $('[data-mosaic]');
+  if (mosaic && !reduceMotion) {
+    const stick = $('.mosaic__stick', mosaic);
+    const grid = $('.mosaic__grid', mosaic);
+    const center = $('.mosaic__tile--center', mosaic);
+    let zoom = 1;
+    const measure = () => {
+      Object.assign(grid.style, { transform: 'none', width: '', height: '', left: '', top: '' });
+      grid.style.removeProperty('--g');
+      const g = grid.getBoundingClientRect();
+      const c = center.getBoundingClientRect();
+      zoom = Math.max(g.width / c.width, g.height / c.height) * 1.04; // the middle picture covers the screen
+      const gap = parseFloat(getComputedStyle(grid).getPropertyValue('--g')) || 12;
+      const cx = (c.left - g.left + c.width / 2) * zoom;
+      const cy = (c.top - g.top + c.height / 2) * zoom;
+      const s = stick.getBoundingClientRect();
+      Object.assign(grid.style, { width: `${g.width * zoom}px`, height: `${g.height * zoom}px`, left: `${s.width / 2 - cx}px`, top: `${s.height / 2 - cy}px`, transformOrigin: `${cx}px ${cy}px` });
+      grid.style.setProperty('--g', `${gap * zoom}px`);
+    };
+    let queuedMosaic = false;
+    const paintMosaic = () => {
+      queuedMosaic = false;
+      const r = mosaic.getBoundingClientRect();
+      const p = Math.min(Math.max(-r.top / (r.height - window.innerHeight), 0), 1);
+      const eased = 1 - (1 - p) ** 2;
+      grid.style.transform = `scale(${(1 + (1 / zoom - 1) * eased).toFixed(4)})`;
+    };
+    const queueMosaic = () => {
+      if (!queuedMosaic) { queuedMosaic = true; requestAnimationFrame(paintMosaic); }
+    };
+    window.addEventListener('scroll', queueMosaic, { passive: true });
+    window.addEventListener('resize', () => { measure(); queueMosaic(); });
+    measure();
+    paintMosaic();
+  }
+
   /* ───────── industry cards: project pictures take turns while hovered ───────── */
   $$('.ind__card').forEach((card) => {
     const pics = $$('.ind__pics img', card);

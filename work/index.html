@@ -32,7 +32,7 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="../assets/styles.css?v=04a71cd7">
+<link rel="stylesheet" href="../assets/styles.css?v=60675d94">
 <!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
 <script>document.documentElement.classList.add('js')</script>
 
@@ -61,45 +61,99 @@
 </header>
 <main id="main">
 
+<!-- 02/11/2026: página inspirada (não copiada) no site da THURO, que ela mandou. Textos e imagens em
+     content/site.yml → work_page; os projetos vêm do Behance (data/projects.json). -->
 <section class="page-head" data-tone="ivory" aria-labelledby="page-title">
   <div class="wrap">
     <h1 class="h1" id="page-title" data-reveal="title">Selected <em>Work</em></h1>
-    <div class="page-head__cols" data-reveal><p>A selection of my work, with a strong focus on <strong>brand identities</strong>.</p><p>Much of my work is created <strong>white-label for agencies</strong>, so not everything is featured here. If you&#39;re looking for something specific, I&#39;d be happy to share more examples where possible.</p></div>
+    <div class="page-head__cols" data-reveal><p>A selection of my work, with a strong focus on <strong>brand identities</strong>.</p></div>
   </div>
 </section>
 
-<!-- Projetos: vêm do Behance (data/projects.json), na ordem de content/portfolio.yml -->
-<section class="sec sec--tight" data-tone="ivory" aria-label="Projects">
+<!-- O mosaico: começa com a imagem do meio ocupando a tela e, ao rolar, ela diminui e as outras aparecem
+     em volta (app.js, data-mosaic) -->
+<section class="mosaic" data-mosaic aria-label="Project images">
+  <div class="mosaic__stick">
+    <div class="mosaic__grid">
+      <span class="mosaic__tile mosaic__tile--center"><img src="../assets/work/mosaic-goddess-drops.jpg" alt="" loading="eager" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-criaturas-fofas.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-lekitchen-bag.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-marina-stationery.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-vora.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-xxperience-card.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-frock-snack.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-reveri.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-sereya.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-grin.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-floral-tote.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-create-joy.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/svc-pamplemousse-deck.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/strip-vora-stationery.jpg" alt="" loading="lazy" decoding="async"></span><span class="mosaic__tile"><img src="../assets/projects/svc-reveri-notebook.jpg" alt="" loading="lazy" decoding="async"></span>
+    </div>
+  </div>
+</section>
+
+<!-- Projetos em painéis grandes: cada um fica preso no topo enquanto o próximo sobe por cima -->
+<section class="panels" data-tone="ivory" aria-label="Featured projects">
   <div class="wrap">
+    <a class="panel" href="../work/lekitchen/">
+      <span class="panel__img"><img src="../assets/work/panel-lekitchen.jpg" alt="" loading="lazy" decoding="async"></span>
+      <span class="panel__top">
+        <span class="panel__name">LeKitchen</span>
+        <span class="panel__note">A restaurant in French Guiana with two moods: build-your-own bowls at lunch, a more refined dinner at night.</span>
+      </span>
+      <span class="panel__bottom">
+        <span class="panel__go">See the project <span aria-hidden="true">→</span></span>
+        <span class="panel__tags">Branding · Hospitality</span>
+      </span>
+    </a>
+    <a class="panel" href="../work/pamplemousse/">
+      <span class="panel__img"><img src="../assets/work/panel-pamplemousse.jpg" alt="" loading="lazy" decoding="async"></span>
+      <span class="panel__top">
+        <span class="panel__name">Pamplemousse</span>
+        <span class="panel__note">A boutique digital marketing agency for expat service providers in Western Europe.</span>
+      </span>
+      <span class="panel__bottom">
+        <span class="panel__go">See the project <span aria-hidden="true">→</span></span>
+        <span class="panel__tags">Branding · Visual Identity · Marketing &amp; Copywriting</span>
+      </span>
+    </a>
+    <a class="panel" href="../work/styling-kindness/">
+      <span class="panel__img"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_3840_webp/f9fe35129039989.6162f829e2ad3.png" srcset="https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/f9fe35129039989.6162f829e2ad3.png 1920w, https://mir-s3-cdn-cf.behance.net/project_modules/max_3840_webp/f9fe35129039989.6162f829e2ad3.png 3840w" sizes="(max-width: 1400px) 100vw, 1400px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+      <span class="panel__top">
+        <span class="panel__name">Styling Kindness</span>
+        <span class="panel__note">Styling Kindness connects brands with people with disabilities.</span>
+      </span>
+      <span class="panel__bottom">
+        <span class="panel__go">See the project <span aria-hidden="true">→</span></span>
+        <span class="panel__tags">Branding · Illustration · Lifestyle</span>
+      </span>
+    </a>
+    <a class="panel" href="../work/create-joy-travel-brand-identity/">
+      <span class="panel__img"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_3840_webp/caf484156725351.636c00a936c82.jpg" srcset="https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/caf484156725351.636c00a936c82.jpg 1920w, https://mir-s3-cdn-cf.behance.net/project_modules/max_3840_webp/caf484156725351.636c00a936c82.jpg 3840w" sizes="(max-width: 1400px) 100vw, 1400px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+      <span class="panel__top">
+        <span class="panel__name">Create Joy</span>
+        <span class="panel__note">A travel brand built around sustainability, inner growth, community and education.</span>
+      </span>
+      <span class="panel__bottom">
+        <span class="panel__go">See the project <span aria-hidden="true">→</span></span>
+        <span class="panel__tags">Branding · Hospitality</span>
+      </span>
+    </a>
+    <a class="panel" href="../work/poppy-snowdrop-paper-co/">
+      <span class="panel__img"><img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_3840_webp/116fcb129050953.61632e10765de.png" srcset="https://mir-s3-cdn-cf.behance.net/project_modules/fs_webp/116fcb129050953.61632e10765de.png 1920w, https://mir-s3-cdn-cf.behance.net/project_modules/max_3840_webp/116fcb129050953.61632e10765de.png 3840w" sizes="(max-width: 1400px) 100vw, 1400px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+      <span class="panel__top">
+        <span class="panel__name">Poppy Snowdrop</span>
+        <span class="panel__note">Handmade faux florals, stationery and party supplies, with an identity that feels full of joy.</span>
+      </span>
+      <span class="panel__bottom">
+        <span class="panel__go">See the project <span aria-hidden="true">→</span></span>
+        <span class="panel__tags">Branding · Visual Identity · Lifestyle</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- Os outros projetos -->
+<section class="sec" data-tone="ivory" aria-labelledby="more-projects-title">
+  <div class="wrap">
+    <h2 class="h2 work-more__title" id="more-projects-title" data-reveal="title">More <em>projects</em></h2>
     <div class="pgrid pgrid--3" id="work-grid">
-<a class="pcard" href="../work/lekitchen/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="../assets/work/lekitchen-cover.jpg" alt="" loading="eager" decoding="async"></span>
-  <span class="pcard__row"><span class="pcard__name">LeKitchen</span></span>
-  <span class="pcard__tags">Branding · Hospitality</span>
-</a>
-<a class="pcard" href="../work/create-joy-travel-brand-identity/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/6d15e6156725351.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/6d15e6156725351.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/6d15e6156725351.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png 808w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="eager" decoding="async" referrerpolicy="no-referrer"></span>
-  <span class="pcard__row"><span class="pcard__name">Create Joy Travel Brand Identity</span></span>
-  <span class="pcard__tags">Branding · Hospitality</span>
-</a>
 <a class="pcard" href="../work/amber-elle-photography/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="../assets/work/amber-elle-cover.jpg" alt="" loading="eager" decoding="async"></span>
+  <span class="pcard__img" data-reveal="img"><img src="../assets/work/amber-elle-cover.jpg" alt="" loading="lazy" decoding="async"></span>
   <span class="pcard__row"><span class="pcard__name">Amber &amp; Elle Photography</span></span>
   <span class="pcard__tags">Branding · Lifestyle</span>
-</a>
-<a class="pcard" href="../work/pamplemousse/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png 808w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
-  <span class="pcard__row"><span class="pcard__name">Pamplemousse</span></span>
-  <span class="pcard__tags">Branding · Visual Identity · Marketing &amp; Copywriting</span>
 </a>
 <a class="pcard" href="../work/grin-studios-jewelry/" data-reveal>
   <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/5af1f4216534585.Y3JvcCwxMDA3LDc4OCwxOTcsMA.gif" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
   <span class="pcard__row"><span class="pcard__name">Grin Studios Jewelry</span></span>
-  <span class="pcard__tags">Branding · Visual Identity · Lifestyle</span>
-</a>
-<a class="pcard" href="../work/poppy-snowdrop-paper-co/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/dd34a9129050953.Y3JvcCwxNzA0LDEzMzMsMTQ3LDA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/dd34a9129050953.Y3JvcCwxNzA0LDEzMzMsMTQ3LDA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/dd34a9129050953.Y3JvcCwxNzA0LDEzMzMsMTQ3LDA.png 808w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
-  <span class="pcard__row"><span class="pcard__name">Poppy Snowdrop Paper Co</span></span>
   <span class="pcard__tags">Branding · Visual Identity · Lifestyle</span>
 </a>
 <a class="pcard" href="../work/zoomcatalog-redesign/" data-reveal>
@@ -117,38 +171,36 @@
   <span class="pcard__row"><span class="pcard__name">Marca de Floripa</span></span>
   <span class="pcard__tags">Branding · Visual Identity · City Branding</span>
 </a>
-<a class="pcard" href="../work/styling-kindness/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/670d47129039989.6186b99865d36.jpg" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/670d47129039989.6186b99865d36.jpg 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/670d47129039989.6186b99865d36.jpg 808w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
-  <span class="pcard__row"><span class="pcard__name">Styling Kindness</span></span>
-  <span class="pcard__tags">Branding · Illustration · Lifestyle</span>
-</a>
 <a class="pcard" href="../work/talissa-dezanetti-brand/" data-reveal>
   <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/123781130783927.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/123781130783927.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/123781130783927.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png 808w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
   <span class="pcard__row"><span class="pcard__name">Talissa Dezanetti Brand</span></span>
   <span class="pcard__tags">Branding · Personal Brand</span>
 </a>
-      <aside class="more-card" data-reveal>
-        <p class="more__title">There&#39;s <em>more</em> I can&#39;t post here.</p>
-        <a class="btn" href="../contact/">Reach out to see other projects</a>
-      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- Bloco vinho escuro: a foto dela e o recado sobre o trabalho white-label -->
+<section class="dark-note" aria-labelledby="more-title">
+  <div class="wrap dark-note__in">
+    <img class="dark-note__img" data-reveal="img" src="../assets/photos/work-window.jpg" alt="Julia working on her laptop by a window overlooking the bay" width="760" height="950" loading="lazy">
+    <div class="dark-note__copy">
+      <h2 class="dark-note__title" id="more-title" data-reveal="title">There&#39;s <em>more</em> I can&#39;t post here.</h2>
+      <p data-reveal>Much of my work is created <strong>white-label for agencies</strong>, so not everything is featured here. If you&#39;re looking for something specific, I&#39;d be happy to share more examples where possible.</p>
+      <a class="link-arrow" href="../contact/" data-reveal>Reach out to see other projects <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
 
 <!-- Um depoimento em tamanho grande (o "highlight" do cliente escolhido em content/site.yml) -->
+<!-- num box branco translúcido, para não colar no que vem antes e depois (pedido dela, 02/11/2026) -->
 <section class="qband" data-tone="blush" aria-label="Client feedback">
-  <div class="wrap qband__in">
-    <span class="qband__mark" aria-hidden="true" data-reveal>“</span>
-    <blockquote class="qband__text" data-reveal="title">…we trust her completely to keep our brand looking its best.</blockquote>
-    <p class="qband__who" data-reveal>Bryony Z.</p>
-  </div>
-</section>
-
-<section class="cta" data-tone="pink" aria-labelledby="cta-title">
-  <div class="wrap cta__in">
-    <h2 class="cta__title" id="cta-title" data-reveal="title">Looking for something <em>specific</em>?</h2>
-    <p class="cta__text" data-reveal>I might have examples that aren&#39;t on the site. Send me a message and let me know what kind of work you&#39;d like to see.</p>
-    <a class="btn" href="../contact/" data-reveal>Get in Touch</a>
+  <div class="wrap">
+    <div class="qband__in" data-reveal>
+      <span class="qband__mark" aria-hidden="true">“</span>
+      <blockquote class="qband__text" data-reveal="title">…we trust her completely to keep our brand looking its best.</blockquote>
+      <p class="qband__who">Bryony Z.</p>
+    </div>
   </div>
 </section>
 
@@ -178,6 +230,6 @@
     <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
   </div>
 </footer>
-<script src="../assets/app.js?v=8b7e58c3" defer></script>
+<script src="../assets/app.js?v=769efc9f" defer></script>
 </body>
 </html>
