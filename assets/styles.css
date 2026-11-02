@@ -884,11 +884,177 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .is-home .cta { padding-top: clamp(40px, 5vw, 72px); }
 .is-home .industries { padding-top: calc(var(--section) * 0.55); }   /* "Industries" a little closer to the services above (her call) */
 
+/* ───────── CV (cv/, hidden page for job applications; texts in content/cv.yml) ─────────
+   On screen: a "site" version with motion (her call, 02/11/2026: "não é pra ser realmente um currículo").
+   Printed, and in the PDF from tools/cv/render.sh: only .cv-doc, the classic one-page CV on A4. */
+.cv-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(48px, 6vw, 96px); }
+.cv-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 56px clamp(40px, 6vw, 100px); align-items: center; }
+.cv-hero__title { max-width: 13ch; }
+.cv-hero__role { margin-top: 18px; font: 600 0.8rem/1.4 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.cv-hero__summary { display: grid; gap: 14px; margin-top: clamp(22px, 2.4vw, 32px); }
+.cv-hero__summary p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
+.cv-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: clamp(28px, 3vw, 40px); }
+.cv-actions--center { justify-content: center; margin-top: 4px; }
+/* her photo, with two projects over it; each drifts at its own speed (data-speed) */
+.cv-hero__photos { position: relative; padding: 0 10% 10% 16%; }
+.cvp { display: block; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 50px -34px rgba(58, 28, 30, 0.5); }
+.cvp--1 { width: 100%; aspect-ratio: 4 / 5; object-position: 50% 30%; }
+.cvp--2, .cvp--3 { position: absolute; z-index: 2; width: 50%; aspect-ratio: 4 / 3; transition: rotate .5s var(--ease), scale .5s var(--ease); }
+.cvp--2 { left: 0; top: 46%; rotate: -4deg; }   /* below her face */
+.cvp--3 { right: 0; bottom: 0; rotate: 3deg; width: 44%; }
+.cvp--2:hover, .cvp--3:hover { rotate: 0deg; }
+.js .cvp--2.is-in:hover, .js .cvp--3.is-in:hover { scale: 1.04; }
+
+/* numbers that count up (app.js, data-count) */
+.cv-numbers .wrap { padding-block: clamp(28px, 3vw, 44px); }
+.cv-nums { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 28px clamp(20px, 3vw, 48px); margin: 0; padding: 0; list-style: none; }
+.cv-num { display: grid; gap: 6px; align-content: start; }
+/* small words above the number ("Clients in"); empty ones keep the numbers on one line */
+.cv-num__b { min-height: 1.4em; font-size: 0.98rem; line-height: 1.4; color: var(--ink-soft); }
+.cv-num__n { font: 400 clamp(2.6rem, 4.6vw, 4.2rem)/0.9 var(--f-display); letter-spacing: -0.03em; color: var(--berry); font-variant-numeric: tabular-nums; }
+.cv-num__l { font-size: 0.98rem; line-height: 1.4; color: var(--ink-soft); max-width: 18ch; }
+
+/* "How I got here": the big year on the left follows the step in the middle of the screen,
+   and the line on the right fills up as you scroll (app.js sets --fill and .is-lit) */
+.cv-journey__in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px clamp(40px, 6vw, 110px); align-items: start; }
+.cv-journey__aside { position: sticky; top: calc(var(--hdr) + 28px); }
+.cv-journey__intro { margin-top: 18px; max-width: 34ch; font-size: 1.12rem; line-height: 1.6; color: var(--ink-soft); }
+.cv-year { margin: clamp(24px, 4vw, 56px) 0 0; overflow: hidden; font: 400 clamp(5rem, 12vw, 11.5rem)/0.95 var(--f-display); letter-spacing: -0.04em; color: var(--berry); }
+.cv-year__n { display: inline-block; }
+.cv-year__n.is-flip { animation: cv-year .7s var(--ease); }
+@keyframes cv-year { from { transform: translateY(55%); opacity: 0; } }
+.cv-steps { position: relative; display: grid; gap: clamp(40px, 4.4vw, 64px); margin: 0; padding: 6px 0 6px 44px; list-style: none; }
+.cv-steps::before, .cv-steps::after { content: ""; position: absolute; left: 7px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px; background: var(--line); }
+.cv-steps::after { background: var(--tomato); transform-origin: top; transform: scaleY(var(--fill, 0)); }
+.cv-step { position: relative; }
+.cv-step::before { content: ""; position: absolute; left: -44px; top: 6px; z-index: 1; width: 16px; height: 16px; border-radius: 50%; background: var(--ivory); box-shadow: inset 0 0 0 2px var(--line); transition: background-color .4s, box-shadow .4s, scale .4s var(--ease); }
+.cv-step.is-lit::before { background: var(--tomato); box-shadow: inset 0 0 0 2px var(--tomato); scale: 1.15; }
+.cv-step__dates { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font: 600 0.78rem/1.4 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); }
+.cv-now { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border-radius: 999px; background: var(--berry); color: var(--ivory); letter-spacing: 0.1em; }
+.cv-now::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tomato); animation: cv-pulse 1.8s ease-in-out infinite; }
+@keyframes cv-pulse { 50% { opacity: 0.35; scale: 0.7; } }
+.cv-step__title { margin-top: 10px; font: 400 clamp(1.6rem, 2.6vw, 2.3rem)/1.1 var(--f-display); letter-spacing: -0.01em; text-wrap: balance; }
+.cv-step--study .cv-step__title { font-style: italic; }
+.cv-step__where { margin-top: 8px; font-size: 1rem; color: var(--ink-soft); }
+.cv-step__where strong { font-weight: 600; color: var(--ink); }
+.cv-step__story { margin-top: 12px; max-width: 56ch; font-size: 1.08rem; line-height: 1.6; color: #563537; }
+
+/* "What I'm good at": two rows of big words sliding in opposite directions (data-drift, like the home strip) */
+/* minmax(0, 1fr): the column stays as wide as the screen, however long the rows are */
+.cv-marquee { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(10px, 1.4vw, 18px); padding-block: var(--section); overflow: hidden; }
+.cv-marquee__title { justify-self: center; margin-bottom: clamp(18px, 2.4vw, 34px); text-align: center; }
+.cv-marquee__rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(6px, 1vw, 14px); }
+.cv-marquee__row {
+  position: relative; left: 50%;
+  display: flex; align-items: center; gap: clamp(18px, 2.4vw, 38px);
+  width: max-content; margin: 0;
+  transform: translateX(-50%);
+  translate: var(--px, 0px) 0;
+  will-change: translate;
+  white-space: nowrap;
+  font: 400 clamp(2.1rem, 5.4vw, 4.9rem)/1.12 var(--f-display);
+  letter-spacing: -0.015em;
+}
+.cv-marquee__row + .cv-marquee__row { font-style: italic; color: var(--berry); }
+.cv-marquee__row i { flex: none; width: 0.26em; height: 0.26em; border-radius: 50%; background: var(--tomato); }
+
+/* languages (the bar fills when the card appears), tools and contact */
+.cv-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 22px); }
+.cv-card { padding: clamp(24px, 2.6vw, 36px); border-radius: var(--radius); background: var(--paper); }
+.cv-card__t { margin-bottom: 18px; font: 600 0.74rem/1.3 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.cv-langs, .cv-tags, .cv-contact { margin: 0; padding: 0; list-style: none; }
+.cv-langs { display: grid; gap: 16px; }
+.cv-langs__row { display: flex; justify-content: space-between; gap: 16px; font-size: 1rem; }
+.cv-langs__row span + span { color: var(--ink-soft); }
+.cv-langs__bar { display: block; height: 6px; margin-top: 8px; border-radius: 999px; background: var(--ivory-2); overflow: hidden; }
+.cv-langs__bar i { display: block; height: 100%; border-radius: inherit; background: var(--tomato); transform-origin: left; transform: scaleX(var(--lv, 1)); transition: transform 1.4s var(--ease) calc(var(--d, 0s) + 0.3s); }
+.js .cv-card:not(.is-in) .cv-langs__bar i { transform: scaleX(0); }
+.cv-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.cv-tags li { padding: 8px 14px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 0.92rem; line-height: 1.25; transition: background-color .25s, border-color .25s, color .25s; }
+.cv-tags li:hover { background: var(--berry); border-color: var(--berry); color: var(--ivory); }
+.cv-contact { display: grid; gap: 8px; font-size: 1rem; }
+.cv-contact a { text-decoration: none; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; transition: color .25s, border-color .25s; }
+.cv-contact a:hover { color: var(--tomato); border-color: currentColor; }
+
+.cv-work__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 32px; margin-bottom: clamp(28px, 3vw, 44px); }
+
+@media (max-width: 860px) {
+  .cv-hero__in, .cv-journey__in { grid-template-columns: 1fr; }
+  .cv-hero__photos { width: min(100%, 420px); }
+  .cv-journey__aside { position: static; }
+  .cv-year { display: none; }   /* on a phone every step shows its own dates */
+  .cv-cards { grid-template-columns: 1fr; }
+}
+
+/* the classic CV: hidden on screen, the only thing printed. Same layout as her 2023 CV (her call,
+   02/11/2026: "deixar mais parecido com o que tem hoje"), in the site's colours. */
+@media screen { .cv-doc { display: none; } }
+@page { size: A4; margin: 0; }
+@media print {
+  body.is-cv { background: #fff; color: var(--ink); font-size: 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body.is-cv::after, .is-cv .hdr, .is-cv .skip, .is-cv .ftr, .is-cv main > :not(.cv-doc) { display: none !important; }
+  .cv-doc { width: 210mm; height: 297mm; overflow: hidden; }
+  .cv-doc p { margin: 0; }
+  .cv-doc ul, .cv-doc ol { margin: 0; padding: 0; list-style: none; }
+
+  /* top: coral block with the name standing up, round photo over its edge, intro panel, contacts */
+  .cvd-top { position: relative; display: grid; grid-template-columns: 56mm minmax(0, 1fr); }
+  .cvd-block { display: flex; align-items: flex-end; gap: 2.2mm; min-height: 74mm; padding: 0 0 6mm 9mm; border-bottom-right-radius: 6mm; background: var(--tomato); color: #fff; }
+  .cvd-name, .cvd-role { writing-mode: vertical-rl; rotate: 180deg; white-space: nowrap; }
+  .cvd-name { font: 700 29pt/0.92 var(--f-sans); letter-spacing: -0.02em; }
+  .cvd-role { margin-bottom: 0.6mm; font: 500 7pt/1 var(--f-sans); letter-spacing: 0.28em; text-transform: uppercase; }
+  .cvd-photo { position: absolute; left: 33mm; top: 11mm; width: 46mm; height: 46mm; border-radius: 50%; object-fit: cover; object-position: 50% 28%; }
+  .cvd-intro { display: grid; gap: 2mm; margin: 0 10mm 0 31mm; padding: 8mm 9mm 6mm; border-radius: 0 0 5mm 5mm; background: var(--paper); }
+  .cvd-hello { margin-bottom: 0.8mm !important; font: 700 11.5pt/1.2 var(--f-sans); text-transform: uppercase; letter-spacing: 0.02em; }
+  .cvd-intro p:not(.cvd-hello) { font-size: 7.9pt; line-height: 1.45; color: var(--ink-soft); }
+  .cvd-intro strong { color: var(--ink); }
+  /* .cv-doc in front: ".cv-doc ul { margin: 0 }" would win otherwise (that glued it to the coral block) */
+  .cv-doc .cvd-contact { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.6mm 5mm; margin: 6mm 10mm 0 9mm; }
+  .cvd-contact li { display: flex; align-items: center; gap: 2.5mm; min-width: 0; font-size: 7.6pt; line-height: 1.25; }
+  .cvd-contact small { display: block; font-size: 6.4pt; color: var(--ink-soft); }
+  .cvd-contact li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+  .cvd-ic { flex: none; display: grid; place-items: center; width: 7mm; height: 7mm; border-radius: 50%; background: var(--tomato); color: #fff; font: 700 7.5pt/1 var(--f-sans); }
+  .cvd-ic svg { width: 3.8mm; height: 3.8mm; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* body: languages, tools and skills on the left (dashed coral line), experience on the right */
+  .cvd-body { display: grid; grid-template-columns: 56mm minmax(0, 1fr); padding: 6mm 10mm 0 0; }
+  .cvd-side { padding: 0 6mm 0 9mm; border-right: 1px dashed var(--tomato); }
+  .cvd-label { margin: 0 0 2.2mm !important; font: 600 7pt/1.2 var(--f-sans); color: var(--ink-soft); }
+  .cvd-label:not(:first-child) { margin-top: 5mm !important; }
+  .cvd-langs { display: grid; gap: 1.6mm; }
+  .cvd-langs li { display: flex; align-items: center; gap: 2.6mm; padding: 1.5mm 3mm; border-radius: 2mm; background: var(--paper); }
+  .cvd-flag { font-size: 11pt; line-height: 1; }
+  .cvd-langs strong { display: block; font-size: 7.8pt; font-weight: 600; }
+  .cvd-langs small { display: block; font-size: 6.6pt; color: var(--ink-soft); }
+  .cvd-tools, .cvd-skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6mm; }
+  .cvd-tools li, .cvd-skills li { display: grid; place-items: center; padding: 1.9mm 1.5mm; border-radius: 2mm; background: var(--paper); text-align: center; font-size: 6.9pt; line-height: 1.2; }
+  .cvd-tools li { font-weight: 600; }
+  .cvd-main { padding-left: 7mm; }
+  .cvd-h { margin: 0 0 2.6mm !important; font: 600 9.5pt/1.2 var(--f-sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--tomato); }
+  .cvd-cards { display: grid; gap: 1.8mm; margin-bottom: 4mm !important; }
+  .cvd-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* education: date on top, then degree and school, so the degree doesn't wrap next to the date */
+  .cvd-cards--2 .cvd-card { grid-template-columns: minmax(0, 1fr); }
+  .cvd-cards--2 :is(.cvd-card__date, .cvd-card__role, .cvd-card__co) { grid-column: 1; grid-row: auto; }
+  .cvd-cards--2 .cvd-card__date { font-weight: 500; color: var(--ink-soft); }
+  .cvd-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.4mm 4mm; padding: 2.2mm 4mm 2.4mm; border-radius: 2mm; background: var(--paper); break-inside: avoid; }
+  .cvd-card__co { grid-column: 1; font-size: 7.2pt; color: var(--ink-soft); }
+  .cvd-card__date { grid-column: 2; grid-row: 1; font-size: 7.2pt; font-weight: 600; white-space: nowrap; }
+  .cvd-card__role { grid-column: 1; font-size: 9.2pt; font-weight: 700; }
+  .cvd-card__role + .cvd-card__co { grid-row: auto; }
+  .cvd-card__place { grid-column: 2; display: flex; align-items: center; justify-content: flex-end; gap: 1mm; font-size: 6.6pt; color: var(--ink-soft); white-space: nowrap; }
+  .cvd-card__place svg { width: 2.6mm; height: 2.6mm; fill: var(--tomato); }
+  .cvd-card__points { grid-column: 1 / -1; display: grid; gap: 0.2mm; margin-top: 1.1mm !important; padding-left: 3.2mm !important; list-style: disc !important; }
+  .cvd-card__points li { font-size: 7.2pt; line-height: 1.34; color: var(--ink-soft); }
+  .cvd-card__points li::marker { color: var(--tomato); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation: none !important; }
   .js [data-reveal], .js [data-reveal] > * { opacity: 1; transform: none; clip-path: none; scale: none; }
   .js [data-reveal] img { scale: none; }
   .js [data-reveal] mark { background-size: 100% 0.4em; }
-  [data-speed], .strip__row { translate: none; }
+  [data-speed], .strip__row, .cv-marquee__row { translate: none; }
+  .cv-steps::after { transform: none; }
 }

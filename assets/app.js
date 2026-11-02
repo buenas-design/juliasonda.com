@@ -153,47 +153,108 @@
   }
 
   /* ───────── "your agency" types itself again as "your studio", "your team"… ───────── */
-  // Words come from site.typewriter (site.yml), passed on the header as data-tw. Screen readers keep the
-  // original words; only the visible copy changes.
-  const twWords = ($('#hdr')?.dataset.tw || '').split('|').filter(Boolean);
-  if (twWords.length > 1) {
-    $$('.tw').forEach((m) => {
-      m.setAttribute('aria-hidden', 'true');
-      // reserve the width of the longest word, so typing never pushes the rest of the title around
-      // (measured once the title has finished appearing, and again when the window changes size)
-      const fit = () => {
-        const keep = m.textContent;
-        m.style.width = '';
-        m.style.display = 'inline-block';
-        let w = 0;
-        for (const word of twWords) { m.textContent = word; w = Math.max(w, m.getBoundingClientRect().width); }
-        m.textContent = keep;
-        m.style.display = '';
-        m.style.width = `${Math.ceil(w)}px`;
+  // Words come from site.typewriter (site.yml), passed on the header as data-tw, unless the title
+  // brings its own list (data-tw-words, e.g. the CV). Screen readers keep the original words; only
+  // the visible copy changes.
+  const siteWords = ($('#hdr')?.dataset.tw || '').split('|').filter(Boolean);
+  $$('.tw').forEach((m) => {
+    const own = (m.closest('[data-tw-words]')?.dataset.twWords || '').split('|').filter(Boolean);
+    const twWords = own.length > 1 ? own : siteWords;
+    if (twWords.length < 2) return;
+    m.setAttribute('aria-hidden', 'true');
+    // reserve the width of the longest word, so typing never pushes the rest of the title around
+    // (measured once the title has finished appearing, and again when the window changes size)
+    const fit = () => {
+      const keep = m.textContent;
+      m.style.width = '';
+      m.style.display = 'inline-block';
+      let w = 0;
+      for (const word of twWords) { m.textContent = word; w = Math.max(w, m.getBoundingClientRect().width); }
+      m.textContent = keep;
+      m.style.display = '';
+      m.style.width = `${Math.ceil(w)}px`;
+    };
+    window.addEventListener('resize', fit);
+    const sr = document.createElement('span');
+    sr.className = 'sr-only';
+    sr.textContent = twWords[0];
+    m.after(sr);
+    if (reduceMotion) return;
+    let k = 0;
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const run = async () => {
+      await wait(3200); // let the title appear first
+      fit();
+      for (;;) {
+        const next = twWords[(k + 1) % twWords.length];
+        let text = m.textContent;
+        while (text.length) { text = text.slice(0, -1); m.textContent = text; await wait(55); }
+        await wait(250);
+        for (const ch of next) { text += ch; m.textContent = text; await wait(95); }
+        k = (k + 1) % twWords.length;
+        await wait(2200);
+      }
+    };
+    run();
+  });
+
+  /* ───────── numbers that count up as they appear (data-count, the CV) ───────── */
+  // The finished number is in the HTML; it only goes back to 0 at the moment it starts counting.
+  const counters = $$('[data-count]');
+  if (counters.length && !reduceMotion && 'IntersectionObserver' in window) {
+    const count = (el) => {
+      const end = Number(el.dataset.count) || 0;
+      const t0 = performance.now();
+      const tick = (t) => {
+        const p = Math.min((t - t0) / 1500, 1);
+        el.textContent = String(Math.round(end * (1 - (1 - p) ** 3)));
+        if (p < 1) requestAnimationFrame(tick);
       };
-      window.addEventListener('resize', fit);
-      const sr = document.createElement('span');
-      sr.className = 'sr-only';
-      sr.textContent = twWords[0];
-      m.after(sr);
-      if (reduceMotion) return;
-      let k = 0;
-      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-      const run = async () => {
-        await wait(3200); // let the title appear first
-        fit();
-        for (;;) {
-          const next = twWords[(k + 1) % twWords.length];
-          let text = m.textContent;
-          while (text.length) { text = text.slice(0, -1); m.textContent = text; await wait(55); }
-          await wait(250);
-          for (const ch of next) { text += ch; m.textContent = text; await wait(95); }
-          k = (k + 1) % twWords.length;
-          await wait(2200);
-        }
-      };
-      run();
-    });
+      el.textContent = '0';
+      requestAnimationFrame(tick);
+    };
+    const countIo = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { count(e.target); countIo.unobserve(e.target); } }),
+      { threshold: 0.6 },
+    );
+    counters.forEach((el) => countIo.observe(el));
+  }
+
+  /* ───────── CV timeline: the big year follows the step in the middle of the screen ───────── */
+  // and the line fills up to the middle of the screen, lighting each dot it passes (--fill, .is-lit)
+  const steps = $('.cv-steps');
+  if (steps) {
+    const items = $$('[data-year]', steps);
+    const yearEl = $('.cv-year__n');
+    let shown = yearEl?.textContent || '';
+    const setYear = (y) => {
+      if (!yearEl || y === shown) return;
+      shown = y;
+      yearEl.textContent = y;
+      yearEl.classList.remove('is-flip');
+      void yearEl.offsetWidth; // restart the animation
+      yearEl.classList.add('is-flip');
+    };
+    let queuedSteps = false;
+    const paintSteps = () => {
+      queuedSteps = false;
+      const mid = window.innerHeight * 0.55;
+      const r = steps.getBoundingClientRect();
+      steps.style.setProperty('--fill', Math.min(Math.max((mid - r.top) / r.height, 0), 1).toFixed(3));
+      let current = items[0];
+      for (const el of items) {
+        const lit = el.getBoundingClientRect().top < mid;
+        el.classList.toggle('is-lit', lit);
+        if (lit) current = el;
+      }
+      if (current) setYear(current.dataset.year);
+    };
+    const queueSteps = () => {
+      if (!queuedSteps) { queuedSteps = true; requestAnimationFrame(paintSteps); }
+    };
+    window.addEventListener('scroll', queueSteps, { passive: true });
+    window.addEventListener('resize', queueSteps);
+    paintSteps();
   }
 
   /* ───────── industry cards: project pictures take turns while hovered ───────── */
