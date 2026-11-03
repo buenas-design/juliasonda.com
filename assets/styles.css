@@ -19,9 +19,10 @@
   /* Julia's palette (31/10/2026): egg shell, persian plum, orange, light pink,
      lilac, rifle green. No black: text is a dark plum. The variable names
      are kept from the first v6 palette so the rest of the file reads the same. */
-  --ivory: #EBE3D6;        /* Egg Shell, page background and light text */
-  --ivory-2: #DED4C4;
-  --paper: #F6F1E9;
+  /* 03/11/2026 (ela): fundo num salmão bem clarinho, para fugir do bege "com cara de IA" (era Egg Shell #EBE3D6) */
+  --ivory: #FBECE9;        /* very light salmon (the sample she sent), page background and light text */
+  --ivory-2: #F2D9D4;
+  --paper: #FEF5F3;
   --ink: #3A1C1E;          /* dark plum for text: dark, but not black */
   --ink-soft: #6E4F50;
   --tomato: #F56645;       /* Orange, the accent */
@@ -59,6 +60,10 @@ html { scroll-behavior: smooth; scroll-padding-top: calc(var(--hdr) + 12px); -we
   --tone-blush: color-mix(in oklab, var(--ivory), var(--sage) 45%);
   --tone-pink: var(--sage);
   --tone-mist: color-mix(in oklab, var(--ivory), var(--lilac) 55%);
+  /* 03/11/2026 (ela): na home o azul aparece antes e fica mais tempo (mist → mist-2 → mist) e o rosa fica
+     um pouco mais forte no fim (rose) */
+  --tone-mist-2: color-mix(in oklab, var(--ivory), var(--lilac) 68%);
+  --tone-rose: color-mix(in oklab, var(--sage), #E89A8E 30%);
   --page-bg: var(--tone-ivory);
 }
 body {
@@ -206,7 +211,9 @@ mark {
 .logo { margin-right: auto; font: 700 1.45rem/1 var(--f-display); letter-spacing: -0.01em; text-decoration: none; }
 .nav { display: flex; gap: 30px; }
 .nav a { font: 500 0.82rem/1 var(--f-sans); letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; padding-block: 6px; border-bottom: 1.5px solid transparent; }
-.nav a:hover, .nav a[aria-current="page"] { border-bottom-color: var(--tomato); }
+.nav a:hover { border-bottom-color: var(--tomato); }
+/* the page you are on: bold, no line under it (she asked, 03/11/2026) */
+.nav a[aria-current="page"] { font-weight: 700; }
 .hdr.is-solid { background: color-mix(in srgb, var(--page-bg) 94%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
 /* the name shows only at the top of the page; once you scroll, just the menu stays */
 .logo { transition: opacity .3s, visibility .3s; }
@@ -214,7 +221,7 @@ mark {
 .menu-open .hdr .logo { opacity: 1; visibility: visible; }
 
 .nav__pics, .nav .nav__cta { display: none; }
-@keyframes menu-gif { 0%, 9.9% { opacity: 1; } 10%, 100% { opacity: 0; } }   /* 10 quadros: cada um aparece 1/10 do ciclo */
+@keyframes menu-gif { 0%, 10% { opacity: 1; } 10.01%, 100% { opacity: 0; } }   /* 10 quadros: cada um aparece 1/10 do ciclo; sai só depois que o próximo já entrou, sem piscar o fundo */
 .menu-btn { display: none; width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: none; cursor: pointer; position: relative; z-index: 2; }
 .menu-btn span { position: absolute; left: 11px; right: 11px; height: 1.5px; background: currentColor; transition: transform .3s, top .3s; }
 .menu-btn span:first-child { top: 17px; }
@@ -234,7 +241,10 @@ mark {
   .nav__pics { display: block; position: relative; width: 100%; aspect-ratio: 6 / 5; max-height: 40svh; min-height: 140px; margin-bottom: 24px; overflow: hidden; border-radius: var(--radius); }
   /* absolute, so each photo fills the frame exactly (in a grid the photo kept its own height and the frame cut it,
      and iPhone Safari cut it through her face) */
-  .nav__pics img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: menu-gif 6s infinite; animation-delay: calc(var(--i) * 0.6s - 6s); }
+  .nav__pics img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; will-change: opacity; }
+  .nav__pics img:first-child { opacity: 1; }
+  /* app.js adds is-ready once every frame is downloaded and decoded; until then the first photo stays */
+  .nav__pics.is-ready img { animation: menu-gif 6s infinite; animation-delay: calc(var(--i) * 0.6s - 6s); }
   /* the frame is wider than the photos (max-height), so her photos crop from the bottom and keep her face */
   .nav__pics img[src*="photos/menu-"] { object-position: 50% 0; }
   .nav .nav__cta { display: inline-flex; margin-top: 22px; padding: 18px 30px; border-radius: 999px; background: var(--ivory); color: var(--ink); font: 600 0.8rem/1 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; }
@@ -719,6 +729,9 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 
 /* The Behance layout: modules in order on the project's own background color */
 .canvas { width: min(1400px, 100% - 2 * var(--gutter)); margin: 0 auto; border-radius: var(--radius); background: var(--canvas-bg, #fff); display: flex; flex-direction: column; gap: var(--canvas-gap, 0); color: #3A2630; overflow: hidden; }
+/* the "start a project" block, where the Behance "Thank you / Hire us" was (render.mjs) */
+.pm--cta { display: grid; justify-items: center; gap: 18px; padding: clamp(40px, 5vw, 72px) var(--gutter); text-align: center; }
+.pm__cta-text { font: 400 clamp(1.5rem, 2.6vw, 2.1rem)/1.2 var(--f-display); }
 .pm { margin: 0; }
 .pm img { width: 100%; height: auto; }
 .pm--image:not(.pm--full) { padding-inline: clamp(16px, 4%, 56px); }
@@ -741,8 +754,6 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .next { display: block; margin-top: clamp(32px, 3.5vw, 52px); padding-block: clamp(44px, 5vw, 72px); text-decoration: none; }
 .next__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 32px clamp(32px, 5vw, 80px); }
 .next__name { display: block; }
-.next__name span { display: inline-block; color: var(--tomato); transition: transform .4s var(--ease); }
-.next:hover .next__name span { transform: translateX(14px); }
 .next__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 404 / 316; position: relative; }
 .next__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease); }
 .next:hover .next__img img { transform: scale(1.045); }
@@ -752,7 +763,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 /* About page type & colour system (one rule set for the whole page):
    titles = Florentia Regular in ink, never italic · paragraphs = 1.12rem in soft plum, ~58ch wide ·
    plum only for blocks/buttons · coral only for small accents (highlight, quote mark, title accent) */
-.about-body p, .working__p, .outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
+.working__p, .outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
 
 .about-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(24px, 3vw, 44px); }   /* close to the band below (her call, 01/11/2026) */
 .about-hero__in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 60px clamp(40px, 6vw, 100px); align-items: start; }
@@ -779,59 +790,6 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .statement-band { color: var(--ink); padding-block: 0; }
 .statement-band .wrap { padding-block: clamp(36px, 4vw, 60px); }
 .statement--center { text-align: center; margin-inline: auto; max-width: 36ch; text-wrap: balance; }
-/* ───────── About: the personal paragraphs as a postcard (her idea, 02/11/2026): the message on the left,
-   signed; stamp (her photo, perforated edge), postmark and "To" on the right; the front of another
-   postcard (a project) peeks out behind it. ───────── */
-.postcard-stack { position: relative; max-width: 1080px; margin-inline: auto; padding: clamp(28px, 4vw, 56px) 0 0 clamp(0px, 3vw, 40px); }
-.postcard-back { position: absolute; left: 0; top: 0; z-index: 0; width: min(44%, 440px); aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; rotate: -6deg; box-shadow: 0 30px 50px -30px rgba(58, 28, 30, 0.5); }
-.postcard {
-  position: relative; z-index: 1;
-  display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-  padding: clamp(28px, 4vw, 60px);
-  border-radius: 10px; background: var(--paper);
-  box-shadow: 0 44px 80px -44px rgba(58, 28, 30, 0.5), 0 1px 0 rgba(58, 28, 30, 0.06);
-  rotate: 1deg; transition: rotate .7s var(--ease);
-}
-.postcard:hover { rotate: 0deg; }
-.postcard__msg { display: grid; align-content: start; gap: 14px; padding-right: clamp(24px, 4vw, 56px); border-right: 1px solid var(--line); }
-.postcard__msg p { font-size: 1.08rem; line-height: 1.65; color: #563537; }   /* the text font: Florentia is for titles only (her rule) */
-.postcard__msg strong { font-weight: 600; color: var(--ink); }
-.postcard__hi, .postcard__sign span { font-family: var(--f-display); font-style: italic; color: var(--ink); }
-.postcard__hi { font-size: clamp(1.35rem, 1.9vw, 1.7rem) !important; }
-.postcard__sign { margin-top: 6px; }
-.postcard__sign span { font-size: clamp(1.8rem, 2.6vw, 2.4rem); line-height: 1.2; }
-.postcard__side { display: flex; flex-direction: column; justify-content: space-between; gap: 40px; padding-left: clamp(24px, 4vw, 56px); }
-.postcard__top { display: flex; justify-content: flex-end; align-items: flex-start; }
-.postmark { position: relative; z-index: 2; width: clamp(170px, 17vw, 230px); margin: 22px -54px 0 0; color: var(--berry); opacity: 0.7; rotate: -10deg; }
-/* the stamp: a white paper edge with round perforations (the mask cuts half-circles along the border) */
-.stamp {
-  --r: 6px;
-  flex: none; width: clamp(110px, 11vw, 148px); padding: calc(var(--r) * 1.4); background: #fff; rotate: 3deg;
-  -webkit-mask: radial-gradient(circle, #0000 calc(var(--r) * 0.6), #000 calc(var(--r) * 0.6 + 0.5px)) calc(var(--r) * -1) calc(var(--r) * -1) / calc(var(--r) * 2) calc(var(--r) * 2) round, linear-gradient(#000 0 0) content-box;
-  mask: radial-gradient(circle, #0000 calc(var(--r) * 0.6), #000 calc(var(--r) * 0.6 + 0.5px)) calc(var(--r) * -1) calc(var(--r) * -1) / calc(var(--r) * 2) calc(var(--r) * 2) round, linear-gradient(#000 0 0) content-box;
-  filter: drop-shadow(0 6px 10px rgba(58, 28, 30, 0.18));
-}
-.stamp img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 72%; }
-.postcard__to p { padding: 16px 0 8px; border-bottom: 1px solid var(--line); font: italic 400 clamp(1.15rem, 1.6vw, 1.4rem)/1.2 var(--f-display); color: var(--ink); }
-.postcard__to small { margin-right: 12px; font: 600 0.7rem/1 var(--f-sans); font-style: normal; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
-@media (max-width: 760px) {
-  .postcard { grid-template-columns: 1fr; rotate: 0deg; }
-  .postcard__msg { padding: 0 0 28px; border-right: 0; border-bottom: 1px solid var(--line); }
-  .postcard__side { padding: 28px 0 0; gap: 24px; }
-  .postcard__top { justify-content: flex-start; flex-direction: row-reverse; }
-  .postmark { width: 150px; margin: 18px 0 0 -40px; }
-  .postcard-back { width: 62%; }
-}
-
-/* the published About's middle section (text + photos); kept until the new About goes live */
-.about-body { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
-.about-body__copy { display: grid; gap: 20px; }
-.about-body__photos { position: relative; padding: 0 0 26% 16%; }
-.ab { object-fit: cover; border-radius: var(--radius); }
-.ab--big { width: 100%; aspect-ratio: 4 / 5; object-position: 50% 72%; }
-.ab--small { position: absolute; left: 0; bottom: 0; width: 56%; aspect-ratio: 4 / 3; box-shadow: 0 26px 48px -26px rgba(58, 28, 30, 0.55); }
-@media (max-width: 860px) { .about-body { grid-template-columns: 1fr; } .about-body__photos { max-width: 520px; } }
-.about-body__copy p:last-child { font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.25 var(--f-display); color: var(--ink); max-width: 30ch; margin-top: 10px; }
 
 /* "When I'm not designing…" sits in a dark plum block (02/11/2026, like the founder's note at THURO) */
 .outside--dark { background: var(--ink); color: var(--ivory); }

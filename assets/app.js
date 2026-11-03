@@ -24,6 +24,28 @@
   $$('#nav a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
   window.addEventListener('keydown', (e) => e.key === 'Escape' && setMenu(false));
 
+  // The photos of the phone menu (the CSS "GIF"): as lazy images in a hidden menu they only started
+  // downloading when the menu opened, so the first rounds had empty frames and stuttered. On phones
+  // they now load in the background once the page is ready (or as soon as the menu button is touched),
+  // and the GIF only starts when every frame is decoded.
+  const pics = $('.nav__pics');
+  if (pics && window.matchMedia('(max-width: 860px)').matches) {
+    const frames = $$('img', pics);
+    let loading = false;
+    const ready = () => pics.classList.add('is-ready');
+    const load = () => {
+      if (loading) return;
+      loading = true;
+      frames.forEach((img) => { img.loading = 'eager'; });
+      Promise.all(frames.map((img) => img.decode().catch(() => {}))).then(ready);
+      setTimeout(ready, 5000); // slow connection: start anyway
+    };
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 600));
+    if (document.readyState === 'complete') idle(load);
+    else window.addEventListener('load', () => idle(load));
+    menuBtn?.addEventListener('pointerdown', load, { once: true });
+  }
+
   /* ───────── appear on scroll ───────── */
   // Titles (data-reveal="title"): each word sits in a mask and slides up on its own.
   // Words keep their italic/highlight tags; the highlighter then "draws" across.
