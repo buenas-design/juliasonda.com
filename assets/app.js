@@ -87,6 +87,11 @@
     (groups.get(target) || []).forEach((el, k) => {
       el.style.setProperty('--d', `${Math.min((order + k) * 0.09, 0.55)}s`);
       el.classList.add('is-in');
+      if (el.tagName === 'IMG' && el.dataset.reveal === 'img') {
+        const done = (e) => { if (e.propertyName === 'clip-path') { el.classList.add('is-done'); el.removeEventListener('transitionend', done); } };
+        el.addEventListener('transitionend', done);
+        setTimeout(() => el.classList.add('is-done'), 2600);
+      }
     });
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -278,6 +283,78 @@
     window.addEventListener('scroll', queueFade, { passive: true });
     window.addEventListener('resize', queueFade);
     paintFade();
+  }
+
+  /* ───────── About: travel photos rise and pile up while the text stays (data-stack) ───────── */
+  // The track is taller than the screen and the pile is sticky inside it. The first photo is already there;
+  // each next one rises from below the screen and settles tilted on the pile over its own stretch of scroll.
+  // --e goes 0 → 1 per photo (CSS turns it into the movement); her reference: Country Living Fair (03/11/2026).
+  const stack = $('[data-stack]');
+  if (stack && !reduceMotion) {
+    const track = $('.outside__track', stack);
+    const pile = $$('.pile', stack);
+    let queuedStack = false;
+    const paintStack = () => {
+      queuedStack = false;
+      const r = track.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = Math.min(Math.max((vh * 0.1 - r.top) / Math.max(r.height - vh, 1), 0), 1);
+      const steps = pile.length - 1;
+      pile.forEach((el, i) => {
+        if (!i) return;
+        const t = Math.min(Math.max(p * (steps + 0.6) - (i - 1), 0), 1);
+        el.style.setProperty('--e', (1 - (1 - t) ** 3).toFixed(4));
+      });
+    };
+    const queueStack = () => {
+      if (!queuedStack) { queuedStack = true; requestAnimationFrame(paintStack); }
+    };
+    window.addEventListener('scroll', queueStack, { passive: true });
+    window.addEventListener('resize', queueStack);
+    paintStack();
+  }
+
+  /* ───────── About opening: photos start piled on the title and spread to the corners (data-spread) ───────── */
+  const spread = $('[data-spread]');
+  if (spread && !reduceMotion) {
+    const stage = $('.about-open__stage', spread);
+    const photos = $$('.ao', spread);
+    const measure = () => {
+      photos.forEach((el) => el.style.setProperty('--p', 1));
+      const s = stage.getBoundingClientRect();
+      photos.forEach((el, i) => {
+        const r = el.getBoundingClientRect();
+        // back to (near) the middle, each one a little off so they form a loose pile over the title
+        const jitterX = [-0.06, 0.07, 0.05, -0.08, -0.02, 0.03][i % 6] * s.width;
+        const jitterY = [-0.08, -0.05, 0.07, 0.06, -0.1, 0.09][i % 6] * s.height;
+        el.style.setProperty('--dx', `${(s.left + s.width / 2 + jitterX - (r.left + r.width / 2)).toFixed(1)}px`);
+        el.style.setProperty('--dy', `${(s.top + s.height / 2 + jitterY - (r.top + r.height / 2)).toFixed(1)}px`);
+      });
+    };
+    let queuedSpread = false;
+    const paintSpread = () => {
+      queuedSpread = false;
+      const r = spread.getBoundingClientRect();
+      const p = Math.min(Math.max(-r.top / Math.max(r.height - window.innerHeight, 1), 0), 1);
+      photos.forEach((el, i) => {
+        const t = Math.min(Math.max(p * 1.35 - i * 0.05, 0), 1);
+        el.style.setProperty('--p', (1 - (1 - t) ** 2).toFixed(4));
+      });
+    };
+    const queueSpread = () => { if (!queuedSpread) { queuedSpread = true; requestAnimationFrame(paintSpread); } };
+    window.addEventListener('scroll', queueSpread, { passive: true });
+    window.addEventListener('resize', () => { measure(); paintSpread(); });
+    measure();
+    paintSpread();
+  }
+
+  /* ───────── About: the round badge on the half-circle tab turns as you scroll ───────── */
+  const badge = $('.outside__badge');
+  if (badge && !reduceMotion) {
+    let queuedSpin = false;
+    const spin = () => { queuedSpin = false; badge.style.setProperty('--spin', `${(window.scrollY * 0.12).toFixed(1)}deg`); };
+    window.addEventListener('scroll', () => { if (!queuedSpin) { queuedSpin = true; requestAnimationFrame(spin); } }, { passive: true });
+    spin();
   }
 
   /* ───────── Work: the mosaic opens up as you scroll (data-mosaic) ───────── */

@@ -37,7 +37,7 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="../assets/styles.css?v=956c00d8">
+<link rel="stylesheet" href="../assets/styles.css?v=43d7567b">
 <!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
 <script>document.documentElement.classList.add('js')</script>
 
@@ -66,15 +66,28 @@
 </header>
 <main id="main">
 
-<section class="about-hero" data-tone="ivory" aria-labelledby="page-title">
+<!-- Abertura (03/11/2026, referências dela): o título fica parado no meio e as fotos (dela e de projetos) começam
+     amontoadas EM CIMA dele e se afastam para os cantos conforme a página rola, revelando o título (data-spread, app.js) -->
+<section class="about-open" data-tone="ivory" aria-labelledby="page-title" data-spread>
+  <div class="about-open__stage">
+    <h1 class="h1 about-open__title" id="page-title" data-reveal="title">A little more about <em>me</em></h1>
+    <img class="ao ao--1" src="../assets/photos/about-chair.jpg" alt="Julia smiling in a yellow shirt" width="900" height="1125" decoding="async">
+    <img class="ao ao--2" src="../assets/work/lekitchen-cover.jpg" alt="LeKitchen coasters and drinks" decoding="async">
+    <img class="ao ao--3" src="../assets/work/nos-dois/01-flatlay.jpg" alt="Nós Dois card game box and cards for Amor no Feed" width="1536" height="1024" decoding="async">
+    <img class="ao ao--4" src="../assets/photos/work-window.jpg" alt="Julia working on her laptop by a window over a bay" width="760" height="950" decoding="async">
+    <img class="ao ao--5" src="../assets/projects/svc-reveri-notebook.jpg" alt="Revéri hardcover notebook on pink" decoding="async">
+    <img class="ao ao--6" src="../assets/photos/contact-hello.jpg" alt="Julia laughing at a café table" width="900" height="1125" decoding="async">
+  </div>
+</section>
+
+<section class="about-hero" data-tone="pink" aria-label="About Julia">
   <div class="wrap about-hero__in">
     <div class="about-hero__copy">
-      <h1 class="h1" id="page-title" data-reveal="title">A little more about <em>me</em></h1>
       <p data-reveal>I&#39;m Julia, a Brazilian brand and graphic designer currently based in Spain, and the founder and creative director of Buenas Design Studio.</p><p data-reveal>I&#39;ve been in the design industry for <strong>9 years</strong>, working with businesses, creative studios, and <strong>marketing agencies in different countries</strong>.</p><p data-reveal>I started Buenas Design Studio as a way to build my own design business and work with clients internationally. Along the way, <strong>collaborating with other agencies</strong> became a big part of what I do.</p>
     </div>
     <div class="about-hero__photos">
-      <img class="ah ah--big" data-reveal="img" src="../assets/julia-hero.jpg" alt="Julia Sonda laughing on a balcony, holding a mug that says Never lost, always exploring" width="1200" height="1500">
-      <img class="ah ah--small" data-reveal="img" data-speed="-0.12" src="../assets/julia-working.jpg" alt="Julia working on her laptop on a mustard sofa" width="900" height="1125" loading="lazy">
+      <img class="ah ah--big" data-reveal="img" data-speed="-0.1" data-sway="1" src="../assets/julia-hero.jpg" alt="Julia Sonda laughing on a balcony, holding a mug that says Never lost, always exploring" width="1200" height="1500">
+      <img class="ah ah--small" data-reveal="img" data-speed="0.16" data-sway="-1" src="../assets/julia-working.jpg" alt="Julia working on her laptop on a mustard sofa" width="900" height="1125" loading="lazy">
     </div>
   </div>
 </section>
@@ -155,16 +168,33 @@
   </div>
 </section>
 
-<!-- "When I'm not designing...": num bloco vinho escuro (como a nota da fundadora na THURO) -->
-<section class="sec outside outside--dark" aria-labelledby="outside-title">
+<!-- "When I'm not designing...": num bloco vinho escuro. O texto fica parado e as fotos de viagem sobem de baixo
+     da tela, uma de cada vez, e se empilham inclinadas ao rolar (data-stack, app.js). Ideia da Country Living Fair
+     que ela mandou (03/11/2026); fotos sem moldura, só canto arredondado e sombra. -->
+<section class="sec outside outside--dark outside--stack" aria-labelledby="outside-title" data-stack>
+  <!-- meio círculo que sobe para a seção de cima com o selo girando ao rolar (ideia da Country Living Fair que ela amou) -->
+  <div class="outside__tab" aria-hidden="true">
+    <svg class="outside__badge" viewBox="0 0 200 200">
+      <defs><path id="pm-ring" d="M100,100 m-71,0 a71,71 0 1,1 142,0 a71,71 0 1,1 -142,0"/></defs>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <circle cx="100" cy="100" r="56" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text font-size="13" letter-spacing="1.2"><textPath href="#pm-ring" textLength="440">PHOTOGRAPHY · CERAMICS · SKIING · RUNNING ·</textPath></text>
+      <path d="M100 80 C102.5 95 105 97.5 120 100 C105 102.5 102.5 105 100 120 C97.5 105 95 102.5 80 100 C95 97.5 97.5 95 100 80 Z"/>
+    </svg>
+  </div>
   <div class="wrap outside__in">
-    <div class="outside__photos">
-      <img class="op op--tall" data-reveal="img" src="../assets/photos/outside-ski.jpg" alt="Julia skiing, with snowy mountains and a blue lake behind her" width="900" height="1200" loading="lazy">
-      <img class="op op--wide" data-reveal="img" data-speed="-0.1" src="../assets/photos/outside-tropea.jpg" alt="Julia on a terrace above the sea and the cliffside town of Tropea, Italy" width="1400" height="785" loading="lazy">
-    </div>
     <div class="outside__copy">
       <h2 class="h2" id="outside-title" data-reveal="title">When I&#39;m not <em>designing</em>...</h2>
       <p data-reveal>I&#39;m usually looking for somewhere new to explore. I love traveling, hiking, running, and trying creative activities. I&#39;ve lived in Brazil and Spain, and I&#39;m always curious about other places and cultures.</p><p data-reveal>After more than four exchanges and five years living as a digital nomad, I&#39;m now based in Europe.</p><p data-reveal>I also love learning new things about design. There&#39;s always something I want to get better at.</p>
+    </div>
+    <div class="outside__track">
+      <div class="outside__pile">
+        <img class="pile pile--1" src="../assets/photos/outside-ski.jpg" alt="Julia skiing, with snowy mountains and a blue lake behind her" width="900" height="1200" loading="lazy" decoding="async">
+        <img class="pile pile--2" src="../assets/photos/outside-lisbon.jpg" alt="Julia in the cloister of the Jerónimos Monastery in Lisbon" width="1000" height="1333" loading="lazy" decoding="async">
+        <img class="pile pile--3 pile--cut" src="../assets/photos/outside-painting.webp" alt="A painting of a city skyline that Julia made in pastels on wood" width="1285" height="540" loading="lazy" decoding="async">
+        <img class="pile pile--4" src="../assets/photos/outside-bassano.jpg" alt="Julia taking a photo on a bridge over the river in Bassano del Grappa, Italy" width="1000" height="1333" loading="lazy" decoding="async">
+        <img class="pile pile--5 pile--cut" src="../assets/photos/outside-ceramic.webp" alt="A ceramic plate Julia made, painted with an orange sun and the words La dolce vita" width="736" height="864" loading="lazy" decoding="async">
+      </div>
     </div>
   </div>
 </section>
@@ -221,6 +251,6 @@
     <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
   </div>
 </footer>
-<script src="../assets/app.js?v=5d2bfafd" defer></script>
+<script src="../assets/app.js?v=a260e27e" defer></script>
 </body>
 </html>
