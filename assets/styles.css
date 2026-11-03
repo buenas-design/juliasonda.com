@@ -28,7 +28,7 @@
   --tomato: #F56645;       /* Orange, the accent */
   --berry: #6B2629;        /* Persian Plum, the deep blocks */
   --berry-deep: #561D20;
-  --sage: #F3CEBC;         /* Light Pink, the soft bands */
+  --sage: #F4D1CD;         /* light rosy salmon, the soft bands (03/11/2026: era o pêssego #F3CEBC, ela achou "cara de Claude") */
   --lilac: #999EBE;
   --green: #404D33;        /* Rifle Green */
   --line: rgba(58, 28, 30, 0.16);
@@ -63,7 +63,7 @@ html { scroll-behavior: smooth; scroll-padding-top: calc(var(--hdr) + 12px); -we
   /* 03/11/2026 (ela): na home o azul aparece antes e fica mais tempo (mist → mist-2 → mist) e o rosa fica
      um pouco mais forte no fim (rose) */
   --tone-mist-2: color-mix(in oklab, var(--ivory), var(--lilac) 68%);
-  --tone-rose: color-mix(in oklab, var(--sage), #E89A8E 30%);
+  --tone-rose: color-mix(in oklab, var(--sage), #E8A0A2 28%);
   --page-bg: var(--tone-ivory);
 }
 body {
