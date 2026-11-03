@@ -320,15 +320,16 @@ mark {
 }
 .hero .hp:hover { --hx: calc(var(--side, 1) * 28px); --hr: calc(var(--side, 1) * 3deg); box-shadow: 0 40px 60px -30px rgba(58, 28, 30, 0.55); }
 .js .hero .hp.is-in:hover { scale: 1.05; }
-.hp--tall { width: clamp(120px, 12.5vw, 200px); aspect-ratio: 4 / 5; }
-.hp--wide { width: clamp(150px, 16vw, 260px); aspect-ratio: 5 / 4; }
+/* 03/11/2026 (ela): fotos do topo um pouco maiores, no computador e no celular (~20%) */
+.hp--tall { width: clamp(145px, 15vw, 240px); aspect-ratio: 4 / 5; }
+.hp--wide { width: clamp(180px, 19vw, 310px); aspect-ratio: 5 / 4; }
 .hp--1 { left: 3.5%; top: 17%; }
 .hp--2 { right: 3.5%; top: 14%; }
 .hp--3 { left: 6%; bottom: 9%; }
 .hp--4 { right: 7%; bottom: 7%; }
 @media (max-width: 1180px) {
-  .hp--tall { width: 120px; }
-  .hp--wide { width: 150px; }
+  .hp--tall { width: 145px; }
+  .hp--wide { width: 180px; }
   .hp--1 { left: 1.5%; top: 14%; }
   .hp--2 { right: 1.5%; top: 12%; }
   .hp--3 { left: 2%; bottom: 6%; }
@@ -336,9 +337,9 @@ mark {
 }
 /* phones: the photos stay around the title, two above it and two below, slightly off the edges */
 @media (max-width: 760px) {
-  .hero { min-height: 0; padding: calc(var(--hdr) + 60vw) 0 74vw; }
-  .hp--tall { width: 31vw; }
-  .hp--wide { width: 40vw; }
+  .hero { min-height: 0; padding: calc(var(--hdr) + 68vw) 0 84vw; }
+  .hp--tall { width: 36vw; }
+  .hp--wide { width: 46vw; }
   .hp--1 { left: -3vw; top: calc(var(--hdr) + 4vw); }
   .hp--2 { left: auto; right: -4vw; top: calc(var(--hdr) + 12vw); }
   .hp--3 { left: 5vw; bottom: 8vw; }
