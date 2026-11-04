@@ -9,6 +9,10 @@
   const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // a project that opens with a video (Mom & Pops) plays it by itself; with "reduce motion" it stays on the
+  // first frame, with the controls to play it
+  if (reduceMotion) $$('.pm video[autoplay]').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
+
   /* ───────── header ───────── */
   const hdr = $('#hdr');
   const onScroll = () => hdr && hdr.classList.toggle('is-solid', window.scrollY > 40);

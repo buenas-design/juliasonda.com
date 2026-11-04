@@ -737,6 +737,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 .pm__cta-text { font: 400 clamp(1.5rem, 2.6vw, 2.1rem)/1.2 var(--f-display); }
 .pm { margin: 0; }
 .pm img { width: 100%; height: auto; }
+.pm video { display: block; width: 100%; height: auto; }
 .pm--image:not(.pm--full) { padding-inline: clamp(16px, 4%, 56px); }
 .pm--image:not(.pm--full) img { width: auto; max-width: min(100%, var(--w, 100%)); margin-inline: auto; }
 .pm figcaption { padding: 10px clamp(16px, 4%, 56px) 0; font-size: 0.88rem; color: var(--ink-soft); }
