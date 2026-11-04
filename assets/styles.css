@@ -589,6 +589,13 @@ main > :has(+ .qband) { padding-bottom: clamp(36px, 4vw, 60px); }
   .js:not(.save-data) .panel__img:has(> video) > img { display: none; }
 }
 .panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(40, 14, 16, 0.55) 0%, rgba(40, 14, 16, 0) 34%, rgba(40, 14, 16, 0) 66%, rgba(40, 14, 16, 0.5) 100%); }
+/* 05/11/2026 (ela, "vídeo, texto mais escuro"): no painel que toca o vídeo, os textos do próprio vídeo (nomes das cores,
+   frases) passam por baixo do nome e da frase do painel; o fundo em cima e embaixo fica mais escuro e o texto ganha uma
+   sombra leve, para continuar fácil de ler */
+@media (min-aspect-ratio: 5/4) and (prefers-reduced-motion: no-preference) {
+  .js:not(.save-data) .panel:has(.panel__img > video)::after { background: linear-gradient(180deg, rgba(40, 14, 16, 0.8) 0%, rgba(40, 14, 16, 0.5) 22%, rgba(40, 14, 16, 0) 44%, rgba(40, 14, 16, 0) 60%, rgba(40, 14, 16, 0.5) 82%, rgba(40, 14, 16, 0.8) 100%); }
+  .js:not(.save-data) .panel:has(.panel__img > video) :is(.panel__top, .panel__bottom) { text-shadow: 0 1px 16px rgba(40, 14, 16, 0.6); }
+}
 .panel__top, .panel__bottom { position: absolute; z-index: 1; left: clamp(20px, 3vw, 44px); right: clamp(20px, 3vw, 44px); display: flex; justify-content: space-between; gap: 16px 32px; }
 .panel__top { top: clamp(20px, 3vw, 40px); align-items: flex-start; }
 .panel__bottom { bottom: clamp(20px, 3vw, 36px); align-items: flex-end; }
