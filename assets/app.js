@@ -13,6 +13,84 @@
   // first frame, with the controls to play it
   if (reduceMotion) $$('.pm video[autoplay]').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
 
+  // A project's video is also its cover (cards, "Next project", Work panels; render.mjs → coverVideo, her request
+  // 04/11/2026). Cards and "Next project" have the light copy (hero-card.mp4, ~2.5 MB); a box wider than 640px (the
+  // big card on the home, on a computer) switches to the full video (data-big-src) at load, before anything plays. A
+  // Work panel's video has its files in data-src/data-poster and gets them a screen before the panel comes into view,
+  // and only where the CSS shows it (wide screens; on a tall phone panel her photo stays). preload="none": nothing
+  // downloads until play(), which waits until at least 40% of the box has been on screen for 0.6s, so a cover that
+  // only flies past while scrolling never loads (the poster is the video's first frame, so the wait doesn't show).
+  // Once a video has started, the browser keeps downloading the rest even while it is paused off screen (that is why
+  // the cards get the light copy). Never plays with "reduce motion" or the data saver (save-data, head.html): the
+  // first frame stays.
+  const coverVideos = $$('video[data-autoplay]');
+  const saveData = document.documentElement.classList.contains('save-data');
+  const shown = (v) => v.offsetWidth > 0; // a panel's video is display: none where her photo stays
+  const prepare = (v) => {
+    if (saveData || !shown(v)) return;
+    const d = v.dataset;
+    if (d.bigSrc && v.parentElement.clientWidth > 640) { v.poster = d.bigPoster; v.src = d.bigSrc; }
+    if (d.src) { v.poster = d.poster; v.src = d.src; }
+    ['bigSrc', 'bigPoster', 'src', 'poster'].forEach((k) => delete d[k]); // decided once
+  };
+  // muted again from here too: iPhones only let a video play by itself when it is muted at play()
+  coverVideos.forEach((v) => { v.muted = true; if (!v.dataset.src) prepare(v); });
+  if (coverVideos.length && !reduceMotion && !saveData && 'IntersectionObserver' in window) {
+    const SHOW = 0.4; // share of the box on screen before it plays
+    const seen = new Set(); // covers at least that much on screen
+    const waiting = new Map(); // cover → timer before it plays
+    // The Work panels stack (sticky), so a panel hidden under the next one is still on screen for the observer:
+    // it counts as hidden once less than 48px of it shows above the next panel (at the end of the list the one
+    // before the last is pushed up with it, 24px apart, so "reached its top" is never exact)
+    const covered = (v) => {
+      const panel = v.closest('.panel');
+      const next = panel?.nextElementSibling;
+      return Boolean(next) && next.getBoundingClientRect().top - Math.max(panel.getBoundingClientRect().top, 0) < 48;
+    };
+    const onScreen = (v) => seen.has(v) && shown(v) && !covered(v);
+    const syncCover = (v) => {
+      if (!onScreen(v)) {
+        clearTimeout(waiting.get(v));
+        waiting.delete(v);
+        if (!v.paused) v.pause();
+        return;
+      }
+      if (!v.paused || waiting.has(v)) return;
+      waiting.set(v, setTimeout(() => {
+        waiting.delete(v);
+        if (!onScreen(v)) return;
+        prepare(v);
+        v.play()?.catch(() => {}); // blocked (e.g. iPhone low power): the poster stays
+      }, 600));
+    };
+    // watched through the box around it: its curtain (data-reveal="img", clip-path) would hide it from the observer
+    const videoOf = new Map(coverVideos.map((v) => [v.parentElement, v]));
+    const coverIo = new IntersectionObserver((entries) =>
+      entries.forEach((e) => {
+        const v = videoOf.get(e.target);
+        if (e.isIntersecting && e.intersectionRatio >= SHOW) seen.add(v);
+        else seen.delete(v);
+        syncCover(v);
+      }),
+    { threshold: [0, SHOW] });
+    videoOf.forEach((v, box) => coverIo.observe(box));
+    if (coverVideos.some((v) => v.closest('.panel'))) {
+      let queuedCovers = false;
+      window.addEventListener('scroll', () => {
+        if (queuedCovers) return;
+        queuedCovers = true;
+        requestAnimationFrame(() => { queuedCovers = false; seen.forEach(syncCover); });
+      }, { passive: true });
+      // a panel's video gets its files (its poster is a big picture) once the panel is a screen away
+      const nearIo = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && prepare(videoOf.get(e.target))), { rootMargin: '100% 0px' });
+      const watchPanels = () => videoOf.forEach((v, box) => { if (v.dataset.src) { nearIo.unobserve(box); nearIo.observe(box); } });
+      watchPanels();
+      // turning a tablet or resizing the window can show or hide the panels' videos (CSS: min-aspect-ratio 5/4):
+      // watching the panels again reports the ones near the screen, which get their files if they are shown now
+      matchMedia('(min-aspect-ratio: 5/4)').addEventListener?.('change', () => { watchPanels(); coverVideos.forEach(syncCover); });
+    }
+  }
+
   /* ───────── header ───────── */
   const hdr = $('#hdr');
   const onScroll = () => hdr && hdr.classList.toggle('is-solid', window.scrollY > 40);

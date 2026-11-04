@@ -37,9 +37,10 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="assets/styles.css?v=eebafbf6">
-<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
-<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="assets/styles.css?v=cb0de11a">
+<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível), e se o
+     celular está com a economia de dados ligada (save-data: os vídeos das capas ficam parados, 04/11/2026) -->
+<script>document.documentElement.classList.add('js');if(navigator.connection&&navigator.connection.saveData)document.documentElement.classList.add('save-data')</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"Julia Sonda","url":"https://juliasonda.com/","inLanguage":"en"},{"@type":"Person","name":"Julia Sonda","url":"https://juliasonda.com/","jobTitle":"Brand and graphic designer","sameAs":["https://www.behance.net/juliasonda","https://www.linkedin.com/in/juliasonda/"],"description":"White-label branding and graphic design for agencies. Julia Sonda is a brand and graphic designer based in Spain, with 9 years of experience working with clients around the world.","address":{"@type":"PostalAddress","addressCountry":"ES"}}]}</script>
 </head>
 <body class="is-home">
@@ -142,19 +143,19 @@
       <p class="sec-head__intro" data-reveal>A selection of branding and graphic design projects I&#39;ve worked on over the years.</p>
     </header>
     <div class="pgrid pgrid--1"><a class="pcard" href="work/lekitchen/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="assets/work/lekitchen-cover.jpg" alt="" loading="eager" decoding="async"></span>
+  <span class="pcard__img" data-reveal="img"><video src="assets/work/lekitchen/hero-card.mp4" poster="assets/work/lekitchen/hero-card-poster.jpg" data-big-src="assets/work/lekitchen/hero.mp4" data-big-poster="assets/work/lekitchen/hero-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
   <span class="pcard__row"><span class="pcard__name">LeKitchen</span></span>
   <span class="pcard__tags">Branding · Hospitality</span>
 </a>
 </div>
     
     <div class="pgrid pgrid--3"><a class="pcard" href="work/create-joy-travel-brand-identity/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/6d15e6156725351.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/6d15e6156725351.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/6d15e6156725351.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png 808w, assets/covers/6d15e6156725351.jpg 1007w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+  <span class="pcard__img" data-reveal="img"><video src="assets/work/create-joy/hero-card.mp4" poster="assets/work/create-joy/hero-card-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
   <span class="pcard__row"><span class="pcard__name">Create Joy Travel Brand Identity</span></span>
   <span class="pcard__tags">Branding · Hospitality</span>
 </a>
 <a class="pcard" href="work/amber-elle-photography/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="assets/work/amber-elle-cover.jpg" alt="" loading="lazy" decoding="async"></span>
+  <span class="pcard__img" data-reveal="img"><video src="assets/work/amber-elle/hero-card.mp4" poster="assets/work/amber-elle/hero-card-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
   <span class="pcard__row"><span class="pcard__name">Amber &amp; Elle Photography</span></span>
   <span class="pcard__tags">Branding · Lifestyle</span>
 </a>
@@ -335,6 +336,6 @@
     <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
   </div>
 </footer>
-<script src="assets/app.js?v=01e06e04" defer></script>
+<script src="assets/app.js?v=7a110937" defer></script>
 </body>
 </html>
