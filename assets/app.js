@@ -62,16 +62,28 @@
     const onScreen = (v) => seen.has(v) && shown(v) && !covered(v);
     // An iPhone in Low Power Mode (the yellow battery) never lets a video start by itself, not even a silent one: the
     // project's video stayed on its first frame until she pressed play (her report, 05/11/2026). So when the phone
-    // refuses, the videos on screen start at the first touch on the page (a tap; a swipe too where the phone counts
-    // it), which the phone takes as the person asking for it: right then, without the 0.6s wait, or the touch no
-    // longer counts. Until then the poster shows, without the phone's big play button (styles.css).
-    const wakeUp = () => seen.forEach((v) => { if (onScreen(v) && v.paused) { prepare(v); v.play()?.catch(() => {}); } });
+    // refuses, the videos on screen start at the first tap on the page, which the phone takes as the person asking
+    // for it (a swipe doesn't count): right then, without the 0.6s wait, or the tap no longer counts. Until then the
+    // poster shows (no autoplay attribute anywhere: with it the iPhone puts its big play button over the video).
+    // An app that opens links in a bare web view (no inline video) would open the phone's full-screen player on that
+    // tap: then it leaves full screen and the videos stay on their posters for the rest of the visit.
+    const touches = ['touchend', 'pointerup', 'click', 'keydown'];
     let touchWatch = false;
-    const play = (v) => v.play()?.catch((e) => {
-      if (touchWatch || e?.name !== 'NotAllowedError') return;
+    let noInline = false;
+    const wakeUp = () => seen.forEach((v) => { if (!noInline && onScreen(v) && v.paused) { prepare(v); v.play()?.catch(() => {}); } });
+    const play = (v) => noInline || v.play()?.catch((e) => {
+      if (touchWatch || noInline || e?.name !== 'NotAllowedError') return;
       touchWatch = true;
-      ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'keydown'].forEach((t) => document.addEventListener(t, wakeUp, { capture: true, passive: true }));
+      touches.forEach((t) => document.addEventListener(t, wakeUp, { capture: true, passive: true }));
     });
+    const leaveFullScreen = (e) => {
+      const v = e.target;
+      noInline = true;
+      touches.forEach((t) => document.removeEventListener(t, wakeUp, { capture: true }));
+      v.pause();
+      try { v.webkitExitFullscreen?.(); } catch { /* already out */ }
+    };
+    coverVideos.forEach((v) => v.addEventListener('webkitbeginfullscreen', leaveFullScreen));
     const syncCover = (v) => {
       if (!onScreen(v)) {
         clearTimeout(waiting.get(v));
