@@ -60,6 +60,18 @@
       return Boolean(next) && next.getBoundingClientRect().top - Math.max(panel.getBoundingClientRect().top, 0) < 48;
     };
     const onScreen = (v) => seen.has(v) && shown(v) && !covered(v);
+    // An iPhone in Low Power Mode (the yellow battery) never lets a video start by itself, not even a silent one: the
+    // project's video stayed on its first frame until she pressed play (her report, 05/11/2026). So when the phone
+    // refuses, the videos on screen start at the first touch on the page (a tap; a swipe too where the phone counts
+    // it), which the phone takes as the person asking for it: right then, without the 0.6s wait, or the touch no
+    // longer counts. Until then the poster shows, without the phone's big play button (styles.css).
+    const wakeUp = () => seen.forEach((v) => { if (onScreen(v) && v.paused) { prepare(v); v.play()?.catch(() => {}); } });
+    let touchWatch = false;
+    const play = (v) => v.play()?.catch((e) => {
+      if (touchWatch || e?.name !== 'NotAllowedError') return;
+      touchWatch = true;
+      ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'keydown'].forEach((t) => document.addEventListener(t, wakeUp, { capture: true, passive: true }));
+    });
     const syncCover = (v) => {
       if (!onScreen(v)) {
         clearTimeout(waiting.get(v));
@@ -72,7 +84,7 @@
         waiting.delete(v);
         if (!onScreen(v)) return;
         prepare(v);
-        v.play()?.catch(() => {}); // blocked (e.g. iPhone low power): the poster stays
+        play(v); // blocked (iPhone in Low Power Mode): it starts at the first touch (wakeUp)
       }, 600));
     };
     // watched through the box around it: its curtain (data-reveal="img", clip-path) would hide it from the observer

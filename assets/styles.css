@@ -414,6 +414,9 @@ mark {
 .pcard:hover .pcard__img img, .pcard:hover .pcard__img video { transform: scale(1.045); }
 /* 04/11/2026: sem JavaScript o Chrome desenha os controles do player em cima da capa em vídeo; ali ela é só a capa */
 video[data-autoplay]::-webkit-media-controls { display: none !important; }
+/* 05/11/2026: iPhone no Modo Pouca Energia não deixa o vídeo começar sozinho e põe um botão de play enorme em cima;
+   fica só a capa, e o vídeo começa no primeiro toque na página (app.js) */
+video[data-autoplay]::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
 .pcard__row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .pcard__name { transition: color .25s; }
 .pcard__tags { margin-top: -8px; font-size: 0.88rem; color: var(--ink-soft); }
