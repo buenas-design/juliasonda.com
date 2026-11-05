@@ -37,7 +37,7 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="../assets/styles.css?v=d0b85696">
+<link rel="stylesheet" href="../assets/styles.css?v=cc14914a">
 <!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível), e se o
      celular está com a economia de dados ligada (save-data: os vídeos das capas ficam parados, 04/11/2026) -->
 <script>document.documentElement.classList.add('js');if(navigator.connection&&navigator.connection.saveData)document.documentElement.classList.add('save-data')</script>
@@ -81,95 +81,83 @@
   </div>
 </section>
 
-<section class="about-hero" data-tone="pink" aria-label="About Julia">
-  <div class="wrap about-hero__in">
-    <div class="about-hero__copy">
-      <p data-reveal>I&#39;m Julia, a Brazilian brand and graphic designer currently based in Spain, and the founder and creative director of Buenas Design Studio.</p><p data-reveal>I&#39;ve been in the design industry for <strong>9 years</strong>, working with businesses, creative studios, and <strong>marketing agencies in different countries</strong>.</p><p data-reveal>I started Buenas Design Studio as a way to build my own design business and work with clients internationally. Along the way, <strong>collaborating with other agencies</strong> became a big part of what I do.</p>
+<!-- About, depois da abertura (05/11/2026, ela: "tem imagens demais e muito repetitivo"; referência byfayandco.com só para
+     posicionar texto e para as transições). Cada seção tem uma composição e uma passagem só dela; só 1 imagem de projeto
+     (o depoimento) mais o bloco de fotos dela. Passagens: data-scrub, data-ink, data-slide, data-steps, data-rise e data-hello em app.js. -->
+
+<!-- 1 + 2. O texto de apresentação fica parado (sticky) enquanto a faixa vinho sobe por cima dele, como uma folha -->
+<div class="ab-sheet" data-tone="ivory">
+  <section class="ab-hello" aria-label="About Julia" data-hello>
+    <div class="wrap ab-hello__in">
+      <p class="ab-hello__lead"><span class="ab-hello__name" data-reveal="title">I&#39;m Julia,</span> <span class="ab-hello__rest" data-reveal>a Brazilian brand and graphic designer currently based in Spain, and the founder and creative director of Buenas Design Studio.</span></p>
+      <div class="ab-hello__more"><p data-reveal>I&#39;ve been in the design industry for <strong>9 years</strong>, working with businesses, creative studios, and <strong>marketing agencies in different countries</strong>.</p><p data-reveal>I started Buenas Design Studio as a way to build my own design business and work with clients internationally. Along the way, <strong>collaborating with other agencies</strong> became a big part of what I do.</p></div>
     </div>
-    <div class="about-hero__photos">
-      <img class="ah ah--big" data-reveal="img" data-speed="-0.1" data-sway="1" src="../assets/julia-hero.jpg" alt="Julia Sonda laughing on a balcony, holding a mug that says Never lost, always exploring" width="1200" height="1500">
-      <img class="ah ah--small" data-reveal="img" data-speed="0.16" data-sway="-1" src="../assets/julia-working.jpg" alt="Julia working on her laptop on a mustard sofa" width="900" height="1125" loading="lazy">
+  </section>
+  <section class="ab-wl" aria-label="Highlight">
+    <div class="wrap"><p class="ab-wl__line" data-ink>I work completely white-label, so your clients only ever see <span class="tw">your agency</span></p></div>
+  </section>
+</div>
+
+<!-- 3. How I work: o título fica parado à esquerda e os 4 parágrafos passam no mesmo lugar, um de cada vez, saindo do
+     esfumaçado para o nítido conforme a página rola (data-steps, app.js). Sem JS ou com "reduzir movimento": todos em lista -->
+<section class="ab-work" data-tone="mist" id="how-i-work" aria-labelledby="working-title" data-steps>
+  <div class="ab-work__stage">
+    <div class="wrap ab-work__in">
+      <h2 class="ab-title" id="working-title" data-reveal="title">How I work <em>with agencies</em></h2>
+      <div class="ab-work__text">
+        <p>Most of the time, I work directly with an agency owner, creative director, or project manager. You send me the brief and whatever your team has put together so far. I&#39;ll have a look, ask questions if I need to, and we&#39;ll agree on the scope and timeline.</p><p>I&#39;m comfortable following an established process and creative direction. I also enjoy being involved earlier in a branding project, when we&#39;re still exploring ideas.</p><p>Communication is important to me. I like keeping people updated, sharing work at the agreed stages, and making sure we&#39;re on the same page before moving forward.</p><p>And yes, I&#39;m happy to work completely white-label. Your client relationship stays with you, and I won&#39;t share the work publicly without your permission.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- frase em destaque, em formato "declaração" (Cember) -->
-<section class="statement-band" data-tone="blush" aria-label="Highlight">
-  <div class="wrap"><p class="statement statement--center" data-reveal="title">I work completely white-label, so your clients only ever see <span class="tw">your agency</span></p></div>
+<!-- 4. O depoimento sobre uma foto só, de ponta a ponta, que anda mais devagar que a página -->
+<section class="ab-quote" aria-label="Client feedback">
+  <img class="ab-quote__img" data-speed="0.16" src="../assets/work/mosaic-goddess-drops.jpg" alt="" loading="lazy" decoding="async">
+  <div class="wrap ab-quote__in">
+    <span class="ab-quote__mark" aria-hidden="true" data-reveal>“</span>
+    <blockquote class="ab-quote__text" data-reveal>I&#39;m always at awe of Julia&#39;s work, ideas, flexibility, and timeliness.</blockquote>
+    <p class="ab-quote__who" data-reveal>Katie M.</p>
+  </div>
 </section>
 
-<!-- "How I work with agencies": texto à esquerda (mesmo recuo das outras seções) e as fotos juntas à direita -->
-<section class="sec working" data-tone="mist" id="how-i-work" aria-labelledby="working-title">
-  <div class="wrap working__grid">
-    <!-- data-scroll-fade: cada parágrafo se apaga num degradê, de baixo para cima, quando passa do meio da tela -->
-    <div class="working__in" data-scroll-fade>
-      <h2 class="h2" id="working-title" data-reveal="title">How I work <em>with agencies</em></h2>
-      <p class="working__p" data-reveal>Most of the time, I work directly with an agency owner, creative director, or project manager. You send me the brief and whatever your team has put together so far. I&#39;ll have a look, ask questions if I need to, and we&#39;ll agree on the scope and timeline.</p><p class="working__p" data-reveal>I&#39;m comfortable following an established process and creative direction. I also enjoy being involved earlier in a branding project, when we&#39;re still exploring ideas.</p><p class="working__p" data-reveal>Communication is important to me. I like keeping people updated, sharing work at the agreed stages, and making sure we&#39;re on the same page before moving forward.</p><p class="working__p" data-reveal>And yes, I&#39;m happy to work completely white-label. Your client relationship stays with you, and I won&#39;t share the work publicly without your permission.</p>
-    </div>
-    <div class="working__photos" aria-hidden="true">
-      <img class="wph wph--1" data-reveal="img" data-speed="0.04" src="../assets/projects/float-midlothian.jpg" alt="" loading="lazy"><img class="wph wph--2" data-reveal="img" data-speed="-0.06" src="../assets/photos/work-desk.jpg" alt="" loading="lazy"><img class="wph wph--3" data-reveal="img" data-speed="0.03" src="../assets/projects/float-lekitchen-posters.jpg" alt="" loading="lazy">
+<!-- 5. What I can help with: a tela fica parada e os 3 grupos dela aparecem um de cada vez, cada painel subindo de baixo por
+     cima do anterior e deixando à vista a faixa com o nome (data-rise, app.js). Sem JS ou com "reduzir movimento": em lista -->
+<section class="ab-caps" data-tone="ivory" aria-labelledby="caps-title" data-rise>
+  <div class="ab-caps__stage">
+    <div class="wrap">
+      <div class="ab-caps__head">
+        <h2 class="ab-title" id="caps-title" data-reveal="title">What I <em>can help with</em></h2>
+        <p data-reveal>Brand identity is where I feel most at home, but my work goes well beyond logos.</p>
+      </div>
+      <div class="ab-caps__stack">
+        <div class="ab-panel">
+          <h3 class="ab-panel__t">Brand identity</h3>
+          <ul class="ab-panel__items"><li>Logo &amp; visual identity</li><li>Typography &amp; color</li><li>Brand guidelines</li><li>Creative direction</li><li>Brand refresh</li></ul>
+        </div>
+        <div class="ab-panel">
+          <h3 class="ab-panel__t">Print &amp; packaging</h3>
+          <ul class="ab-panel__items"><li>Packaging</li><li>Stationery</li><li>Catalogs &amp; editorial</li><li>Posters &amp; signage</li><li>Print materials</li></ul>
+        </div>
+        <div class="ab-panel">
+          <h3 class="ab-panel__t">Digital &amp; marketing</h3>
+          <ul class="ab-panel__items"><li>Social media</li><li>Presentations &amp; pitch decks</li><li>Email marketing</li><li>Banner ads</li><li>Web design</li></ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- "What I can help with": o que ela faz, em 3 colunas (como as "capabilities" da THURO) -->
-<section class="sec caps" data-tone="ivory" aria-labelledby="caps-title">
-  <div class="wrap">
-    <div class="caps__head">
-      <h2 class="h2" id="caps-title" data-reveal="title">What I <em>can help with</em></h2>
-      <p data-reveal>Brand identity is where I feel most at home, but my work goes well beyond logos.</p>
-    </div>
-    <div class="caps__cols">
-      <div class="caps__col" data-reveal><h3 class="caps__t">Brand identity</h3><ul><li>Logo &amp; visual identity</li><li>Typography &amp; color</li><li>Brand guidelines</li><li>Creative direction</li><li>Brand refresh</li></ul></div><div class="caps__col" data-reveal><h3 class="caps__t">Print &amp; packaging</h3><ul><li>Packaging</li><li>Stationery</li><li>Catalogs &amp; editorial</li><li>Posters &amp; signage</li><li>Print materials</li></ul></div><div class="caps__col" data-reveal><h3 class="caps__t">Digital &amp; marketing</h3><ul><li>Social media</li><li>Presentations &amp; pitch decks</li><li>Email marketing</li><li>Banner ads</li><li>Web design</li></ul></div>
-    </div>
-    <a class="link-arrow caps__link" href="../work/" data-reveal>See my work <span aria-hidden="true">→</span></a>
-  </div>
+<!-- 6. Fun facts: uma fileira só de postais, mais larga que a tela, que anda de lado enquanto a página desce (data-slide).
+     No celular é uma fileira de arrastar com o dedo; sem JS, no computador, os cartões quebram em linhas. -->
+<section class="ab-fun" data-tone="blush" aria-labelledby="fun-title">
+  <div class="wrap"><h2 class="ab-title" id="fun-title">A few <em>fun facts</em></h2></div>
+  <ul class="ab-fun__row" data-slide tabindex="0" aria-labelledby="fun-title">
+    <li class="ab-fun__card"><h3 class="ab-fun__q">Favorite place ever</h3><p>New York is my place! I love that city so much. The diversity, the vibrancy, always having something new to do... you hear so many languages. It is so rich in so many ways. My first exchange program was to NYC, the city has a really special place in my heart.</p></li><li class="ab-fun__card"><h3 class="ab-fun__q">Most beautiful place I&#39;ve visited</h3><p>I’d say Lauterbrunnen, in Switzerland. It’s absolutely breathtaking, I don’t even have words to describe it! There are so many amazing places, but that one really stands out.</p></li><li class="ab-fun__card"><h3 class="ab-fun__q">Strange fact about me</h3><p>When I was a child I thought that if I dig a hole deep enough, I would get to Japan. LOL</p></li><li class="ab-fun__card"><h3 class="ab-fun__q">Favorite food</h3><p>I love eating but I don’t love cooking. Yeah... go figure. I love strogonoff, parmigiana, sushi and cheeseburgers. Not the American versions, but the Brazilian one, which is much better... sorry.</p></li><li class="ab-fun__card"><h3 class="ab-fun__q">Fun fact!</h3><p>Buenas is a greeting in Spanish, it also means something good. The inspiration for the name came while living in Buenos Aires – even though my mother language is Portuguese, and everyone thinks that in Brazil we speak Spanish, lol.</p></li>
+  </ul>
 </section>
 
-<!-- Fun facts: cada cartão mostra a pergunta e vira para mostrar a resposta
-     (mouse por cima no computador, toque no celular). Textos em content/site.yml → about_page.fun_facts -->
-<section class="sec fun" data-tone="ivory" aria-labelledby="fun-title">
-  <div class="wrap">
-    <header class="fun__head">
-      <h2 class="fun__title" id="fun-title" data-reveal="title">A few <em>fun facts</em></h2>
-      <p class="fun__sub" data-reveal>Hover over a card (or tap it) to see the answer.</p>
-    </header>
-    <ul class="fun__list">
-      <li class="fun__card" data-reveal tabindex="0">
-        <div class="fun__inner">
-          <div class="fun__face fun__front"><h3 class="fun__q">Favorite place ever</h3></div>
-          <div class="fun__face fun__back"><p>New York is my place! I love that city so much. The diversity, the vibrancy, always having something new to do... you hear so many languages. It is so rich in so many ways. My first exchange program was to NYC, the city has a really special place in my heart.</p></div>
-        </div>
-      </li>
-      <li class="fun__card" data-reveal tabindex="0">
-        <div class="fun__inner">
-          <div class="fun__face fun__front"><h3 class="fun__q">Most beautiful place I&#39;ve visited</h3></div>
-          <div class="fun__face fun__back"><p>I’d say Lauterbrunnen, in Switzerland. It’s absolutely breathtaking, I don’t even have words to describe it! There are so many amazing places, but that one really stands out.</p></div>
-        </div>
-      </li>
-      <li class="fun__card" data-reveal tabindex="0">
-        <div class="fun__inner">
-          <div class="fun__face fun__front"><h3 class="fun__q">Strange fact about me</h3></div>
-          <div class="fun__face fun__back"><p>When I was a child I thought that if I dig a hole deep enough, I would get to Japan. LOL</p></div>
-        </div>
-      </li>
-      <li class="fun__card" data-reveal tabindex="0">
-        <div class="fun__inner">
-          <div class="fun__face fun__front"><h3 class="fun__q">Favorite food</h3></div>
-          <div class="fun__face fun__back"><p>I love eating but I don’t love cooking. Yeah... go figure. I love strogonoff, parmigiana, sushi and cheeseburgers. Not the American versions, but the Brazilian one, which is much better... sorry.</p></div>
-        </div>
-      </li>
-      <li class="fun__card" data-reveal tabindex="0">
-        <div class="fun__inner">
-          <div class="fun__face fun__front"><h3 class="fun__q">Fun fact!</h3></div>
-          <div class="fun__face fun__back"><p>Buenas is a greeting in Spanish, it also means something good. The inspiration for the name came while living in Buenos Aires – even though my mother language is Portuguese, and everyone thinks that in Brazil we speak Spanish, lol.</p></div>
-        </div>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- "When I'm not designing...": num bloco vinho escuro. O texto fica parado e as fotos de viagem sobem de baixo
+<!-- 7. "When I'm not designing...": num bloco vinho escuro. O texto fica parado e as fotos de viagem sobem de baixo
      da tela, uma de cada vez, e se empilham inclinadas ao rolar (data-stack, app.js). Ideia da Country Living Fair
      que ela mandou (03/11/2026); fotos sem moldura, só canto arredondado e sombra. -->
 <section class="sec outside outside--dark outside--stack" aria-labelledby="outside-title" data-stack>
@@ -200,28 +188,13 @@
   </div>
 </section>
 
-<!-- Um depoimento em tamanho grande (o "highlight" do cliente escolhido em content/site.yml) -->
-<!-- num box branco translúcido, para não colar no que vem antes e depois (pedido dela, 02/11/2026) -->
-<section class="qband" data-tone="blush" aria-label="Client feedback">
-  <div class="wrap">
-    <div class="qband__in" data-reveal>
-      <span class="qband__mark" aria-hidden="true">“</span>
-      <blockquote class="qband__text" data-reveal="title">I&#39;m always at awe of Julia&#39;s work, ideas, flexibility, and timeliness.</blockquote>
-      <p class="qband__who">Katie M.</p>
-    </div>
-  </div>
-</section>
-
-<!-- O final: uma foto grande dela com o convite por cima (o mesmo bloco do fim da página Work) -->
-<section class="end-photo" data-tone="pink" aria-labelledby="cta-title">
-  <div class="wrap">
-    <div class="end-photo__box">
-      <img class="end-photo__img" src="../assets/photos/about-end-marina.jpg" alt="" loading="lazy" decoding="async" data-speed="0.06">
-      <div class="end-photo__copy">
-        <h2 class="end-photo__title" id="cta-title" data-reveal="title">Think I&#39;d be a <em>good fit</em> for your team?</h2>
-        <p data-reveal>If you run an agency or creative studio, I&#39;d love to hear from you.</p>
-        <a class="btn" href="../contact/" data-reveal>Get in Touch</a>
-      </div>
+<!-- 8. O convite: faixa coral, título enorme em 3 linhas que entram de lados alternados ao rolar (data-scrub) -->
+<section class="ab-end" aria-labelledby="cta-title">
+  <div class="wrap ab-end__in">
+    <h2 class="ab-end__title" id="cta-title"><span class="ab-end__line" data-scrub="1 0.5" data-scrub-ease="out">Think I&#39;d be </span><span class="ab-end__line" data-scrub="1 0.5" data-scrub-ease="out">a <em>good fit</em> </span><span class="ab-end__line" data-scrub="1 0.5" data-scrub-ease="out">for your team? </span></h2>
+    <div class="ab-end__dock" data-scrub="0.98 0.72">
+      <p>If you run an agency or creative studio, I&#39;d love to hear from you.</p>
+      <a class="btn ab-end__btn" href="../contact/">Get in Touch</a>
     </div>
   </div>
 </section>
@@ -252,6 +225,6 @@
     <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
   </div>
 </footer>
-<script src="../assets/app.js?v=d62f3523" defer></script>
+<script src="../assets/app.js?v=dc7dfb6a" defer></script>
 </body>
 </html>

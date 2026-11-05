@@ -1,8 +1,8 @@
 /* juliasonda.com · v6
    Pages arrive as finished HTML (scripts/build.mjs). This file only adds
    behavior: header + mobile menu, things appearing as you scroll, photos
-   drifting at different speeds, the testimonial slider, the fun facts
-   cards that flip over and the contact form. */
+   drifting at different speeds, the scroll-driven About sections, the
+   testimonial slider and the contact form. */
 
 (() => {
   const $ = (sel, el = document) => el.querySelector(sel);
@@ -248,9 +248,7 @@
   const drifting = $$('[data-speed]');
   // rows of project images that slide sideways (data-drift="-1" or "1")
   const sliding = $$('[data-drift]');
-  // floating photos that drift to their side and tilt as their section passes (data-sway="-1" or "1")
-  const swaying = $$('[data-sway]');
-  if (!reduceMotion && (drifting.length || sliding.length || swaying.length)) {
+  if (!reduceMotion && (drifting.length || sliding.length)) {
     let queued = false;
     const update = () => {
       queued = false;
@@ -268,14 +266,6 @@
         const side = Number(el.dataset.side);
         el.style.setProperty('--sx', `${(p * window.innerWidth * 0.22 * side).toFixed(1)}px`);
         el.style.setProperty('--rot', `${(p * 7 * side).toFixed(2)}deg`);
-      }
-      for (const el of swaying) {
-        const r = el.closest('section').getBoundingClientRect();
-        if (r.bottom < -200 || r.top > window.innerHeight + 200) continue;
-        const offset = (r.top + r.height / 2 - mid) / window.innerHeight; // about -1 … 1
-        const side = Number(el.dataset.sway);
-        el.style.setProperty('--sx', `${(-offset * window.innerWidth * 0.07 * side).toFixed(1)}px`);
-        el.style.setProperty('--rot', `${(-offset * 6 * side).toFixed(2)}deg`);
       }
       for (const el of drifting) {
         // measure the section, not the photo, so the photo's own movement doesn't feed back
@@ -380,47 +370,172 @@
     paintSteps();
   }
 
-  /* ───────── text that fades away as it scrolls up (data-scroll-fade, About "How I work") ───────── */
-  // Each block keeps its full colour until its bottom passes the upper half of the screen; then a gradient
-  // climbs over it from the bottom (her reference: Cember Studio's About). The next one is already rising in.
-  const fading = $$('[data-scroll-fade] > p'); // the paragraphs, not the title
-  if (fading.length && !reduceMotion) {
-    let queuedFade = false;
-    const paintFade = () => {
-      queuedFade = false;
+  /* ───────── About: the sections that follow the scroll (05/11/2026) ───────── */
+  // data-scrub="0.95 0.35": --k is 0 while the element's top is below 95% of the screen height and reaches 1 when its
+  // top gets to 35%; data-scrub-ease="out" eases it. The CSS turns --k into the movement (the closing title's lines
+  // sliding in) and defaults it to 1, so without JS or with reduced motion all of it sits in its
+  // final place.
+  // data-ink: the words of the white-label line go from faint to solid in reading order (--o per word).
+  // data-slide: the fun facts row moves sideways while its section passes, on a computer only (--slide); on a phone
+  // it is a row to swipe. All the rects are read first and written after, once per frame.
+  const scrubbed = $$('[data-scrub]');
+  const inked = $('[data-ink]');
+  const slideRow = $('[data-slide]');
+  if (!reduceMotion && (scrubbed.length || inked || slideRow)) {
+    const conf = scrubbed.map((el) => {
+      const [from = 0.95, to = 0.35] = el.dataset.scrub.trim().split(/\s+/).map(Number);
+      return { from, to, out: el.dataset.scrubEase === 'out', last: '' };
+    });
+    const set = (el, name, value, holder) => {
+      if (holder.last === value) return;
+      holder.last = value;
+      el.style.setProperty(name, value);
+    };
+    const clamp01 = (x) => Math.min(Math.max(x, 0), 1);
+    // the white-label line: each word (and the typing word, as one piece) gets its own span
+    const inkWords = [];
+    if (inked) {
+      [...inked.childNodes].forEach((node) => {
+        if (node.nodeType !== Node.TEXT_NODE) {
+          if (node.classList?.contains('tw')) { node.classList.add('ab-ink'); inkWords.push({ el: node, last: '' }); }
+          return;
+        }
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) return frag.append(part);
+          const word = document.createElement('span');
+          word.className = 'ab-ink';
+          word.textContent = part;
+          inkWords.push({ el: word, last: '' });
+          frag.append(word);
+        });
+        node.replaceWith(frag);
+      });
+    }
+    let slideRoom = 0;
+    const hdrHeight = $('#hdr')?.offsetHeight || 0;
+    const slideOn = window.matchMedia('(min-width: 861px)');
+    const slideState = { last: '' };
+    const measureSlide = () => {
+      if (!slideRow) return;
+      slideRow.classList.toggle('is-drifting', slideOn.matches);
+      slideRoom = slideOn.matches ? Math.max(slideRow.offsetWidth - document.documentElement.clientWidth, 0) : 0;
+      if (!slideOn.matches) { slideRow.style.removeProperty('--slide'); slideState.last = ''; }
+    };
+    let queuedScrub = false;
+    const paintScrub = () => {
+      queuedScrub = false;
       const vh = window.innerHeight;
-      for (const el of fading) {
-        const r = el.getBoundingClientRect();
-        // 0 while its bottom is below 45% of the screen, 1 once it reaches 10%
-        el.style.setProperty('--fade', Math.min(Math.max((vh * 0.45 - r.bottom) / (vh * 0.35), 0), 1).toFixed(3));
+      const tops = scrubbed.map((el) => el.getBoundingClientRect().top);
+      const inkTop = inked ? inked.getBoundingClientRect().top : 0;
+      const rowBox = slideRoom ? slideRow.getBoundingClientRect() : null;
+      tops.forEach((top, i) => {
+        const { from, to, out } = conf[i];
+        let k = clamp01((from * vh - top) / Math.max((from - to) * vh, 1));
+        if (out) k = 1 - (1 - k) ** 3;
+        set(scrubbed[i], '--k', k.toFixed(3), conf[i]);
+      });
+      if (inked) {
+        // from the moment the line's top is at 88% of the screen until it reaches 30%
+        const p = clamp01((vh * 0.88 - inkTop) / (vh * 0.58));
+        const span = inkWords.length + 3; // each word takes 4 words' time, so they overlap softly
+        inkWords.forEach((w, i) => set(w.el, '--o', clamp01((p * span - i) / 4).toFixed(3), w));
+      }
+      // the row rests at both ends while its cards are whole on screen, so the first and the last card can be read
+      if (slideRoom) {
+        const start = vh - rowBox.height - 30;
+        const end = hdrHeight + 64;
+        set(slideRow, '--slide', `${(-slideRoom * clamp01((start - rowBox.top) / Math.max(start - end, 1))).toFixed(1)}px`, slideState);
       }
     };
-    const queueFade = () => {
-      if (!queuedFade) { queuedFade = true; requestAnimationFrame(paintFade); }
+    const queueScrub = () => {
+      if (!queuedScrub) { queuedScrub = true; requestAnimationFrame(paintScrub); }
     };
-    window.addEventListener('scroll', queueFade, { passive: true });
-    window.addEventListener('resize', queueFade);
-    paintFade();
+    window.addEventListener('scroll', queueScrub, { passive: true });
+    window.addEventListener('resize', () => { measureSlide(); queueScrub(); });
+    window.addEventListener('load', () => { measureSlide(); queueScrub(); });
+    document.fonts?.ready.then(() => { measureSlide(); queueScrub(); });
+    measureSlide();
+    paintScrub();
+  }
+
+  // The hello text stays put while the plum band rises over it (sticky, styles.css). If the text is taller than the
+  // screen it pins with its bottom at the bottom of the screen, so no line is lost.
+  const hello = $('[data-hello]');
+  if (hello && !reduceMotion) {
+    const fitHello = () => hello.style.setProperty('--hello-top', `${Math.min(window.innerHeight - hello.offsetHeight, 0)}px`);
+    window.addEventListener('resize', fitHello);
+    document.fonts?.ready.then(fitHello);
+    fitHello();
+  }
+
+  /* ───────── About: one at a time while the screen stays still ───────── */
+  // data-steps (How I work): the section is taller than the screen and its stage is sticky. The paragraphs share one
+  // place and take turns: each comes out of the blur, holds, and blurs away as the next one arrives (--v, 0 to 1).
+  // data-rise (What I can help with): the first panel is already there and each next one rises from below the screen
+  // over the previous one (--e, 0 to 1). Her request, 05/11/2026. Short screens get a plain list (styles.css), where
+  // these variables do nothing.
+  const clamp01 = (n) => Math.min(Math.max(n, 0), 1);
+  const stepsBox = $('[data-steps]');
+  const riseBox = $('[data-rise]');
+  if ((stepsBox || riseBox) && !reduceMotion) {
+    const paras = stepsBox ? $$('.ab-work__text p', stepsBox) : [];
+    const risers = riseBox ? $$('.ab-panel', riseBox).slice(1) : [];
+    // the stages are 100svh tall, so they are the measure, not the window (it grows when a phone's address bar hides)
+    const stepsStage = stepsBox && $('.ab-work__stage', stepsBox);
+    const riseStage = riseBox && $('.ab-caps__stage', riseBox);
+    let queuedTurns = false;
+    const paintTurns = () => {
+      queuedTurns = false;
+      if (stepsBox) {
+        const x = -stepsBox.getBoundingClientRect().top / (stepsStage.offsetHeight * 0.45); // 45svh per paragraph (styles.css)
+        paras.forEach((el, i) => {
+          let d = Math.abs(x - i);
+          if (x < i && i === 0) d *= 0.4; // the first one comes into focus slowly, while the section arrives
+          if (x > i && i === paras.length - 1) d = 0; // the last one stays until the section leaves
+          el.style.setProperty('--v', clamp01((0.55 - d) / 0.25).toFixed(3));
+        });
+      }
+      if (riseBox) {
+        const r = riseBox.getBoundingClientRect();
+        const p = clamp01(-r.top / Math.max(r.height - riseStage.offsetHeight, 1));
+        const span = 1 / risers.length;
+        risers.forEach((el, i) => {
+          const t = clamp01((p - i * span - span * 0.08) / (span * 0.76));
+          el.style.setProperty('--e', (1 - (1 - t) ** 3).toFixed(4));
+        });
+      }
+    };
+    const queueTurns = () => {
+      if (!queuedTurns) { queuedTurns = true; requestAnimationFrame(paintTurns); }
+    };
+    window.addEventListener('scroll', queueTurns, { passive: true });
+    window.addEventListener('resize', queueTurns);
+    paintTurns();
   }
 
   /* ───────── About: travel photos rise and pile up while the text stays (data-stack) ───────── */
-  // The track is taller than the screen and the pile is sticky inside it. The first photo is already there;
-  // each next one rises from below the screen and settles tilted on the pile over its own stretch of scroll.
+  // The track is taller than the screen and the pile is sticky inside it. The first photo is already there when the
+  // pile pins; each next one rises from below the screen and settles tilted on the pile over its own stretch of scroll.
   // --e goes 0 → 1 per photo (CSS turns it into the movement); her reference: Country Living Fair (03/11/2026).
   const stack = $('[data-stack]');
   if (stack && !reduceMotion) {
     const track = $('.outside__track', stack);
+    const box = $('.outside__pile', stack);
     const pile = $$('.pile', stack);
     let queuedStack = false;
     const paintStack = () => {
       queuedStack = false;
       const r = track.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = Math.min(Math.max((vh * 0.1 - r.top) / Math.max(r.height - vh, 1), 0), 1);
+      const lead = vh * 0.12; // the second piece starts rising a little before the pile pins
+      const travel = (r.height - box.offsetHeight) * 0.94 + lead; // the last piece lands just before the pile lets go
+      const p = Math.min(Math.max((parseFloat(getComputedStyle(box).top) + lead - r.top) / Math.max(travel, 1), 0), 1);
       const steps = pile.length - 1;
       pile.forEach((el, i) => {
         if (!i) return;
-        const t = Math.min(Math.max(p * (steps + 0.6) - (i - 1), 0), 1);
+        const t = Math.min(Math.max(p * steps - (i - 1), 0), 1);
         el.style.setProperty('--e', (1 - (1 - t) ** 3).toFixed(4));
       });
     };
@@ -651,13 +766,6 @@
       show(0);
     }
   }
-
-  /* ───────── About page: fun facts flip over ───────── */
-  // On a computer the card turns while the mouse is over it (CSS); on a phone a tap turns it.
-  $$('.fun__card').forEach((card) => {
-    card.addEventListener('click', () => card.classList.toggle('is-open'));
-    card.addEventListener('mouseleave', () => card.classList.remove('is-open'));
-  });
 
   /* ───────── contact form ───────── */
   const form = $('#contact-form');

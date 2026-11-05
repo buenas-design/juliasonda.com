@@ -136,7 +136,7 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
   --fs-quote: clamp(1.4rem, 2vw, 1.85rem);
 }
 .hero__title, .h1, .proj__title,
-.h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title, .ind__name, .next__name {
+.h2, .statement, .cta__title, .intro__lead, .more__title, .ind__name, .next__name {
   font-family: var(--f-display);
   font-weight: 400;
   letter-spacing: -0.012em;
@@ -144,14 +144,14 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
   text-wrap: balance;
 }
 .hero__title, .h1, .proj__title { font-size: var(--fs-h1); line-height: 1.06; }
-.h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title, .ind__name, .next__name { font-size: var(--fs-h2); line-height: 1.1; }
+.h2, .statement, .cta__title, .intro__lead, .more__title, .ind__name, .next__name { font-size: var(--fs-h2); line-height: 1.1; }
 .h2 { max-width: 20ch; }
 /* a *word* in site.yml becomes Florentia Italic in the same color (her call, 01/11/2026: italic instead of
    coral, which made every title look templated). The only coral left in titles is the ==underline== in the hero. */
-:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) em { font-style: italic; font-weight: inherit; color: inherit; }
-:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title, .fun__title) strong { font-weight: 700; }
+:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title) em { font-style: italic; font-weight: inherit; color: inherit; }
+:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title) strong { font-weight: 700; }
 
-.svc__name, .faq__q, .fun__q, .pcard__name {
+.svc__name, .faq__q, .ab-fun__q, .pcard__name {
   font-family: var(--f-sans);
   font-weight: 600;
   font-size: var(--fs-h3);
@@ -525,33 +525,6 @@ main > :has(+ .qband) { padding-bottom: clamp(36px, 4vw, 60px); }
 }
 @media (max-width: 600px) { .svc__open { grid-template-columns: 1fr; padding-left: 0; } .svc__sum { grid-template-columns: 40px minmax(0, 1fr) 22px; } }
 
-/* ───────── "How I work with agencies" (About): text on the left, at the same indent as every other
-   section, and the three photos grouped on the right (01/11/2026: no more floating photos far apart) ───────── */
-.working__grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px clamp(40px, 6vw, 100px); align-items: center; }
-.working__in { display: grid; gap: 22px; }
-.working .h2 { margin-bottom: 18px; }
-.working__p:last-child { font-weight: 600; }
-.band-lilac .label { color: var(--ink); }
-.working__photos { position: relative; min-height: clamp(440px, 44vw, 620px); }
-.wph { position: absolute; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 60px -30px rgba(58, 28, 30, 0.5); }
-.wph--1 { top: 0; right: 0; width: 74%; aspect-ratio: 5 / 4; }
-.wph--2 { left: 0; top: 33%; z-index: 2; width: 40%; aspect-ratio: 4 / 5; }
-.wph--3 { right: 6%; bottom: 0; width: 54%; aspect-ratio: 5 / 4; }
-@media (max-width: 860px) {
-  .working__grid { grid-template-columns: 1fr; }
-  .working__photos { min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .wph { position: static; width: 100%; }
-  .wph--1 { grid-column: 1 / -1; }
-  .wph--2 { aspect-ratio: 4 / 5; }
-  .wph--3 { align-self: end; aspect-ratio: 4 / 5; }
-  .wph[data-speed] { translate: none; }
-}
-
-/* text that fades away from the bottom up as it scrolls past the upper half of the screen (app.js sets --fade) */
-[data-scroll-fade] > p {
-  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade, 0) * 140%), rgb(0 0 0 / 0.08) calc(140% - var(--fade, 0) * 140%));
-  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade, 0) * 140%), rgb(0 0 0 / 0.08) calc(140% - var(--fade, 0) * 140%));
-}
 
 /* ───────── Work page (02/11/2026, inspired by THURO, the studio site she sent; not copied) ─────────
    a mosaic that opens up as you scroll, big project panels that stack, a dark plum note, a photo to finish */
@@ -619,15 +592,6 @@ main > .dark-note:has(+ .qband) { padding-bottom: clamp(56px, 7vw, 110px); }
 .dark-note__title { max-width: 16ch; font: 400 var(--fs-h2)/1.1 var(--f-display); text-wrap: balance; }
 .dark-note__copy p { max-width: 46ch; font-size: 1.12rem; line-height: 1.65; color: rgba(235, 227, 214, 0.85); }
 .dark-note__copy strong { color: var(--ivory); }
-
-/* the finish: a big photo with the invitation over it */
-.end-photo { padding-block: var(--section) calc(var(--fade) * 0.5); }   /* clear of the footer's fade, which climbs over the end of the page */
-.end-photo__box { position: relative; display: grid; align-items: end; min-height: clamp(420px, 52vw, 640px); overflow: hidden; border-radius: var(--radius); color: var(--ivory); }
-.end-photo__img { position: absolute; left: 0; top: -6%; width: 100%; height: 112%; object-fit: cover; }
-.end-photo__box::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(40, 14, 16, 0.75) 0%, rgba(40, 14, 16, 0.25) 55%, rgba(40, 14, 16, 0.05) 100%); }
-.end-photo__copy { position: relative; z-index: 1; display: grid; gap: 16px; justify-items: start; max-width: 660px; padding: clamp(28px, 4vw, 56px); }
-.end-photo__title { font: 400 var(--fs-h2)/1.1 var(--f-display); text-wrap: balance; }
-.end-photo__copy p { font-size: 1.08rem; line-height: 1.6; color: rgba(235, 227, 214, 0.92); }
 
 @media (max-width: 760px) {
   /* on a phone: 3 × 3, so the pictures aren't thin strips */
@@ -786,10 +750,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 @media (max-width: 760px) { .next__in { grid-template-columns: 1fr; } }
 
 /* ───────── about page ───────── */
-/* About page type & colour system (one rule set for the whole page):
-   titles = Florentia Regular in ink, never italic · paragraphs = 1.12rem in soft plum, ~58ch wide ·
-   plum only for blocks/buttons · coral only for small accents (highlight, quote mark, title accent) */
-.working__p, .outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
+.outside__copy p { font-size: 1.12rem; line-height: 1.65; color: #563537; max-width: 58ch; }
 
 /* About opening: the title stays in the middle; the photos start piled on top of it and move out to the corners
    as the page scrolls, uncovering it (her reference, 03/11/2026). app.js sets --dx/--dy (the way back to the middle)
@@ -820,53 +781,11 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
   .ao--5 { width: 20vw; left: 40vw; top: 9svh; }
   .ao--6 { width: 22vw; right: auto; left: 38vw; bottom: 3svh; }
 }
-.about-hero { padding: clamp(56px, 7vw, 110px) 0 clamp(24px, 3vw, 44px); }   /* room between the opening photos and the coral card (her call, 03/11/2026) */
-.about-hero__in { display: grid; gap: 40px 0; align-items: center; }
-.about-hero__copy { display: grid; gap: 20px; }
-/* the text sits in a coral card, slightly tilted, and the photos lie over its right edge and move as you scroll
-   (her reference: the Country Living Fair welcome card, 03/11/2026) */
-.about-hero__in { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 0; }
-.about-hero__copy { grid-column: 1 / 9; grid-row: 1; position: relative; background: var(--tomato); color: var(--ink);
-  padding: clamp(28px, 4vw, 60px) clamp(80px, 12vw, 190px) clamp(28px, 4vw, 60px) clamp(28px, 4vw, 60px); border-radius: var(--radius);
-  transform: rotate(-1.2deg); box-shadow: 0 30px 60px -36px rgba(58, 28, 30, 0.5); }
-.about-hero__photos { grid-column: 8 / 13; grid-row: 1; z-index: 1; }
-.ah--big { rotate: calc(3deg + var(--rot, 0deg)); }
-.ah--small { rotate: calc(-5deg + var(--rot, 0deg)); }
-@media (max-width: 860px) {
-  .about-hero__in { grid-template-columns: 1fr; }
-  .about-hero__copy { grid-column: 1; padding: 28px 28px 70px; transform: rotate(-1deg); }
-  .about-hero__photos { grid-column: 1; grid-row: 2; margin: -54px auto 0; }
-}
-.about-hero__copy .h1 { margin-bottom: 18px; max-width: 14ch; }
-.about-hero__copy p:not(.label) { font-size: 1.12rem; line-height: 1.65; color: var(--ink); max-width: 58ch; }
-/* the title moved up to the opening, so the photos here are smaller and sit next to the text (no empty space, 03/11/2026) */
-.about-hero__photos { position: relative; max-width: 440px; justify-self: start; width: 100%; padding: 0 0 14% 20%; }
-.ah { object-fit: cover; }
-.ah--big { width: 100%; aspect-ratio: 4 / 5; border-radius: var(--radius); }
-.ah--small { position: absolute; left: 0; bottom: 0; width: 44%; aspect-ratio: 4 / 5; border-radius: var(--radius); box-shadow: 0 26px 48px -26px rgba(58, 28, 30, 0.55); }
-@media (max-width: 860px) { .about-hero__photos { max-width: 360px; justify-self: center; } }
-
-/* "What I can help with": three columns, a small title on top and the list in big type */
-.caps__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px clamp(40px, 6vw, 110px); align-items: end; margin-bottom: clamp(36px, 4vw, 56px); }
-.caps__head p { max-width: 42ch; font-size: 1.12rem; line-height: 1.6; color: var(--ink-soft); }
-.caps__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px clamp(24px, 4vw, 64px); }
-.caps__t { margin-bottom: 16px; font: 600 0.74rem/1.3 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
-.caps__col ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.caps__col li { font-size: clamp(1.08rem, 1.3vw, 1.2rem); line-height: 1.45; color: var(--ink); }
-.caps__link { margin-top: clamp(32px, 3.6vw, 48px); }
-@media (max-width: 860px) { .caps__head, .caps__cols { grid-template-columns: 1fr; } }
-
-/* About: the big line sits between two thin rules, so it reads as its own block */
-.statement-band { color: var(--ink); padding-block: 0; }
-.statement-band .wrap { padding-block: clamp(36px, 4vw, 60px); }
-.statement--center { text-align: center; margin-inline: auto; max-width: 36ch; text-wrap: balance; }
-
 /* "When I'm not designing…" sits in a dark plum block (02/11/2026, like the founder's note at THURO) */
 .outside--dark { background: var(--ink); color: var(--ivory); }
-.outside--dark .h2 { color: var(--ivory); }
+.outside--dark .h2 { color: var(--ivory); font-weight: 500; }
+.outside--dark .h2 em { font-style: normal; font-weight: 700; }
 .outside--dark .outside__copy p { color: rgba(235, 227, 214, 0.85); }
-main > .outside--dark:has(+ .qband) { padding-bottom: var(--section); }
-.outside--dark + .qband { padding-top: clamp(48px, 5.5vw, 80px); }
 .outside__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px clamp(40px, 7vw, 120px); align-items: center; }
 .outside__copy { display: grid; gap: 18px; }
 .outside__copy .h2 { margin-bottom: 10px; }
@@ -876,15 +795,17 @@ main > .outside--dark:has(+ .qband) { padding-bottom: var(--section); }
    tilted, one per stretch of scroll (data-stack in app.js sets --e, 0 → 1, per photo; without JS or with
    reduced motion they simply sit in the pile). Her reference: the Country Living Fair site (03/11/2026). */
 /* clip the rising photos at the sides and bottom, but let the half-circle tab rise above the section */
-.outside--stack { position: relative; clip-path: inset(-140px 0 0 0); --tab: clamp(150px, 15vw, 220px); margin-top: calc(var(--tab) / 2 + 16px); }
+/* 05/11/2026: encolhida a trilha (sem o longo trecho escuro vazio); o meio círculo entra no espaço de baixo dos fun facts */
+.outside--stack { position: relative; clip-path: inset(-140px 0 0 0); --tab: clamp(150px, 15vw, 220px); }
 .outside__tab { position: absolute; left: 50%; top: 0; z-index: 3; width: var(--tab); height: var(--tab); margin: calc(var(--tab) / -2) 0 0 calc(var(--tab) / -2);
   border-radius: 50%; background: var(--ink); display: grid; place-items: center; }
 .outside__badge { width: 80%; color: var(--ivory); fill: var(--ivory); opacity: 0.9; rotate: var(--spin, 0deg); }
 .outside__badge text { fill: currentColor; font-family: var(--f-sans); font-weight: 600; }
 .outside--stack .outside__in { align-items: start; }
 .outside--stack .outside__copy { position: sticky; top: max(calc(var(--hdr) + 24px), calc(50vh - 15rem)); }
-.outside__track { --steps: 4; height: calc(var(--steps) * 52vh + 100vh); }
-.outside__pile { position: sticky; top: calc(50vh - var(--pile-h) / 2); --pile-h: min(80vh, 680px); height: var(--pile-h); }
+.outside__track { --steps: 4; --step: 30vh; --pile-h: min(80vh, 680px); height: var(--pile-h); }
+.outside__pile { position: sticky; top: calc(50vh - var(--pile-h) / 2); height: var(--pile-h); }
+@media (prefers-reduced-motion: no-preference) { .js .outside__track { height: calc(var(--pile-h) + var(--steps) * var(--step) + 8vh); } }
 .pile {
   position: absolute; left: var(--x); top: var(--y); width: var(--w); --e: 1;
   translate: 0 calc((1 - var(--e)) * 115vh);
@@ -903,39 +824,165 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
 @media (max-width: 860px) {
   .outside--stack .outside__copy { position: static; }
   .outside--stack { padding-top: calc(var(--tab) / 2 + 28px); }
-  .outside__track { height: calc(var(--steps) * 40svh + 80svh); }
-  .outside__pile { --pile-h: min(66svh, 520px); top: calc((100svh - var(--pile-h)) / 2 + var(--hdr) / 2); max-width: 520px; margin-inline: auto; }
+  .outside__track { --step: 30svh; --pile-h: min(66svh, 520px); }
+  .outside__pile { top: calc((100svh - var(--pile-h)) / 2 + var(--hdr) / 2); max-width: 520px; margin-inline: auto; }
 }
 @media (prefers-reduced-motion: reduce) {
   .outside__track { height: auto; }
   .outside__pile { position: relative; top: 0; }
 }
 
-/* fun facts on the About page: cards on lilac that flip over to show the answer, 3 + 2 centered */
-.fun { background: none; }
-/* "When I'm not designing…" logo depois dos cartões, sem o vão de duas seções somadas (não no bloco escuro) */
-.fun + .outside:not(.outside--dark) { padding-top: clamp(16px, 2.5vw, 40px); }
-.fun__head { display: grid; justify-items: center; text-align: center; gap: 6px; margin-bottom: clamp(32px, 3.5vw, 52px); }
+/* ───────── About depois da abertura (05/11/2026) ─────────
+   Ela recusou a primeira tentativa ("tem imagens demais e muito repetitivo"). Agora: quase sem imagens e cada seção com
+   uma composição e uma passagem só dela. Referência byfayandco.com só para posicionar texto e para as transições.
+   Títulos: Florentia Medium, a palavra *destacada* em Bold, mesma cor. Texto corrido: a sans do site.
+   Sem JS ou com "reduzir movimento" nada gruda nem anda, tudo fica visível no lugar final (data-scrub: --k começa em 1). */
+[data-scrub] { --k: 1; }
+.ab-title { font: 500 clamp(2.1rem, 3.7vw, 3.5rem)/1.06 var(--f-display); letter-spacing: -0.012em; text-wrap: balance; max-width: 16ch; }
+:is(.ab-title, .ab-wl__line, .ab-panel__t, .ab-end__title) em { font-style: normal; font-weight: 700; color: inherit; }
 
-.fun__sub { font-size: 1.12rem; color: #563537; }
-.fun__list { --fun-gap: clamp(18px, 2vw, 28px); list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: var(--fun-gap); }
-.fun__card { flex: 0 1 calc((100% - 2 * var(--fun-gap)) / 3); perspective: 1400px; cursor: pointer; outline: none; }
-.js .fun__card.is-in:nth-child(odd) { transform: rotate(-1.2deg); }
-.js .fun__card.is-in:nth-child(even) { transform: rotate(1deg); }
-.fun__card:hover { transform: rotate(0deg) translateY(-4px) !important; transition: transform .4s var(--ease); }
-/* both faces sit in the same grid cell, so the card is as tall as its longest answer */
-/* it turns over smoothly, and goes back to the question at once (no second animation) */
-.fun__inner { display: grid; height: 100%; min-height: clamp(240px, 21vw, 290px); transform-style: preserve-3d; }
-.fun__face { grid-area: 1 / 1; display: grid; padding: clamp(26px, 3vw, 40px); border-radius: var(--radius); box-shadow: 0 24px 40px -30px rgba(58, 28, 30, 0.5); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-.fun__front { place-content: center; text-align: center; background: var(--berry); color: var(--ivory); }
-.fun__back { align-content: center; background: var(--tomato); color: var(--ink); transform: rotateY(180deg); }
-.fun__back p { font-size: 1rem; line-height: 1.6; }
-.fun__q { color: var(--ivory); }
-.fun__card.is-open .fun__inner, .fun__card:focus-visible .fun__inner { transform: rotateY(180deg); transition: transform .8s var(--ease); }
-.fun__card:focus-visible .fun__back { outline: 2px solid var(--ink); outline-offset: 4px; }
-@media (hover: hover) { .fun__card:hover .fun__inner { transform: rotateY(180deg); transition: transform .8s var(--ease); } }
-@media (max-width: 980px) { .fun__card { flex-basis: calc((100% - var(--fun-gap)) / 2); } }
-@media (max-width: 640px) { .fun__card { flex-basis: 100%; } }
+/* 05/11/2026: em tela muito baixa (celular deitado) as fotos da pilha ficam paradas, numa caixa do tamanho delas: o bloco
+   não fica preso e nenhuma foto sai cortada (como as outras seções presas do About) */
+@media (max-height: 599px) {
+  .js .outside__track { height: auto; --pile-h: 520px; }
+  .outside__pile { position: relative; top: 0; max-width: 360px; margin-inline: auto; }
+  .pile { translate: none !important; rotate: var(--r) !important; }
+}
+
+/* 1. Apresentação (05/11/2026, ela não curtiu o parágrafo grande): "I'm Julia," enorme à esquerda, o resto da frase ao lado e
+      os outros dois parágrafos pequenos embaixo dele. O texto é o mesmo, só muda o tamanho de cada parte */
+.ab-sheet { position: relative; }
+.ab-hello { padding-block: max(calc(var(--hdr) + 16px), clamp(56px, 6vw, 96px)) clamp(52px, 5.4vw, 84px); }
+.ab-hello__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(16px, 1.8vw, 26px) clamp(32px, 5vw, 80px); align-items: start; }
+.ab-hello__lead { display: contents; }
+.ab-hello__name { grid-column: 1; grid-row: 1 / span 2; font: 500 clamp(3.2rem, 6.6vw, 6.2rem)/1 var(--f-display); letter-spacing: -0.015em; color: var(--ink); }
+.ab-hello__rest { --d: 0.25s; grid-column: 2; font: 500 clamp(1.18rem, 1.72vw, 1.56rem)/1.34 var(--f-sans); letter-spacing: -0.008em; color: var(--ink); }
+.ab-hello__more { grid-column: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 36px); }
+.ab-hello__more p { font-size: 1rem; line-height: 1.58; color: #563537; }
+.ab-hello__more p:nth-child(1) { --d: 0.4s; }
+.ab-hello__more p:nth-child(2) { --d: 0.5s; }
+@media (max-width: 760px) {
+  .ab-hello__in { grid-template-columns: minmax(0, 1fr); }
+  .ab-hello__name, .ab-hello__rest, .ab-hello__more { grid-column: 1; grid-row: auto; }
+  .ab-hello__more { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}
+
+/* 2. A frase white-label: faixa vinho de ponta a ponta, frase enorme. A faixa sobe por cima da apresentação, que fica parada
+      (data-hello em app.js: --hello-top), e as palavras vão de claras a firmes (data-ink). 05/11/2026: saiu a borda em
+      curva, ela achou estranha porque não aparece em nenhum outro lugar do site */
+.ab-wl { position: relative; z-index: 1; display: grid; align-content: center; padding-block: clamp(56px, 6vw, 96px); background: var(--berry); color: var(--ivory); }
+.ab-wl__line { font: 500 clamp(2.7rem, 5.6vw, 5rem)/1.06 var(--f-display); letter-spacing: -0.015em; }
+.ab-wl__line .tw { color: var(--tomato); }
+.ab-ink { opacity: calc(0.2 + 0.8 * var(--o, 1)); white-space: nowrap; }
+
+/* 3. How I work (05/11/2026, ela: sem foto; a folha colada no vinho ficou sem efeito nenhum): uma tela que fica parada. O
+      título à esquerda e, à direita, os 4 parágrafos inteiros passando no mesmo lugar, um de cada vez: saem do esfumaçado,
+      ficam nítidos e voltam a esfumar quando vem o próximo (--v, app.js: data-steps). Tela muito baixa (celular deitado),
+      "reduzir movimento" ou sem JS: lista normal */
+.ab-work { background: var(--tone-mist); }
+.ab-work__stage { padding-block: var(--section); }
+.ab-work__in { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 22px clamp(32px, 6vw, 96px); align-items: center; }
+.ab-work__text { display: grid; gap: 1.1em; }
+.ab-work__text p { font-size: clamp(1.18rem, 1.9vw, 1.72rem); line-height: 1.38; letter-spacing: -0.008em; color: #4A2B2D; }
+.ab-work__text p:last-child { font-weight: 600; }
+@media (max-width: 760px) {
+  .ab-work__in { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) {
+  .js .ab-work { height: calc(100svh + 3 * 45svh); }
+  .js .ab-work__stage { position: sticky; top: 0; display: grid; align-items: center; height: 100svh; padding-block: var(--hdr) 0; overflow: clip; }
+  .js .ab-work__in { width: 100%; }
+  .js .ab-work__text p { grid-area: 1 / 1; align-self: center; opacity: var(--v, 1); filter: blur(calc((1 - var(--v, 1)) * 9px)); translate: 0 calc((1 - var(--v, 1)) * 12px); will-change: opacity, filter; }
+  .js .ab-work__text p + p { --v: 0; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) and (max-width: 760px) {
+  .js .ab-work__in { align-self: center; }
+  .js .ab-work__text p { align-self: start; }
+}
+
+/* 4. O depoimento da Katie sobre uma foto só, de ponta a ponta, que anda mais devagar que a página (data-speed).
+      05/11/2026 (ela: faltava contraste entre o depoimento e o mockup): o mockup fica à esquerda e a frase à direita, sobre
+      o verde liso da própria foto, sem nada atrás dela. No celular a foto fica em cima e a frase embaixo, no mesmo verde */
+.ab-quote { --green: #3F6951; position: relative; isolation: isolate; display: grid; align-items: center; min-height: clamp(420px, 66vh, 600px); overflow: hidden; background: var(--green); color: var(--ivory); }
+.ab-quote__img { position: absolute; z-index: -2; left: -8vw; top: calc(50% - min(60%, 32vw)); width: auto; height: min(120%, 64vw); max-width: none; }
+.ab-quote__in { width: 100%; display: grid; grid-template-columns: min(34vw, 30rem); justify-content: end; justify-items: start; gap: 14px; padding-block: clamp(48px, 5vw, 76px); }
+.ab-quote__mark { font: 500 clamp(3rem, 5vw, 4.6rem)/0.6 var(--f-display); color: var(--sage); margin-bottom: -0.2em; }
+.ab-quote__text { margin: 0; font: 400 clamp(1.6rem, 2.7vw, 2.5rem)/1.2 var(--f-sans); letter-spacing: -0.012em; text-wrap: balance; }
+.ab-quote__who { font: 600 0.78rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
+@media (max-width: 860px) {
+  .ab-quote { display: block; min-height: 0; }
+  .ab-quote__img { left: 0; top: 0; width: 100%; height: 76vw; object-fit: cover; object-position: 47% 50%; translate: none !important; }
+  .ab-quote::after { content: ""; position: absolute; z-index: -1; inset: 0 0 auto; height: 76vw; background: linear-gradient(180deg, rgba(63, 105, 81, 0) 84%, var(--green) 100%); }
+  .ab-quote__in { grid-template-columns: minmax(0, 1fr); justify-items: center; padding-block: 68vw 44px; text-align: center; }
+}
+
+/* 5. What I can help with: título à esquerda e a frase encaixada à direita. Os 3 grupos dela em painéis de cor. 05/11/2026
+      (ela: "mais refinada, menorzinha", mas gostava de ver "um de cada vez"): a tela fica parada, o 1º painel já está lá e
+      cada um dos outros sobe de baixo da tela por cima do anterior, deixando à vista a faixa com o nome (--e, app.js:
+      data-rise). Tela muito baixa, "reduzir movimento" ou sem JS: lista normal. O "See my work" saiu */
+.ab-caps { background: var(--ivory); }
+.ab-caps__stage { padding-block: var(--section) clamp(24px, 3vw, 44px); }
+.ab-caps__head { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); gap: 14px clamp(32px, 5vw, 80px); align-items: end; padding-bottom: clamp(22px, 2.6vw, 36px); }
+.ab-caps__head p { font-size: 1.02rem; line-height: 1.55; color: #563537; }
+.ab-caps__stack { --name: clamp(1.35rem, 2.2vw, 2rem); --strip: calc(var(--name) * 1.12 + 26px); --content: 92px; display: grid; gap: 10px; }
+.ab-panel { --n: 0; position: relative; padding: 13px clamp(20px, 2.4vw, 34px) 20px; border-radius: var(--radius); background: var(--sage); box-shadow: 0 -10px 28px -20px rgba(58, 28, 30, 0.38); }
+.ab-panel:nth-child(2) { --n: 1; background: color-mix(in oklab, var(--ivory), var(--lilac) 66%); }
+.ab-panel:nth-child(3) { --n: 2; background: color-mix(in oklab, var(--sage), #E8A0A2 55%); }
+.ab-panel__t { font: 500 var(--name)/1.12 var(--f-display); letter-spacing: -0.012em; padding-bottom: 13px; }
+/* os itens numa linha corrida, com pontinhos coral só entre dois itens da mesma linha: o ponto fica à esquerda de cada
+   item e o do primeiro de cada linha cai fora da lista, cortado (nunca sobra ponto na ponta) */
+.ab-panel__items { --gap: 1.3em; overflow: hidden; margin: 0; padding: 0; list-style: none; font: 500 clamp(0.98rem, 1.22vw, 1.1rem)/1.45 var(--f-sans); letter-spacing: -0.005em; }
+.ab-panel__items li { position: relative; display: inline-block; margin-right: var(--gap); white-space: nowrap; }
+.ab-panel__items li::before { content: ""; position: absolute; left: calc(var(--gap) / -2 - 0.14em); top: calc(50% - 0.12em); width: 0.28em; height: 0.28em; border-radius: 50%; background: var(--tomato); }
+@media (prefers-reduced-motion: no-preference) {
+  .js .ab-hello { position: sticky; top: var(--hello-top, 0px); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) {
+  .js .ab-caps { height: calc(100svh + 2 * 52svh); overflow: clip; }
+  .js .ab-caps__stage { position: sticky; top: 0; display: grid; align-items: center; height: 100svh; padding-block: var(--hdr) 0; }
+  .js .ab-caps__stage > .wrap { width: 100%; }
+  .js .ab-caps__stack { display: block; position: relative; height: calc(3 * var(--strip) + var(--content)); }
+  .js .ab-panel { position: absolute; left: 0; right: 0; top: calc(var(--n) * var(--strip)); height: calc(var(--strip) + var(--content)); transform: translateY(calc((1 - var(--e, 1)) * 100lvh)); will-change: transform; }
+  .js .ab-panel + .ab-panel { --e: 0; }
+}
+@media (max-width: 860px) {
+  .ab-caps__head { grid-template-columns: minmax(0, 1fr); }
+  .ab-caps__stack { --content: 112px; }
+}
+
+/* 6. Fun facts: uma fileira só de postais retos, com a resposta à vista. No computador ela é mais larga que a tela e anda
+      de lado ao rolar (data-slide: --slide); no celular arrasta com o dedo, com o próximo cartão aparecendo na borda.
+      Sem JS ou com "reduzir movimento", no computador, os cartões quebram em linhas e nada fica escondido. */
+.ab-fun { --tab: clamp(150px, 15vw, 220px); overflow-x: clip; padding-block: var(--section) calc(var(--tab) / 2 + clamp(28px, 3vw, 44px)); background: var(--tone-blush); }
+.ab-fun__row { display: flex; gap: clamp(16px, 1.7vw, 24px); margin: clamp(22px, 2.6vw, 36px) 0 0; padding: 4px var(--gutter) 30px; list-style: none; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+.ab-fun__row::-webkit-scrollbar { display: none; }
+.ab-fun__card { flex: 0 0 min(78vw, 330px); display: grid; align-content: start; gap: 12px; padding: clamp(22px, 2vw, 30px); border-radius: var(--radius); background: var(--paper); box-shadow: 0 22px 36px -28px rgba(58, 28, 30, 0.5); scroll-snap-align: start; }
+.ab-fun__q { color: var(--ink); }
+.ab-fun__card p { font-size: 1rem; line-height: 1.55; color: #563537; }
+@media (min-width: 861px) {
+  .ab-fun__row { flex-wrap: wrap; max-width: var(--maxw); margin-inline: auto; overflow: visible; }
+  .ab-fun__card { flex: 1 1 300px; }
+  .ab-fun__row.is-drifting { flex-wrap: nowrap; width: max-content; max-width: none; margin-inline: 0; padding-left: max(var(--gutter), calc((100vw - var(--maxw)) / 2 + var(--gutter))); transform: translateX(var(--slide, 0px)); will-change: transform; }
+  .is-drifting .ab-fun__card { flex: 0 0 clamp(280px, 20.8vw, 360px); }
+}
+
+/* 8. O convite: faixa coral de ponta a ponta, título enorme em 3 linhas que entram de lados alternados conforme a página
+      rola (data-scrub), depois o texto e o botão. Sem imagem. A cor continua atrás do rodapé, para o degradê dele sair do coral. */
+.ab-end { overflow-x: clip; padding-block: clamp(64px, 7vw, 110px) clamp(112px, 11vw, 160px); background: var(--tomato); color: var(--ivory); }
+.ab-end__in { display: grid; gap: clamp(26px, 3vw, 40px); }
+.ab-end__title { display: grid; font: 500 clamp(3.1rem, 11.2vw, 10.6rem)/1 var(--f-display); letter-spacing: -0.02em; }
+.ab-end__line { display: block; opacity: calc(var(--k, 1) * 1.8); transform: translateX(calc((1 - var(--k, 1)) * -62vw)); will-change: transform; }
+.ab-end__line:nth-child(even) { text-align: right; transform: translateX(calc((1 - var(--k, 1)) * 62vw)); }
+.ab-end__dock { display: grid; gap: 18px; justify-items: start; justify-self: end; width: min(100%, 25rem); color: var(--ink); opacity: var(--k, 1); transform: translateY(calc((1 - var(--k, 1)) * 30px)); }
+.ab-end__dock p { font-size: clamp(1.14rem, 1.5vw, 1.32rem); line-height: 1.45; }
+.ab-end__btn { background: var(--ivory); border-color: var(--ivory); color: var(--ink); }
+.ab-end__btn:hover { background: var(--ink); border-color: var(--ink); color: var(--ivory); }
+.is-about .ftr { background-color: var(--tomato); }
+@media (max-width: 760px) {
+  .ab-end__title { font-size: 12.4vw; line-height: 1.04; }
+  .ab-end__line:nth-child(even) { text-align: left; padding-left: 0.5em; }
+  .ab-end__dock { justify-self: start; }
+}
 
 /* ───────── contact page ───────── */
 .contact-hero { padding: calc(var(--hdr) + clamp(40px, 5vw, 80px)) 0 clamp(48px, 5vw, 72px); }
