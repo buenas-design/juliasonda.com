@@ -582,17 +582,21 @@ main > :has(+ .qband) { padding-bottom: clamp(36px, 4vw, 60px); }
 .panel:hover .panel__img img, .panel:hover .panel__img video { scale: 1.03; }
 /* 04/11/2026: o vídeo do projeto fica em cima da foto dela (render.mjs → panelVideo) e só aparece no lugar dela onde o
    painel é largo: no celular o painel é alto, só o meio do vídeo (que é largo) aparece e os logos saíam cortados ao
-   meio, então lá fica a foto; também com "reduzir movimento", com a economia de dados ou sem JavaScript */
+   meio, então lá fica a foto; também com "reduzir movimento", com a economia de dados ou sem JavaScript.
+   05/11/2026: e só quando o painel inteiro cabe na tela embaixo do cabeçalho (420 px no mínimo + 76 + 28 = 524, com
+   folga): no celular deitado o painel passa da tela, a parte de baixo nunca aparece e o logo do vídeo saía cortado, então
+   lá também fica a foto. Mesma condição no app.js (PANEL_VIDEO). A foto vem logo depois do vídeo no HTML (video + img),
+   que funciona também nos navegadores sem :has() */
 .panel__img video { display: none; }
-@media (min-aspect-ratio: 5/4) and (prefers-reduced-motion: no-preference) {
+@media (min-aspect-ratio: 5/4) and (min-height: 540px) and (prefers-reduced-motion: no-preference) {
   .js:not(.save-data) .panel__img video { display: block; }
-  .js:not(.save-data) .panel__img:has(> video) > img { display: none; }
+  .js:not(.save-data) .panel__img > video + img { display: none; }
 }
 .panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(40, 14, 16, 0.55) 0%, rgba(40, 14, 16, 0) 34%, rgba(40, 14, 16, 0) 66%, rgba(40, 14, 16, 0.5) 100%); }
 /* 05/11/2026 (ela, "vídeo, texto mais escuro"): no painel que toca o vídeo, os textos do próprio vídeo (nomes das cores,
    frases) passam por baixo do nome e da frase do painel; o fundo em cima e embaixo fica mais escuro e o texto ganha uma
    sombra leve, para continuar fácil de ler */
-@media (min-aspect-ratio: 5/4) and (prefers-reduced-motion: no-preference) {
+@media (min-aspect-ratio: 5/4) and (min-height: 540px) and (prefers-reduced-motion: no-preference) {
   .js:not(.save-data) .panel:has(.panel__img > video)::after { background: linear-gradient(180deg, rgba(40, 14, 16, 0.8) 0%, rgba(40, 14, 16, 0.5) 22%, rgba(40, 14, 16, 0) 44%, rgba(40, 14, 16, 0) 60%, rgba(40, 14, 16, 0.5) 82%, rgba(40, 14, 16, 0.8) 100%); }
   .js:not(.save-data) .panel:has(.panel__img > video) :is(.panel__top, .panel__bottom) { text-shadow: 0 1px 16px rgba(40, 14, 16, 0.6); }
 }

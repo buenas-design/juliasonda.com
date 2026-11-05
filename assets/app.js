@@ -8,28 +8,38 @@
   const $ = (sel, el = document) => el.querySelector(sel);
   const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const saveData = document.documentElement.classList.contains('save-data');
+  // the full video only for a box wider than 640px on a screen at least 540px tall (a computer or a tablet); a phone,
+  // standing or lying down, gets the light copy (hero-card.mp4)
+  const bigBox = (v) => v.parentElement.clientWidth > 640 && window.innerHeight >= 540;
 
-  // a project that opens with a video (Mom & Pops) plays it by itself; with "reduce motion" it stays on the
-  // first frame, with the controls to play it
-  if (reduceMotion) $$('.pm video[autoplay]').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
+  // A project that opens with a video (render.mjs → moduleImg) plays it by itself, silent and in a loop, but the
+  // same way as the covers below: only while it is on screen, and nothing downloads before that (preload="none"). On
+  // a phone it plays the light copy (data-small-src). With "reduce motion" or the data saver it doesn't play by
+  // itself: it stays on its first frame, with the controls to play it.
+  $$('.pm video[data-autoplay]').forEach((v) => {
+    if (v.dataset.smallSrc && !bigBox(v)) v.src = v.dataset.smallSrc;
+    if (reduceMotion || saveData) { v.removeAttribute('data-autoplay'); v.controls = true; }
+  });
 
   // A project's video is also its cover (cards, "Next project", Work panels; render.mjs → coverVideo, her request
-  // 04/11/2026). Cards and "Next project" have the light copy (hero-card.mp4, ~2.5 MB); a box wider than 640px (the
-  // big card on the home, on a computer) switches to the full video (data-big-src) at load, before anything plays. A
+  // 04/11/2026). Cards and "Next project" have the light copy (hero-card.mp4, ~2.5 MB); a big box (bigBox: the big
+  // card on the home, on a computer) switches to the full video (data-big-src) at load, before anything plays. A
   // Work panel's video has its files in data-src/data-poster and gets them a screen before the panel comes into view,
-  // and only where the CSS shows it (wide screens; on a tall phone panel her photo stays). preload="none": nothing
-  // downloads until play(), which waits until at least 40% of the box has been on screen for 0.6s, so a cover that
-  // only flies past while scrolling never loads (the poster is the video's first frame, so the wait doesn't show).
+  // and only where the CSS shows it (PANEL_VIDEO: a wide screen that fits the whole panel; on a phone her photo
+  // stays). preload="none": nothing downloads until play(), which waits until at least 40% of the box has been on
+  // screen for 0.6s, so a cover that only flies past while scrolling never loads (the poster is the video's first
+  // frame, so the wait doesn't show).
   // Once a video has started, the browser keeps downloading the rest even while it is paused off screen (that is why
   // the cards get the light copy). Never plays with "reduce motion" or the data saver (save-data, head.html): the
   // first frame stays.
   const coverVideos = $$('video[data-autoplay]');
-  const saveData = document.documentElement.classList.contains('save-data');
+  const PANEL_VIDEO = '(min-aspect-ratio: 5/4) and (min-height: 540px)'; // same as styles.css (.panel__img video)
   const shown = (v) => v.offsetWidth > 0; // a panel's video is display: none where her photo stays
   const prepare = (v) => {
     if (saveData || !shown(v)) return;
     const d = v.dataset;
-    if (d.bigSrc && v.parentElement.clientWidth > 640) { v.poster = d.bigPoster; v.src = d.bigSrc; }
+    if (d.bigSrc && bigBox(v)) { v.poster = d.bigPoster; v.src = d.bigSrc; }
     if (d.src) { v.poster = d.poster; v.src = d.src; }
     ['bigSrc', 'bigPoster', 'src', 'poster'].forEach((k) => delete d[k]); // decided once
   };
@@ -37,6 +47,8 @@
   coverVideos.forEach((v) => { v.muted = true; if (!v.dataset.src) prepare(v); });
   if (coverVideos.length && !reduceMotion && !saveData && 'IntersectionObserver' in window) {
     const SHOW = 0.4; // share of the box on screen before it plays
+    // ...except a project page's own video, which on a short screen is only partly in view at the top of the page
+    const need = (v) => (v.closest('.pm') ? 0.1 : SHOW);
     const seen = new Set(); // covers at least that much on screen
     const waiting = new Map(); // cover → timer before it plays
     // The Work panels stack (sticky), so a panel hidden under the next one is still on screen for the observer:
@@ -68,11 +80,11 @@
     const coverIo = new IntersectionObserver((entries) =>
       entries.forEach((e) => {
         const v = videoOf.get(e.target);
-        if (e.isIntersecting && e.intersectionRatio >= SHOW) seen.add(v);
+        if (e.isIntersecting && e.intersectionRatio >= need(v)) seen.add(v);
         else seen.delete(v);
         syncCover(v);
       }),
-    { threshold: [0, SHOW] });
+    { threshold: [0, 0.1, SHOW] });
     videoOf.forEach((v, box) => coverIo.observe(box));
     if (coverVideos.some((v) => v.closest('.panel'))) {
       let queuedCovers = false;
@@ -85,9 +97,9 @@
       const nearIo = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && prepare(videoOf.get(e.target))), { rootMargin: '100% 0px' });
       const watchPanels = () => videoOf.forEach((v, box) => { if (v.dataset.src) { nearIo.unobserve(box); nearIo.observe(box); } });
       watchPanels();
-      // turning a tablet or resizing the window can show or hide the panels' videos (CSS: min-aspect-ratio 5/4):
+      // turning a tablet or resizing the window can show or hide the panels' videos (CSS: PANEL_VIDEO):
       // watching the panels again reports the ones near the screen, which get their files if they are shown now
-      matchMedia('(min-aspect-ratio: 5/4)').addEventListener?.('change', () => { watchPanels(); coverVideos.forEach(syncCover); });
+      matchMedia(PANEL_VIDEO).addEventListener?.('change', () => { watchPanels(); coverVideos.forEach(syncCover); });
     }
   }
 
