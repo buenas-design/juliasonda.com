@@ -370,18 +370,19 @@
     paintSteps();
   }
 
-  /* ───────── About: the sections that follow the scroll (05/11/2026) ───────── */
+  /* ───────── the sections that follow the scroll (About and the home, 05/11/2026) ───────── */
   // data-scrub="0.95 0.35": --k is 0 while the element's top is below 95% of the screen height and reaches 1 when its
   // top gets to 35%; data-scrub-ease="out" eases it. The CSS turns --k into the movement (the closing title's lines
   // sliding in) and defaults it to 1, so without JS or with reduced motion all of it sits in its
   // final place.
-  // data-ink: the words of the white-label line go from faint to solid in reading order (--o per word).
+  // data-ink: the words of a line go from faint to solid in reading order (--o per word), by default from the moment
+  // the line's top is at 88% of the screen until it reaches 30%; data-ink="0.9 0.42" names other points.
   // data-slide: the fun facts row moves sideways while its section passes, on a computer only (--slide); on a phone
   // it is a row to swipe. All the rects are read first and written after, once per frame.
   const scrubbed = $$('[data-scrub]');
-  const inked = $('[data-ink]');
+  const inked = $$('[data-ink]');
   const slideRow = $('[data-slide]');
-  if (!reduceMotion && (scrubbed.length || inked || slideRow)) {
+  if (!reduceMotion && (scrubbed.length || inked.length || slideRow)) {
     const conf = scrubbed.map((el) => {
       const [from = 0.95, to = 0.35] = el.dataset.scrub.trim().split(/\s+/).map(Number);
       return { from, to, out: el.dataset.scrubEase === 'out', last: '' };
@@ -392,12 +393,13 @@
       el.style.setProperty(name, value);
     };
     const clamp01 = (x) => Math.min(Math.max(x, 0), 1);
-    // the white-label line: each word (and the typing word, as one piece) gets its own span
-    const inkWords = [];
-    if (inked) {
-      [...inked.childNodes].forEach((node) => {
+    // each word (and the typing word, as one piece) gets its own span, also inside the line's accent and labels
+    const splitInk = (parent, words) => {
+      [...parent.childNodes].forEach((node) => {
         if (node.nodeType !== Node.TEXT_NODE) {
-          if (node.classList?.contains('tw')) { node.classList.add('ab-ink'); inkWords.push({ el: node, last: '' }); }
+          if (node.nodeType !== Node.ELEMENT_NODE || node.classList.contains('sr-only')) return;
+          if (node.classList.contains('tw')) { node.classList.add('ab-ink'); words.push({ el: node, last: '' }); }
+          else splitInk(node, words);
           return;
         }
         const frag = document.createDocumentFragment();
@@ -407,12 +409,18 @@
           const word = document.createElement('span');
           word.className = 'ab-ink';
           word.textContent = part;
-          inkWords.push({ el: word, last: '' });
+          words.push({ el: word, last: '' });
           frag.append(word);
         });
         node.replaceWith(frag);
       });
-    }
+    };
+    const inks = inked.map((el) => {
+      const words = [];
+      splitInk(el, words);
+      const [from = 0.88, to = 0.3] = (el.dataset.ink || '').trim().split(/\s+/).filter(Boolean).map(Number);
+      return { el, words, from, to };
+    });
     let slideRoom = 0;
     const hdrHeight = $('#hdr')?.offsetHeight || 0;
     const slideOn = window.matchMedia('(min-width: 861px)');
@@ -428,7 +436,7 @@
       queuedScrub = false;
       const vh = window.innerHeight;
       const tops = scrubbed.map((el) => el.getBoundingClientRect().top);
-      const inkTop = inked ? inked.getBoundingClientRect().top : 0;
+      const inkTops = inks.map((ink) => ink.el.getBoundingClientRect().top);
       const rowBox = slideRoom ? slideRow.getBoundingClientRect() : null;
       tops.forEach((top, i) => {
         const { from, to, out } = conf[i];
@@ -436,12 +444,11 @@
         if (out) k = 1 - (1 - k) ** 3;
         set(scrubbed[i], '--k', k.toFixed(3), conf[i]);
       });
-      if (inked) {
-        // from the moment the line's top is at 88% of the screen until it reaches 30%
-        const p = clamp01((vh * 0.88 - inkTop) / (vh * 0.58));
-        const span = inkWords.length + 3; // each word takes 4 words' time, so they overlap softly
-        inkWords.forEach((w, i) => set(w.el, '--o', clamp01((p * span - i) / 4).toFixed(3), w));
-      }
+      inks.forEach(({ words, from, to }, n) => {
+        const p = clamp01((vh * from - inkTops[n]) / (vh * (from - to)));
+        const span = words.length + 3; // each word takes 4 words' time, so they overlap softly
+        words.forEach((w, i) => set(w.el, '--o', clamp01((p * span - i) / 4).toFixed(3), w));
+      });
       // the row rests at both ends while its cards are whole on screen, so the first and the last card can be read
       if (slideRoom) {
         const start = vh - rowBox.height - 30;
@@ -460,6 +467,46 @@
     paintScrub();
   }
 
+  // The home's projects (05/11/2026): the screen stays still and one row of cards passes sideways as the page goes
+  // down. The section's height comes from the row's width (--room), so the row ends exactly when the scroll does; it
+  // starts a little to the right and is already moving while the stage arrives. Pinned only where the CSS pins it.
+  const sideways = $('[data-sideways]');
+  if (sideways && !reduceMotion) {
+    const row = $('.hm-work__row', sideways);
+    const pinned = window.matchMedia('(min-width: 861px) and (min-height: 600px)');
+    let room = 0;
+    let last = '';
+    const measureRow = () => {
+      room = pinned.matches ? Math.max(row.offsetWidth - document.documentElement.clientWidth, 0) : 0;
+      if (room) sideways.style.setProperty('--room', `${room}px`);
+      else { sideways.style.removeProperty('--room'); row.style.removeProperty('--slide'); last = ''; }
+    };
+    let queuedRow = false;
+    const paintRow = () => {
+      queuedRow = false;
+      if (!room) return;
+      const top = sideways.getBoundingClientRect().top;
+      const vh = window.innerHeight;
+      const passed = Math.min(Math.max(-top / room, 0), 1);
+      const arriving = Math.min(Math.max(top / (vh * 0.75), 0), 1);
+      const x = `${(arriving * window.innerWidth * 0.16 - room * passed).toFixed(1)}px`;
+      if (x !== last) { last = x; row.style.setProperty('--slide', x); }
+    };
+    const queueRow = () => { if (!queuedRow) { queuedRow = true; requestAnimationFrame(paintRow); } };
+    // a link reached with the Tab key may be far along the row: the page goes to where the row shows it
+    row.addEventListener('focusin', (e) => {
+      if (!room) return;
+      const card = [...row.children].find((el) => el.contains(e.target));
+      const along = Math.min(Math.max(card.offsetLeft - row.children[0].offsetLeft, 0), room);
+      window.scrollTo({ top: sideways.getBoundingClientRect().top + window.scrollY + along, behavior: 'auto' });
+    });
+    window.addEventListener('scroll', queueRow, { passive: true });
+    window.addEventListener('resize', () => { measureRow(); queueRow(); });
+    window.addEventListener('load', () => { measureRow(); queueRow(); });
+    measureRow();
+    paintRow();
+  }
+
   // The hello text stays put while the plum band rises over it (sticky, styles.css). If the text is taller than the
   // screen it pins with its bottom at the bottom of the screen, so no line is lost.
   const hello = $('[data-hello]');
@@ -470,33 +517,50 @@
     fitHello();
   }
 
-  /* ───────── About: one at a time while the screen stays still ───────── */
-  // data-steps (How I work): the section is taller than the screen and its stage is sticky. The paragraphs share one
-  // place and take turns: each comes out of the blur, holds, and blurs away as the next one arrives (--v, 0 to 1).
+  /* ───────── Home: an industry's pictures pop up at the section's corners while the mouse is on its name ───────── */
+  const cornersBox = $('[data-corners]');
+  if (cornersBox && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const sets = $$('.hm-ind__set', cornersBox);
+    $$('.hm-ind__item', cornersBox).forEach((el, i) => {
+      el.addEventListener('pointerenter', () => sets[i]?.classList.add('is-on'));
+      el.addEventListener('pointerleave', () => sets[i]?.classList.remove('is-on'));
+    });
+  }
+
+  /* ───────── One at a time while the screen stays still (About and the home) ───────── */
+  // data-steps="0.45" (How I work, What I do): the section is taller than the screen and its [data-stage] is sticky. The
+  // [data-step] items share one place and take turns, 0.45 stage heights of scroll each: each comes out of the blur,
+  // holds, and blurs away as the next one arrives (--v, 0 to 1). [data-step-name] items follow along.
   // data-rise (What I can help with): the first panel is already there and each next one rises from below the screen
   // over the previous one (--e, 0 to 1). Her request, 05/11/2026. Short screens get a plain list (styles.css), where
   // these variables do nothing.
   const clamp01 = (n) => Math.min(Math.max(n, 0), 1);
-  const stepsBox = $('[data-steps]');
+  const stepBoxes = $$('[data-steps]').map((box) => ({
+    box,
+    stage: $('[data-stage]', box),
+    each: Number(box.dataset.steps) || 0.45,
+    items: $$('[data-step]', box),
+    names: $$('[data-step-name]', box),
+  }));
   const riseBox = $('[data-rise]');
-  if ((stepsBox || riseBox) && !reduceMotion) {
-    const paras = stepsBox ? $$('.ab-work__text p', stepsBox) : [];
+  if ((stepBoxes.length || riseBox) && !reduceMotion) {
     const risers = riseBox ? $$('.ab-panel', riseBox).slice(1) : [];
     // the stages are 100svh tall, so they are the measure, not the window (it grows when a phone's address bar hides)
-    const stepsStage = stepsBox && $('.ab-work__stage', stepsBox);
     const riseStage = riseBox && $('.ab-caps__stage', riseBox);
     let queuedTurns = false;
     const paintTurns = () => {
       queuedTurns = false;
-      if (stepsBox) {
-        const x = -stepsBox.getBoundingClientRect().top / (stepsStage.offsetHeight * 0.45); // 45svh per paragraph (styles.css)
-        paras.forEach((el, i) => {
+      stepBoxes.forEach(({ box, stage, each, items, names }) => {
+        const x = -box.getBoundingClientRect().top / (stage.offsetHeight * each);
+        items.forEach((el, i) => {
           let d = Math.abs(x - i);
           if (x < i && i === 0) d *= 0.4; // the first one comes into focus slowly, while the section arrives
-          if (x > i && i === paras.length - 1) d = 0; // the last one stays until the section leaves
-          el.style.setProperty('--v', clamp01((0.55 - d) / 0.25).toFixed(3));
+          if (x > i && i === items.length - 1) d = 0; // the last one stays until the section leaves
+          const v = clamp01((0.55 - d) / 0.25).toFixed(3);
+          el.style.setProperty('--v', v);
+          names[i]?.style.setProperty('--v', v);
         });
-      }
+      });
       if (riseBox) {
         const r = riseBox.getBoundingClientRect();
         const p = clamp01(-r.top / Math.max(r.height - riseStage.offsetHeight, 1));
@@ -547,13 +611,45 @@
     paintStack();
   }
 
-  /* ───────── About opening: photos start piled on the title and spread to the corners (data-spread) ───────── */
-  const spread = $('[data-spread]');
-  if (spread && !reduceMotion) {
-    const stage = $('.about-open__stage', spread);
-    const photos = $$('.ao', spread);
-    const measure = () => {
-      photos.forEach((el) => el.style.setProperty('--p', 1));
+  /* ───────── Photos that spread to the corners as you scroll (data-spread) ───────── */
+  // About opening: they start piled on the title. Home (05/11/2026): the text is marked data-spread-clear and they
+  // start gathered right around it, never covering it: beside the text where there is room, above and below it on a phone.
+  if (!reduceMotion) $$('[data-spread]').forEach((spread) => {
+    const stage = $('.about-open__stage, .hm-hero__stage', spread);
+    const photos = $$('.ao, .hp', spread);
+    const clear = $$('[data-spread-clear]', spread);
+    const GATHERED = 0.8; // their scale when gathered, same as styles.css (.hm-hero .hp)
+    const GAP = 18;
+    const aroundText = () => {
+      const boxes = clear.map((el) => el.getBoundingClientRect());
+      const c = {
+        left: Math.min(...boxes.map((b) => b.left)), right: Math.max(...boxes.map((b) => b.right)),
+        top: Math.min(...boxes.map((b) => b.top)), bottom: Math.max(...boxes.map((b) => b.bottom)),
+      };
+      const midX = (c.left + c.right) / 2;
+      const midY = (c.top + c.bottom) / 2;
+      const s = stage.getBoundingClientRect();
+      photos.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const toLeft = r.left + r.width / 2 < midX;
+        const toTop = r.top + r.height / 2 < midY;
+        const w = r.width * GATHERED;
+        const h = r.height * GATHERED;
+        const room = toLeft ? c.left - s.left : s.right - c.right;
+        let x;
+        let y;
+        if (room >= w + GAP * 1.5) { // beside the text, overlapping the other photo on its side a little
+          x = toLeft ? c.left - GAP - w / 2 : c.right + GAP + w / 2;
+          y = midY + (toTop ? -1 : 1) * Math.min(h * 0.46, (c.bottom - c.top) / 2);
+        } else { // above or below the text, near the middle
+          x = midX + (toLeft ? -1 : 1) * w * 0.42;
+          y = toTop ? c.top - GAP * 0.8 - h / 2 : c.bottom + GAP * 0.8 + h / 2;
+        }
+        el.style.setProperty('--dx', `${(x - (r.left + r.width / 2)).toFixed(1)}px`);
+        el.style.setProperty('--dy', `${(y - (r.top + r.height / 2)).toFixed(1)}px`);
+      });
+    };
+    const overText = () => {
       const s = stage.getBoundingClientRect();
       photos.forEach((el, i) => {
         const r = el.getBoundingClientRect();
@@ -563,6 +659,11 @@
         el.style.setProperty('--dx', `${(s.left + s.width / 2 + jitterX - (r.left + r.width / 2)).toFixed(1)}px`);
         el.style.setProperty('--dy', `${(s.top + s.height / 2 + jitterY - (r.top + r.height / 2)).toFixed(1)}px`);
       });
+    };
+    const measure = () => {
+      photos.forEach((el) => el.style.setProperty('--p', 1));
+      if (clear.length) aroundText();
+      else overText();
     };
     let queuedSpread = false;
     const paintSpread = () => {
@@ -577,9 +678,10 @@
     const queueSpread = () => { if (!queuedSpread) { queuedSpread = true; requestAnimationFrame(paintSpread); } };
     window.addEventListener('scroll', queueSpread, { passive: true });
     window.addEventListener('resize', () => { measure(); paintSpread(); });
+    if (clear.length) document.fonts?.ready.then(() => { measure(); paintSpread(); }); // the text's box depends on its font
     measure();
     paintSpread();
-  }
+  });
 
   /* ───────── About: the round badge on the half-circle tab turns as you scroll ───────── */
   const badge = $('.outside__badge');

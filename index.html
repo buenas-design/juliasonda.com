@@ -37,7 +37,7 @@
      <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
      Enquanto isso, a Inter Tight entra no lugar dela. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&display=swap">
-<link rel="stylesheet" href="assets/styles.css?v=955b6452">
+<link rel="stylesheet" href="assets/styles.css?v=a14daaa9">
 <!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível), e se o
      celular está com a economia de dados ligada (save-data: os vídeos das capas ficam parados, 04/11/2026) -->
 <script>document.documentElement.classList.add('js');if(navigator.connection&&navigator.connection.saveData)document.documentElement.classList.add('save-data')</script>
@@ -67,35 +67,41 @@
 </header>
 <main id="main">
 
-<!-- Cor do fundo: cada seção diz a sua em data-tone (ivory, blush, pink, mist) e o fundo do site
-     muda devagar de uma para outra enquanto a página rola.
-     Animações ao rolar (assets/app.js):
-     data-reveal          → sobe e aparece
-     data-reveal="title"  → as palavras sobem uma a uma
-     data-reveal="img"    → a imagem se revela de baixo para cima, como uma cortina
-     data-reveal="left"   → entra pela esquerda
-     data-speed="0.1"     → a imagem flutua numa velocidade própria enquanto a página rola
-     data-side="-1" / "1" → (fotos do topo) se afastam para a esquerda / direita ao rolar -->
+<!-- Home nova, versão de TESTE (05/11/2026, pedido dela: seguir as referências e as transições do About novo; byfayandco.com
+     só para posicionar texto e para as passagens). Cada seção tem uma composição e uma passagem só dela, e todas as seções
+     ficam dentro de .is-home ou .hm-*; o CSS está em "Home, versão de teste" (styles.css) e os movimentos em app.js:
+     data-spread  → as 4 fotos começam juntas em volta do título e se separam até os cantos
+     data-hello   → a apresentação fica parada enquanto a faixa vinho sobe por cima dela
+     data-ink     → as palavras vão de esfumaçadas a nítidas ao rolar
+     data-sideways → a tela fica parada e a fileira de projetos passa de lado
+     data-steps   → os serviços passam no mesmo lugar, um de cada vez, saindo do esfumaçado
+     data-scrub   → as linhas do convite entram de lados alternados
+     Sem JS, com "reduzir movimento" ou em tela baixa nada gruda nem anda: tudo fica visível, em lista.
+     Nesta versão NÃO aparecem: a faixa de imagens (home.strip) e as imagens dos setores (home.industries → images).
+     Os dois continuam no site.yml, caso voltem. -->
 
-<!-- ═════════ 01 HERO: título em Florentia, 2 fotos da Julia + 2 de projetos em volta ═════════ -->
-<section class="hero" data-tone="ivory" aria-labelledby="hero-title">
-  <div class="hero__photos">
-    <img class="hp hp--1 hp--tall" style="--side:-1;--depth:1" data-reveal="img" data-speed="-0.12" data-side="-1" src="assets/photos/float-mug.jpg" alt="Julia laughing with a mug of coffee" decoding="async">
-    <img class="hp hp--2 hp--wide" style="--side:1;--depth:2" data-reveal="img" data-speed="0.09" data-side="1" src="assets/projects/hero-now-leasing.jpg" alt="Now Leasing billboard for a residential community" decoding="async">
-    <img class="hp hp--3 hp--tall" style="--side:-1;--depth:3" data-reveal="img" data-speed="-0.07" data-side="-1" src="assets/projects/hero-pamplemousse-tote.jpg" alt="Pamplemousse Collective tote bag on a plum velvet armchair" decoding="async">
-    <img class="hp hp--4 hp--tall" style="--side:1;--depth:4" data-reveal="img" data-speed="0.13" data-side="1" src="assets/photos/float-sofa.jpg" alt="Julia working on her laptop on a mustard sofa" decoding="async">
-  </div>
-  <div class="wrap hero__in">
-    <p class="label" data-reveal>White-label branding &amp; graphic design for agencies</p>
-    <h1 class="hero__title" id="hero-title" data-reveal="title">I&#39;m the <em>branding <span class="nowrap">&amp; design</span></em> specialist <mark>your agency</mark> can count on.</h1>
-    <div class="hero__ctas" data-reveal>
-      <a class="btn" href="work/">See My Work</a>
-      <a class="btn btn--line" href="contact/">Get in Touch</a>
+<!-- 1. Topo: o título e os botões ficam parados e legíveis desde o primeiro quadro; as fotos começam perto dos cantos do
+     texto, sem cobrir nada, e se separam até os cantos da tela conforme a página rola (data-spread) -->
+<section class="hm-hero" data-tone="ivory" aria-labelledby="hero-title" data-spread>
+  <div class="hero hm-hero__stage">
+    <div class="hero__photos">
+      <img class="hp hp--1 hp--tall" style="--side:-1" src="assets/photos/float-mug.jpg" alt="Julia laughing with a mug of coffee" decoding="async">
+      <img class="hp hp--2 hp--wide" style="--side:1" src="assets/projects/hero-now-leasing.jpg" alt="Now Leasing billboard for a residential community" decoding="async">
+      <img class="hp hp--3 hp--tall" style="--side:-1" src="assets/projects/hero-pamplemousse-tote.jpg" alt="Pamplemousse Collective tote bag on a plum velvet armchair" decoding="async">
+      <img class="hp hp--4 hp--tall" style="--side:1" src="assets/photos/float-sofa.jpg" alt="Julia working on her laptop on a mustard sofa" decoding="async">
+    </div>
+    <div class="wrap hero__in">
+      <p class="label" data-spread-clear>White-label branding &amp; graphic design for agencies</p>
+      <h1 class="hero__title" id="hero-title" data-spread-clear>I&#39;m the <em>branding <span class="nowrap">&amp; design</span></em> specialist <mark>your agency</mark> can count on.</h1>
+      <div class="hero__ctas" data-spread-clear>
+        <a class="btn" href="work/">See My Work</a>
+        <a class="btn btn--line" href="contact/">Get in Touch</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Faixa com os serviços passando (lista em content/site.yml → home.hero.ticker) -->
+<!-- 2. Faixa com os serviços passando (lista em content/site.yml → home.hero.ticker) -->
 <div class="ticker" role="region" aria-label="Services">
   <div class="ticker__track">
     <ul class="ticker__list"><li>Creative direction</li><li>Brand concepts</li><li>Logos</li><li>Visual identities</li><li>Brand guidelines</li><li>Brand applications</li><li>Social media</li><li>Presentations</li><li>Digital assets</li><li>Print</li><li>Packaging</li><li>Marketing collateral</li><li>Ongoing design support</li></ul>
@@ -103,85 +109,72 @@
   </div>
 </div>
 
-<!-- O resto do texto do hero (o fundo do site fica rosa aqui) -->
-<section class="intro" data-tone="blush" aria-label="About Julia">
-  <div class="wrap intro__in">
-    <p class="intro__lead" data-reveal="title"><em>Hey, I&#39;m Julia!</em> I&#39;m a brand and graphic designer with 9 years of experience in design and clients in 9 countries.</p>
-    <img class="intro__photo" data-reveal="img" data-speed="-0.08" src="assets/photos/float-bay.jpg" alt="Julia working on her laptop on a balcony over the bay" width="900" height="600" loading="lazy">
-    <div class="intro__side">
-      <p data-reveal>I spend a lot of my time collaborating with <strong>marketing agencies and creative studios</strong>. I work on brand identities, creative direction, social media, presentations, and other design projects for their clients.</p><p data-reveal>Most of that work happens <strong>behind the scenes</strong>. I work directly with your team, get familiar with how you do things, and help with the design work as new projects come in.</p>
-      <a class="btn btn--berry intro__btn" href="about/" data-reveal>More About Me</a>
+<!-- 3 + 4. A apresentação fica parada (sticky) enquanto a faixa vinho do white-label sobe por cima dela, como uma folha -->
+<div class="ab-sheet">
+  <section class="ab-hello hm-hello" data-tone="blush" aria-label="About Julia" data-hello>
+    <div class="wrap ab-hello__in">
+      <p class="ab-hello__lead"><span class="ab-hello__name" data-reveal="title">Hey, I&#39;m <em>Julia!</em></span> <span class="ab-hello__rest" data-reveal>I&#39;m a brand and graphic designer with 9 years of experience in design and clients in 9 countries.</span></p>
+      <img class="hm-hello__photo" data-reveal src="assets/photos/float-bay.jpg" alt="Julia working on her laptop on a balcony over the bay" width="900" height="600" loading="lazy" decoding="async">
+      <div class="ab-hello__more"><p data-reveal>I spend a lot of my time collaborating with <strong>marketing agencies and creative studios</strong>. I work on brand identities, creative direction, social media, presentations, and other design projects for their clients.</p><p data-reveal>Most of that work happens <strong>behind the scenes</strong>. I work directly with your team, get familiar with how you do things, and help with the design work as new projects come in.</p></div>
+      <a class="btn btn--berry hm-hello__btn" href="about/" data-reveal>More About Me</a>
     </div>
-  </div>
-</section>
-
-<!-- White-label explicado, logo depois da apresentação (textos em content/site.yml → home.whitelabel) -->
-<section class="wl" data-tone="pink" aria-labelledby="wl-title">
-  <div class="wrap">
-    <div class="wl__in">
-      <h2 class="statement wl__title" id="wl-title" data-reveal="title">Everything I design goes out <em>under your agency&#39;s name</em>.</h2>
-      <p class="wl__text" data-reveal>You present the work to your clients as your own. I stay behind the scenes, I don&#39;t contact your clients unless you ask me to, and I don&#39;t share anything publicly without your permission.</p>
+  </section>
+  <section class="ab-wl hm-wl" data-tone="blush" aria-labelledby="wl-title">
+    <div class="wrap hm-wl__in">
+      <h2 class="ab-wl__line" id="wl-title" data-ink>Everything I design goes out <em>under your agency&#39;s name</em>.</h2>
+      <p class="hm-wl__text" data-reveal>You present the work to your clients as your own. I stay behind the scenes, I don&#39;t contact your clients unless you ask me to, and I don&#39;t share anything publicly without your permission.</p>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- Faixa de projetos: duas fileiras que deslizam em sentidos opostos enquanto a página rola -->
-<section class="strip" aria-label="Project images">
-  <div class="strip__row" data-drift="-1">
-    <img class="strip__img" data-reveal="img" src="assets/projects/strip-criaturas-fofas.jpg" alt="Criaturas Fofas" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-goddess-drops-floral.jpg" alt="Goddess Drops dropper bottle and floral box on green" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-lekitchen-bag.jpg" alt="LeKitchen" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-marina-stationery.jpg" alt="Marina Moreira stationery on a green background" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-vora.jpg" alt="Vora" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-xxperience-card.jpg" alt="Xxperience card over a burgundy envelope" width="720" height="540" loading="lazy">
-  </div>
-  <div class="strip__row" data-drift="1">
-    <img class="strip__img" data-reveal="img" src="assets/projects/strip-frock-snack.jpg" alt="Mom &amp; Pops Alphonso mango ice pop box" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-reveri.jpg" alt="Revéri" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-vora-stationery.jpg" alt="Vora stationery and phone under leaf shadows" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-grin.jpg" alt="Grin Studios" width="720" height="540" loading="lazy"><img class="strip__img" data-reveal="img" src="assets/projects/strip-floral-tote.jpg" alt="Marina Moreira tote bag with fruit and vegetable shapes" width="720" height="540" loading="lazy">
-  </div>
-</section>
-
-<!-- ═════════ 02 SELECTED WORK ═════════ -->
-<section class="sec selected" data-tone="mist" id="work" aria-labelledby="work-title">
-  <div class="wrap">
-    <header class="sec-head sec-head--center">
-      <h2 class="h2" id="work-title" data-reveal="title">Selected <em>projects</em></h2>
-      <p class="sec-head__intro" data-reveal>A selection of branding and graphic design projects I&#39;ve worked on over the years.</p>
+<!-- 5. Selected projects: a tela fica parada, o título no alto à esquerda, e uma fileira só passa de lado enquanto a página
+     desce (data-sideways). No fim da fileira, o cartão de texto com os dois botões. Os vídeos de capa só tocam na tela.
+     No celular, em tela baixa, sem JS ou com "reduzir movimento": os cartões um embaixo do outro -->
+<section class="hm-work" data-tone="mist" id="work" aria-labelledby="work-title" data-sideways>
+  <div class="hm-work__stage">
+    <header class="wrap hm-work__head">
+      <h2 class="ab-title" id="work-title" data-reveal="title">Selected <em>projects</em></h2>
+      <p data-reveal>A selection of branding and graphic design projects I&#39;ve worked on over the years.</p>
     </header>
-    <div class="pgrid pgrid--1"><a class="pcard" href="work/lekitchen/" data-reveal>
+    <div class="hm-work__row">
+<a class="pcard" href="work/lekitchen/" data-reveal>
   <span class="pcard__img" data-reveal="img"><video src="assets/work/lekitchen/hero-card.mp4" poster="assets/work/lekitchen/hero-card-poster.jpg" data-big-src="assets/work/lekitchen/hero.mp4" data-big-poster="assets/work/lekitchen/hero-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
   <span class="pcard__row"><span class="pcard__name">LeKitchen</span></span>
   <span class="pcard__tags">Branding · Hospitality</span>
 </a>
-</div>
-    
-    <div class="pgrid pgrid--3"><a class="pcard" href="work/create-joy-travel-brand-identity/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><video src="assets/work/create-joy/hero-card.mp4" poster="assets/work/create-joy/hero-card-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
+<a class="pcard" href="work/create-joy-travel-brand-identity/" data-reveal>
+  <span class="pcard__img" data-reveal="img"><video src="assets/work/create-joy/hero-card.mp4" poster="assets/work/create-joy/hero-card-poster.jpg" data-big-src="assets/work/create-joy/hero.mp4" data-big-poster="assets/work/create-joy/hero-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
   <span class="pcard__row"><span class="pcard__name">Create Joy Travel Brand Identity</span></span>
   <span class="pcard__tags">Branding · Hospitality</span>
 </a>
 <a class="pcard" href="work/amber-elle-photography/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><video src="assets/work/amber-elle/hero-card.mp4" poster="assets/work/amber-elle/hero-card-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
+  <span class="pcard__img" data-reveal="img"><video src="assets/work/amber-elle/hero-card.mp4" poster="assets/work/amber-elle/hero-card-poster.jpg" data-big-src="assets/work/amber-elle/hero.mp4" data-big-poster="assets/work/amber-elle/hero-poster.jpg" muted loop playsinline preload="none" disablepictureinpicture aria-hidden="true" data-autoplay></video></span>
   <span class="pcard__row"><span class="pcard__name">Amber &amp; Elle Photography</span></span>
   <span class="pcard__tags">Branding · Lifestyle</span>
 </a>
 <a class="pcard" href="work/pamplemousse/" data-reveal>
-  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png 808w, assets/covers/721d74236177811.jpg 1380w" sizes="(max-width: 680px) 92vw, 410px" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+  <span class="pcard__img" data-reveal="img"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png" srcset="https://mir-s3-cdn-cf.behance.net/projects/404_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png 404w, https://mir-s3-cdn-cf.behance.net/projects/max_808_webp/721d74236177811.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png 808w, assets/covers/721d74236177811.jpg 1380w" sizes="(max-width: 680px) 92vw, 58vw" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
   <span class="pcard__row"><span class="pcard__name">Pamplemousse</span></span>
   <span class="pcard__tags">Branding · Visual Identity · Marketing &amp; Copywriting</span>
 </a>
-</div>
-    <div class="selected__foot">
-      <p class="more__title" data-reveal="title">There&#39;s <em>more</em> I can&#39;t post here.</p>
-      <p class="note" data-reveal>A lot of my agency work isn&#39;t public, so there&#39;s more to my portfolio than what you see here. If you&#39;re looking for a particular type of project, feel free to ask.</p>
-      <div class="selected__btns" data-reveal>
-        <a class="btn btn--berry" href="work/">View All Projects</a>
-        <a class="btn btn--line" href="contact/">Reach out to see other projects</a>
+      <div class="hm-work__more" data-reveal>
+        <p class="more__title">There&#39;s <em>more</em> I can&#39;t post here.</p>
+        <p class="note">A lot of my agency work isn&#39;t public, so there&#39;s more to my portfolio than what you see here. If you&#39;re looking for a particular type of project, feel free to ask.</p>
+        <div class="selected__btns">
+          <a class="btn btn--berry" href="work/">View All Projects</a>
+          <a class="btn btn--line" href="contact/">Reach out to see other projects</a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═════════ 03 TESTIMONIALS: os quatro em cartões, com o trecho em destaque ═════════ -->
-<section class="sec quotes" data-tone="mist-2" id="kind-words" aria-labelledby="quotes-title">
+<!-- 6. Depoimentos: a fileira sem fim com as setas (ela pediu para ficar). Sobe por cima dos projetos, que ficam parados no último cartão -->
+<section class="sec quotes hm-quotes" data-tone="ivory" id="kind-words" aria-labelledby="quotes-title">
   <div class="wrap">
     <header class="sec-head qhead">
       <div>
-        <h2 class="h2" id="quotes-title" data-reveal="title">A few words from <em>my clients</em></h2>
+        <h2 class="ab-title" id="quotes-title" data-reveal="title">A few words from <em>my clients</em></h2>
       </div>
       <div class="qnav" data-reveal>
         <button class="qnav__btn" type="button" data-qdir="-1" aria-label="Previous testimonial">←</button>
@@ -214,99 +207,79 @@
   </div>
 </section>
 
-<!-- ═════════ 04 SERVICES ═════════ -->
-<section class="sec services" data-tone="mist" id="services" aria-labelledby="services-title">
-  <div class="wrap services__in">
-    <div class="services__head">
-      <div class="services__sticky">
-        <h2 class="h2" id="services-title" data-reveal="title">What I do <em>for agencies</em></h2>
+<!-- 7. What I do for agencies: a tela fica parada. À esquerda o título, o botão e os 4 nomes (o da vez fica escuro, com um
+     pontinho coral); no meio o texto do serviço e à direita a foto dele. Um de cada vez, saindo do esfumaçado para o nítido
+     (data-steps, app.js). Em tela muito baixa, com "reduzir movimento" ou sem JS: em lista -->
+<section class="hm-svc" data-tone="pink" id="services" aria-labelledby="services-title" data-steps="0.6">
+  <div class="hm-svc__stage" data-stage>
+    <div class="wrap hm-svc__in">
+      <div class="hm-svc__side">
+        <h2 class="ab-title" id="services-title" data-reveal="title">What I do <em>for agencies</em></h2>
+        <ul class="hm-svc__names" aria-hidden="true"><li data-step-name>Branding &amp; Visual Identity</li><li data-step-name>Creative Direction for Brands</li><li data-step-name>Graphic &amp; Marketing Design</li><li data-step-name>Ongoing Design Support</li></ul>
         <a class="btn" href="contact/" data-reveal>Tell Me What You Need</a>
       </div>
-    </div>
-    <!-- sanfona: um serviço aberto por vez (clicar no nome abre) -->
-    <div class="svc-list">
-      <details class="svc" name="services" data-reveal open>
-        <summary class="svc__sum">
-          <span class="svc__n">01</span>
-          <h3 class="svc__name">Branding &amp; Visual Identity</h3>
-          <span class="svc__plus" aria-hidden="true"></span>
-        </summary>
-        <div class="svc__open">
-          <figure class="svc__photo"><img src="assets/projects/svc-reveri-notebook.jpg" alt="" loading="lazy"></figure>
-          <div class="svc__body">
+      <div class="hm-svc__items">
+        <article class="hm-svc__item" data-step>
+          <div class="hm-svc__text" data-reveal>
+            <h3 class="hm-svc__name">Branding &amp; Visual Identity</h3>
             <p>Branding is my favorite kind of work, and it&#39;s a big part of what I do.</p><p>I work on visual identities for businesses in all kinds of industries. Sometimes an agency comes to me with a creative direction already in place. Other times, I&#39;m involved from the first concepts.</p><p>I can develop the visual identity and prepare the guidelines and files your team needs to present and deliver the brand.</p>
-            <p class="svc__deliv">Brand concepts · Logos · Visual identities · Brand guidelines · Brand applications</p>
+            <p class="hm-svc__deliv">Brand concepts · Logos · Visual identities · Brand guidelines · Brand applications</p>
           </div>
-        </div>
-      </details>
-      <details class="svc" name="services" data-reveal>
-        <summary class="svc__sum">
-          <span class="svc__n">02</span>
-          <h3 class="svc__name">Creative Direction for Brands</h3>
-          <span class="svc__plus" aria-hidden="true"></span>
-        </summary>
-        <div class="svc__open">
-          <figure class="svc__photo"><img src="assets/projects/float-grin.jpg" alt="" loading="lazy"></figure>
-          <div class="svc__body">
+          <img class="hm-svc__photo" src="assets/projects/svc-reveri-notebook.jpg" alt="" loading="lazy" decoding="async">
+        </article>
+        <article class="hm-svc__item" data-step>
+          <div class="hm-svc__text" data-reveal>
+            <h3 class="hm-svc__name">Creative Direction for Brands</h3>
             <p>Sometimes a brand needs someone to set the direction before anything gets designed.</p><p>I can take care of that part: define the look and feel, put together the visual references, and make sure the logo, the social media, the packaging and everything else feel like they belong to the same brand.</p><p>It works for new brands and for brands that already exist but feel a bit scattered.</p>
             
           </div>
-        </div>
-      </details>
-      <details class="svc" name="services" data-reveal>
-        <summary class="svc__sum">
-          <span class="svc__n">03</span>
-          <h3 class="svc__name">Graphic &amp; Marketing Design</h3>
-          <span class="svc__plus" aria-hidden="true"></span>
-        </summary>
-        <div class="svc__open">
-          <figure class="svc__photo"><img src="assets/projects/svc-pamplemousse-deck.jpg" alt="" loading="lazy"></figure>
-          <div class="svc__body">
+          <img class="hm-svc__photo" src="assets/projects/float-grin.jpg" alt="" loading="lazy" decoding="async">
+        </article>
+        <article class="hm-svc__item" data-step>
+          <div class="hm-svc__text" data-reveal>
+            <h3 class="hm-svc__name">Graphic &amp; Marketing Design</h3>
             <p>A lot of the agencies I work with need help beyond branding, too.</p><p>I design presentations, social media graphics, brochures, flyers, packaging, and other marketing materials. I also work with existing brand guidelines, so there&#39;s no need to reinvent anything when the direction is already established.</p>
-            <p class="svc__deliv">Social media · Presentations · Digital assets · Print · Packaging · Marketing collateral</p>
+            <p class="hm-svc__deliv">Social media · Presentations · Digital assets · Print · Packaging · Marketing collateral</p>
           </div>
-        </div>
-      </details>
-      <details class="svc" name="services" data-reveal>
-        <summary class="svc__sum">
-          <span class="svc__n">04</span>
-          <h3 class="svc__name">Ongoing Design Support</h3>
-          <span class="svc__plus" aria-hidden="true"></span>
-        </summary>
-        <div class="svc__open">
-          <figure class="svc__photo"><img src="assets/projects/svc-social-monthly.jpg" alt="" loading="lazy"></figure>
-          <div class="svc__body">
-            <p>I work with agencies that send me projects regularly, and I really enjoy that kind of relationship.</p><p>After a while, I get to know the team, the kinds of clients they work with, and what they expect from me. We don&#39;t have to explain everything again with each new project.</p><p>I also take on individual projects, so there&#39;s no need to commit to something ongoing before we&#39;ve worked together.</p>
-            
+          <img class="hm-svc__photo" src="assets/projects/svc-pamplemousse-deck.jpg" alt="" loading="lazy" decoding="async">
+        </article>
+        <article class="hm-svc__item" data-step>
+          <div class="hm-svc__text" data-reveal>
+            <h3 class="hm-svc__name">Ongoing Design Support</h3>
+            <p>I work with agencies that send me projects regularly, and I really enjoy that kind of relationship. After a while, I get to know the team, the kinds of clients they work with, and what they expect from me. We don&#39;t have to explain everything again with each new project.</p><p>If design work keeps landing on your team every month, a monthly design retainer is usually the easiest way to work together. You book the hours you need, send me tasks as they come in, and get one invoice at the end of the month. The more hours you book, the lower my hourly rate.</p><p>I also work by the hour or per project, so there&#39;s no need to commit to something ongoing before we&#39;ve worked together.</p>
+            <p class="hm-svc__deliv">Monthly retainers · Hourly design support · Project-based design · White-label design for agencies</p>
           </div>
-        </div>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ═════════ 06 INDUSTRIES ═════════ -->
-<section class="sec industries" data-tone="pink" id="industries" aria-labelledby="ind-title">
-  <div class="wrap">
-    <div class="ind__head">
-      <div>
-        <h2 class="h2" id="ind-title" data-reveal="title">Industries I <em>know well</em></h2>
+          <img class="hm-svc__photo" src="assets/projects/svc-social-monthly.jpg" alt="" loading="lazy" decoding="async">
+        </article>
       </div>
     </div>
-    <ul class="ind-list">
-      <li class="ind__card" data-reveal><span class="ind__pics" aria-hidden="true"><img src="assets/projects/hero-now-leasing.jpg" alt="" loading="lazy"><img src="assets/projects/float-midlothian.jpg" alt="" loading="lazy"></span><span class="ind__label">Real Estate &amp; Multifamily</span></li><li class="ind__card" data-reveal><span class="ind__pics" aria-hidden="true"><img src="assets/projects/strip-create-joy.jpg" alt="" loading="lazy"><img src="assets/projects/strip-lekitchen-bag.jpg" alt="" loading="lazy"></span><span class="ind__label">Hospitality &amp; Travel</span></li><li class="ind__card" data-reveal><span class="ind__pics" aria-hidden="true"><img src="assets/projects/strip-grin.jpg" alt="" loading="lazy"><img src="assets/work/amber-elle-cover.jpg" alt="" loading="lazy"><img src="assets/projects/strip-floral-tote.jpg" alt="" loading="lazy"></span><span class="ind__label">Lifestyle &amp; Retail</span></li><li class="ind__card" data-reveal><span class="ind__pics" aria-hidden="true"><img src="assets/work/lekitchen-cover.jpg" alt="" loading="lazy"><img src="assets/projects/strip-frock-snack.jpg" alt="" loading="lazy"><img src="assets/projects/strip-lekitchen-cards.jpg" alt="" loading="lazy"></span><span class="ind__label">Food &amp; Beverage</span></li><li class="ind__card" data-reveal><span class="ind__pics" aria-hidden="true"><img src="assets/covers/c170e5151270795.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"><img src="assets/projects/strip-sereya-cloche.jpg" alt="" loading="lazy"></span><span class="ind__label">B2B &amp; Professional Services</span></li><li class="ind__card" data-reveal><span class="ind__pics" aria-hidden="true"><img src="assets/projects/strip-marina-stationery.jpg" alt="" loading="lazy"><img src="assets/covers/123781130783927.jpg" alt="" loading="lazy" referrerpolicy="no-referrer"><img src="assets/projects/strip-marina-moreira.jpg" alt="" loading="lazy"></span><span class="ind__label">Personal Brands</span></li>
-    </ul>
-    <p class="ind__closing" data-reveal>And I&#39;m always happy to work on something completely different.</p>
   </div>
 </section>
 
+<!-- 8. Industries: o título pequeno e os 6 setores numa frase só, com pontinhos coral, indo do esfumaçado ao nítido ao rolar
+     (data-ink). Ao passar o mouse no nome de um setor, as imagens dele aparecem inclinadas nos cantos da seção, como nos tickets
+     de serviço da Buenas (ela, 06/11/2026; data-corners, app.js). Sem mouse: só a frase -->
+<section class="hm-ind" data-tone="mist-2" id="industries" aria-labelledby="ind-title" data-corners>
+  <div class="wrap hm-ind__in">
+    <h2 class="hm-ind__title" id="ind-title" data-reveal>Industries I <em>know well</em></h2>
+    <div class="hm-ind__main">
+      <p class="hm-ind__flow" data-ink="0.9 0.42"><span class="hm-ind__item">Real Estate &amp; Multifamily</span> <span class="hm-ind__item">Hospitality &amp; Travel</span> <span class="hm-ind__item">Lifestyle &amp; Retail</span> <span class="hm-ind__item">Food &amp; Beverage</span> <span class="hm-ind__item">B2B &amp; Professional Services</span> <span class="hm-ind__item">Personal Brands</span> </p>
+      <p class="hm-ind__closing" data-reveal>And I&#39;m always happy to work on something completely different.</p>
+    </div>
+  </div>
+  <div class="hm-ind__corners" aria-hidden="true">
+    <div class="hm-ind__set"><span class="hm-ind__pic"><img src="assets/projects/hero-now-leasing.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/projects/float-midlothian.jpg" alt="" loading="lazy" decoding="async"></span></div><div class="hm-ind__set"><span class="hm-ind__pic"><img src="assets/projects/strip-create-joy.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/projects/strip-lekitchen-bag.jpg" alt="" loading="lazy" decoding="async"></span></div><div class="hm-ind__set"><span class="hm-ind__pic"><img src="assets/projects/strip-grin.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/work/amber-elle-cover.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/projects/strip-floral-tote.jpg" alt="" loading="lazy" decoding="async"></span></div><div class="hm-ind__set"><span class="hm-ind__pic"><img src="assets/work/lekitchen-cover.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/projects/strip-frock-snack.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/projects/strip-lekitchen-cards.jpg" alt="" loading="lazy" decoding="async"></span></div><div class="hm-ind__set"><span class="hm-ind__pic"><img src="assets/covers/c170e5151270795.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="hm-ind__pic"><img src="assets/projects/strip-sereya-cloche.jpg" alt="" loading="lazy" decoding="async"></span></div><div class="hm-ind__set"><span class="hm-ind__pic"><img src="assets/projects/strip-marina-stationery.jpg" alt="" loading="lazy" decoding="async"></span><span class="hm-ind__pic"><img src="assets/covers/123781130783927.jpg" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span><span class="hm-ind__pic"><img src="assets/projects/strip-marina-moreira.jpg" alt="" loading="lazy" decoding="async"></span></div>
+  </div>
+</section>
 
-<!-- ═════════ 08 FINAL CTA (lilás, antes do rodapé vinho) ═════════ -->
-<section class="cta" data-tone="rose" aria-labelledby="cta-title">
-  <div class="wrap cta__in">
-    <h2 class="cta__title" id="cta-title" data-reveal="title">Need an <em>extra designer</em> on your team?</h2>
-    <p class="cta__text" data-reveal>I&#39;d love to hear about your agency and what you&#39;re working on. Even if you don&#39;t have a project ready right now, feel free to introduce yourself.</p>
-    <a class="btn" href="contact/" data-reveal>Let&#39;s Talk</a>
+<!-- 9. O convite: faixa coral de ponta a ponta, como no fim do About; as linhas do título entram de lados alternados (data-scrub) -->
+<section class="ab-end" data-tone="rose" aria-labelledby="cta-title">
+  <div class="wrap ab-end__in">
+    <h2 class="ab-end__title" id="cta-title"><span class="ab-end__line" data-scrub="1 0.5" data-scrub-ease="out">Need an </span><span class="ab-end__line" data-scrub="1 0.5" data-scrub-ease="out"><em>extra designer</em> </span><span class="ab-end__line" data-scrub="1 0.5" data-scrub-ease="out">on your team? </span></h2>
+    <div class="ab-end__dock" data-scrub="0.98 0.72">
+      <p>I&#39;d love to hear about your agency and what you&#39;re working on. Even if you don&#39;t have a project ready right now, feel free to introduce yourself.</p>
+      <a class="btn ab-end__btn" href="contact/">Let&#39;s Talk</a>
+    </div>
   </div>
 </section>
 
@@ -336,6 +309,6 @@
     <a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a>
   </div>
 </footer>
-<script src="assets/app.js?v=dc7dfb6a" defer></script>
+<script src="assets/app.js?v=8329b492" defer></script>
 </body>
 </html>

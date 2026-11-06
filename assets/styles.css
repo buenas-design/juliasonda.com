@@ -839,7 +839,7 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
    Sem JS ou com "reduzir movimento" nada gruda nem anda, tudo fica visível no lugar final (data-scrub: --k começa em 1). */
 [data-scrub] { --k: 1; }
 .ab-title { font: 400 clamp(2.1rem, 3.7vw, 3.5rem)/1.06 var(--f-display); letter-spacing: -0.012em; text-wrap: balance; max-width: 16ch; }
-:is(.ab-title, .ab-wl__line, .ab-panel__t, .ab-end__title, .ab-hello__name) em { font-style: italic; font-weight: inherit; color: inherit; }
+:is(.ab-title, .ab-wl__line, .ab-panel__t, .ab-end__title, .ab-hello__name, .hm-ind__title) em { font-style: italic; font-weight: inherit; color: inherit; }
 
 /* 05/11/2026: em tela muito baixa (celular deitado) as fotos da pilha ficam paradas, numa caixa do tamanho delas: o bloco
    não fica preso e nenhuma foto sai cortada (como as outras seções presas do About) */
@@ -977,12 +977,216 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
 .ab-end__dock p { font-size: clamp(1.14rem, 1.5vw, 1.32rem); line-height: 1.45; }
 .ab-end__btn { background: var(--ivory); border-color: var(--ivory); color: var(--ink); }
 .ab-end__btn:hover { background: var(--ink); border-color: var(--ink); color: var(--ivory); }
-:is(.is-about, .is-blog, .is-post) .ftr { background-color: var(--tomato); }
+:is(.is-about, .is-home, .is-blog, .is-post) .ftr { background-color: var(--tomato); }
 @media (max-width: 760px) {
   .ab-end__title { font-size: 12.4vw; line-height: 1.04; }
   .ab-end__line:nth-child(even) { text-align: left; padding-left: 0.5em; }
   .ab-end__dock { justify-self: start; }
-  :is(.is-blog, .is-post) .ab-end__title { font-size: 10.6vw; }
+}
+
+/* ───────── Home, versão de teste (05/11/2026) ─────────
+   Pedido dela: testar uma home nova seguindo as referências e as transições do About novo. Cada seção com uma composição e
+   uma passagem só dela, tamanhos "mais refinados", letra grande só no white-label e no convite. Tudo aqui vale só para a home
+   (.hm-* e .is-home); os ajudantes de movimento são os mesmos do About (app.js). Sem JS, com "reduzir movimento" ou em tela
+   baixa (menos de 600 px de altura) nada gruda nem anda: tudo visível, em lista. */
+.is-home .ab-ink { display: inline-block; filter: blur(calc((1 - var(--o, 1)) * 2.5px)); }
+
+/* 1. Topo: o título, o sublinhado coral e os botões parados e legíveis desde o primeiro quadro. As 4 fotos começam juntas em
+      volta do texto (--dx, --dy, data-spread) e se separam até os cantos de sempre; só elas giram um pouco */
+.hm-hero { position: relative; }
+.hm-hero__stage { background: var(--tone-ivory); }
+.hm-hero .hp {
+  --p: 1; --k: calc(1 - var(--p));
+  transform: translate(calc(var(--dx, 0px) * var(--k)), calc(var(--dy, 0px) * var(--k))) rotate(calc(var(--r0, 0deg) * var(--k))) scale(calc(1 - 0.2 * var(--k)));
+  translate: var(--hx, 0px) 0;
+  rotate: var(--hr, 0deg);
+  transition: translate .9s var(--ease), rotate .9s var(--ease), box-shadow .5s var(--ease);
+  will-change: transform;
+}
+.hm-hero .hp--1 { --r0: -4deg; z-index: 2; }
+.hm-hero .hp--2 { --r0: 3deg; z-index: 2; }
+.hm-hero .hp--3 { --r0: 3deg; }
+.hm-hero .hp--4 { --r0: -3deg; }
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) {
+  .js .hm-hero { height: 175svh; }
+  .js .hm-hero__stage { position: sticky; top: 0; height: 100svh; min-height: 0; padding: calc(var(--hdr) + 8px) 0 12px; }
+}
+/* celular: a mesma ideia, as fotos em cima e embaixo e o título no meio. O tamanho delas vem da altura que sobra, para nunca
+   chegarem no texto, qualquer que seja o tamanho do telefone */
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) and (max-width: 760px) {
+  .js .hm-hero__stage { --ph: calc((100svh - var(--hdr) - 23rem) / 2); }
+  .js .hm-hero .hero__ctas { margin-top: 26px; }
+  .js .hm-hero .hp--tall { width: auto; height: min(47vw, var(--ph)); }
+  .js .hm-hero .hp--wide { width: auto; height: min(38vw, var(--ph)); }
+  .js .hm-hero .hp--1 { left: -3vw; top: calc(var(--hdr) + 6px); }
+  .js .hm-hero .hp--2 { right: -4vw; top: calc(var(--hdr) + 18px); }
+  .js .hm-hero .hp--3 { left: 4vw; bottom: 10px; }
+  .js .hm-hero .hp--4 { right: -3vw; bottom: 22px; }
+}
+
+/* 3. Apresentação (mesma linguagem do About): "Hey, I'm Julia!" grande à esquerda, o botão embaixo dele, o resto da frase ao
+      lado e os outros dois parágrafos em duas colunas. Fica parada enquanto a faixa vinho sobe por cima (data-hello) */
+.hm-hello { background: var(--tone-blush); }
+@media (min-width: 761px) { .hm-hello .ab-hello__in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.hm-hello .ab-hello__name { font-size: clamp(2.8rem, 5.4vw, 5rem); line-height: 1.02; }
+/* 06/11/2026 (ela: faltou a foto no "sobre mim"): a foto solta embaixo do nome, sem moldura, com o botão abaixo dela */
+.hm-hello__photo { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 60px -38px rgba(58, 28, 30, 0.55); }
+.hm-hello__btn { justify-self: start; --d: 0.55s; }
+@media (min-width: 761px) {
+  .hm-hello .ab-hello__name { grid-row: 1; }
+  .hm-hello .ab-hello__rest { grid-row: 1; }
+  .hm-hello__photo { grid-column: 1; grid-row: 2 / span 2; max-width: 480px; }
+  .hm-hello .ab-hello__more { grid-column: 2; grid-row: 2; }
+  .hm-hello__btn { grid-column: 2; grid-row: 3; align-self: end; }
+}
+@media (max-width: 760px) {
+  .hm-hello__btn { grid-row: auto; margin-top: 8px; }
+}
+
+/* 4. White-label: faixa vinho reta de ponta a ponta. O título vai de esfumaçado a nítido ao rolar (data-ink) e a parte em
+      destaque vira coral quando fica nítida. O texto pequeno fica embaixo, à direita */
+.hm-wl__in { display: grid; gap: clamp(22px, 2.6vw, 36px); }
+.hm-wl .ab-wl__line { max-width: 20em; text-wrap: balance; }
+.hm-wl .ab-wl__line em { color: var(--tomato); }
+.hm-wl .ab-wl__line em .ab-ink { color: color-mix(in oklab, var(--ivory), var(--tomato) calc(var(--o, 1) * 100%)); }
+.hm-wl__text { justify-self: end; width: min(100%, 27rem); font-size: 1.05rem; line-height: 1.55; color: var(--ivory); }
+@media (max-width: 760px) {
+  .hm-wl .ab-wl__line { font-size: clamp(2.3rem, 10.4vw, 3rem); }
+}
+
+/* 5. Selected projects: em lista por padrão (celular, tela baixa, sem JS). No computador, a tela fica parada e a fileira passa
+      de lado (data-sideways), com o tamanho dos cartões vindo também da altura da tela. No fim, o cartão de texto fica um tempo
+      parado (--hold) antes de os depoimentos subirem por cima (--lift), para dar tempo de ler e clicar */
+.hm-work { position: relative; background: var(--tone-mist); }
+.hm-work__stage { padding-block: var(--section); }
+.hm-work__head { display: grid; gap: 10px; }
+.hm-work__head p { max-width: 36ch; font-size: 1.02rem; line-height: 1.5; color: #4A2B2D; }
+.hm-work__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3vw, 44px) clamp(18px, 2.2vw, 30px); max-width: var(--maxw); margin: clamp(22px, 2.6vw, 34px) auto 0; padding-inline: var(--gutter); }
+.hm-work .pcard__img { aspect-ratio: 96 / 62; }
+.hm-work__more { grid-column: 1 / -1; display: grid; align-content: end; justify-items: start; gap: 14px; padding: clamp(22px, 2.4vw, 34px); border-radius: var(--radius); background: var(--paper); }
+.hm-work__more .more__title { font: 400 clamp(1.7rem, 2.5vw, 2.3rem)/1.08 var(--f-display); text-wrap: balance; }
+.hm-work__more .note { font-size: 0.98rem; line-height: 1.5; color: #563537; }
+.hm-work__more .selected__btns { display: grid; justify-items: start; gap: 10px; margin-top: 4px; }
+.hm-work__more .btn { text-align: left; line-height: 1.25; }
+@media (max-width: 860px) {
+  .hm-work__row { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 861px) and (min-height: 600px) {
+  .js .hm-work { --hold: 26svh; --lift: 60svh; --card: min(58vw, calc((100svh - var(--hdr) - 11.5rem) * 96 / 62)); height: calc(100svh + var(--room, 300vw) + var(--hold) + var(--lift)); margin-bottom: calc(var(--lift) * -1); }
+  .js .hm-work__stage { position: sticky; top: 0; display: flex; flex-direction: column; height: 100svh; padding-block: calc(var(--hdr) + 14px) 14px; overflow: clip; }
+  .js .hm-work__head { display: flex; align-items: flex-end; gap: clamp(20px, 3vw, 48px); width: 100%; }
+  .js .hm-work__head .ab-title { max-width: none; white-space: nowrap; }
+  .js .hm-work__head p { padding-bottom: 0.3em; }
+  .js .hm-work__row { display: flex; align-items: flex-start; flex: none; width: max-content; max-width: none; margin: auto 0; padding-inline: max(var(--gutter), calc((100vw - var(--maxw)) / 2 + var(--gutter))); transform: translateX(var(--slide, 0px)); will-change: transform; }
+  .js .hm-work .pcard { flex: none; width: var(--card); }
+  .js .hm-work__more { flex: none; width: clamp(330px, 29vw, 430px); min-height: calc(var(--card) * 62 / 96); }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 861px) and (min-height: 600px) and (max-height: 680px) {
+  .js .hm-work__more { gap: 10px; padding: 20px; }
+  .js .hm-work__more .note { font-size: 0.92rem; line-height: 1.42; }
+  .js .hm-work__more .btn { padding-block: 12px; }
+}
+
+/* tablet em pé: a tela é alta, os cartões podem crescer para não sobrar vazio em cima e embaixo da fileira */
+@media (prefers-reduced-motion: no-preference) and (min-width: 861px) and (min-height: 600px) and (orientation: portrait) {
+  .js .hm-work { --card: min(78vw, calc((100svh - var(--hdr) - 11.5rem) * 96 / 62)); }
+}
+
+/* 6. Depoimentos: a fileira de sempre, num tom diferente dos vizinhos e espaço igual ao resto. Sobe por cima dos projetos */
+.hm-quotes { position: relative; z-index: 2; padding-block: clamp(52px, 5.6vw, 84px); background: var(--tone-ivory); }
+.hm-quotes .sec-head { margin-bottom: clamp(22px, 2.6vw, 36px); }
+
+/* 7. What I do for agencies (05/11/2026, ela: os painéis ficaram ruins, rentes à margem e sem efeito): sem painéis. A tela
+      fica parada e o conteúdo fica dentro da margem do site, em 3 colunas: título, nomes e botão; o texto do serviço; a foto.
+      Um serviço de cada vez, no mesmo lugar, saindo do esfumaçado para o nítido (--v, app.js: data-steps), e o nome da vez
+      acende na lista. Tela muito baixa, "reduzir movimento" ou sem JS: lista normal, com a foto ao lado */
+.hm-svc { background: var(--tone-pink); }
+.hm-svc__stage { padding-block: var(--section); }
+.hm-svc__in { display: grid; grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.5fr); gap: 28px clamp(36px, 5vw, 84px); align-items: center; }
+.hm-svc__side { display: grid; justify-items: start; gap: clamp(16px, 1.8vw, 24px); }
+.hm-svc__names { display: none; margin: 0; padding: 0; list-style: none; font: 500 clamp(0.95rem, 1.15vw, 1.06rem)/1.3 var(--f-sans); }
+.hm-svc__items { display: grid; gap: clamp(32px, 4vw, 56px); }
+.hm-svc__item { display: grid; grid-template-columns: minmax(0, 1fr) clamp(170px, 21vw, 300px); gap: clamp(24px, 3.4vw, 52px); align-items: center; }
+.hm-svc__text { display: grid; gap: 0.7em; font-size: 1rem; line-height: 1.55; color: #4A2B2D; }
+.hm-svc__name { font: 400 clamp(1.35rem, 2vw, 1.8rem)/1.14 var(--f-display); letter-spacing: -0.012em; color: var(--ink); }
+/* as palavras-chave em coral (ela, 06/11/2026). O coral do site sobre este rosa fica com contraste 2,2 e a letra é pequena: um coral um pouco mais fechado */
+.hm-svc__deliv { padding-top: 0.2em; font-size: 0.88rem; font-weight: 500; line-height: 1.45; color: #CF4628; }
+.hm-svc__photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 60px -38px rgba(58, 28, 30, 0.55); }
+@media (max-width: 860px) {
+  .hm-svc__in { grid-template-columns: minmax(0, 1fr); }
+  .hm-svc__side { grid-template-columns: minmax(0, 1fr) auto; align-items: end; justify-items: stretch; }
+}
+@media (max-width: 620px) {
+  .hm-svc__side { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .hm-svc__item { grid-template-columns: minmax(0, 1fr); }
+  .hm-svc__photo { aspect-ratio: 3 / 2; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) and (min-width: 1100px), (prefers-reduced-motion: no-preference) and (min-height: 660px) and (min-width: 621px) {
+  .js .hm-svc { height: calc(100svh + 3 * 60svh); overflow: clip; }
+  .js .hm-svc__stage { position: sticky; top: 0; display: grid; align-items: center; height: 100svh; padding-block: var(--hdr) 0; }
+  .js .hm-svc__stage > .wrap { width: 100%; }
+  .js .hm-svc__items { display: block; display: grid; }
+  .js .hm-svc__item { grid-area: 1 / 1; align-self: center; opacity: var(--v, 1); filter: blur(calc((1 - var(--v, 1)) * 9px)); translate: 0 calc((1 - var(--v, 1)) * 12px); will-change: opacity, filter; }
+  .js .hm-svc__item + .hm-svc__item { --v: 0; }
+  .js .hm-svc__photo { max-height: 62svh; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 600px) and (min-width: 1100px), (prefers-reduced-motion: no-preference) and (min-height: 660px) and (min-width: 861px) {
+  .js .hm-svc__names { display: grid; gap: 0.55em; }
+  .js .hm-svc__names li { position: relative; padding-left: 1em; color: var(--ink); opacity: calc(0.4 + 0.6 * var(--v, 1)); }
+  .js .hm-svc__names li + li { --v: 0; }
+  .js .hm-svc__names li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.36em; height: 0.36em; border-radius: 50%; background: var(--tomato); opacity: var(--v, 1); scale: var(--v, 1); }
+}
+
+/* 8. Industries: seção curta. O título pequeno à esquerda e os 6 setores numa frase só, com pontinhos coral, indo do esfumaçado
+      ao nítido (data-ink). O ponto fica à esquerda de cada setor, no meio do espaço entre os dois (0.29em = o espaço da fonte), e o do primeiro de cada linha cai fora da caixa, cortado:
+      nunca sobra ponto na ponta */
+.hm-ind { --pad: clamp(52px, 5.6vw, 84px); position: relative; z-index: 3; padding-block: var(--pad); background: var(--tone-mist-2); }
+.hm-ind__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 5fr); gap: 16px clamp(24px, 3vw, 48px); align-items: start; }
+.hm-ind__title { padding-top: 0.5em; font: 400 clamp(1.15rem, 1.5vw, 1.4rem)/1.2 var(--f-display); text-wrap: balance; }
+.hm-ind__main { display: grid; gap: clamp(14px, 1.6vw, 22px); }
+.hm-ind__flow { --gap: 0.9em; overflow: hidden; font: 400 clamp(1.42rem, 2.75vw, 2.6rem)/1.24 var(--f-display); letter-spacing: -0.012em; text-wrap: balance; }
+.hm-ind__item { position: relative; display: inline-block; margin-right: var(--gap); white-space: nowrap; }
+.hm-ind__item::before { content: ""; position: absolute; left: calc((var(--gap) + 0.29em) / -2 - 0.1em); top: calc(50% - 0.08em); width: 0.2em; height: 0.2em; border-radius: 50%; background: var(--tomato); }
+.hm-ind__closing { font-size: 1.02rem; line-height: 1.5; color: #4A2B2D; }
+/* Imagens nos cantos ao passar o mouse (ela, 06/11/2026: "parecido com isso no da Buenas"): o mesmo movimento dos tickets de
+   serviço de buenas.design. Elas saem da seção por cima das vizinhas e pegam só o respiro dela, sem cobrir a frase. Cada setor
+   usa cantos diferentes do anterior, para não repetir. Sem mouse (celular): só a frase */
+.hm-ind__corners { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .hm-ind__corners { display: block; }
+  .hm-ind__pic { position: absolute; width: clamp(150px, 17vw, 250px); aspect-ratio: 5 / 4; overflow: hidden; border-radius: var(--radius); box-shadow: 0 26px 50px -22px rgba(58, 28, 30, 0.6); pointer-events: none; opacity: 0; transform: translateY(var(--from)) scale(0.8); rotate: 0deg; transition: opacity 0.35s var(--ease), transform 0.75s var(--ease), rotate 0.75s var(--ease); }
+  .hm-ind__pic img { width: 100%; height: 100%; object-fit: cover; scale: 1.15; transition: scale 1s var(--ease); }
+  .hm-ind__set.is-on .hm-ind__pic { opacity: 1; transform: none; rotate: var(--r); }
+  .hm-ind__set.is-on .hm-ind__pic img { scale: 1; }
+  .hm-ind__set.is-on .hm-ind__pic:nth-child(2) { transition-delay: 0.06s; }
+  .hm-ind__set.is-on .hm-ind__pic:nth-child(3) { transition-delay: 0.12s; }
+  /* embaixo à direita */
+  .hm-ind__set:nth-child(odd) .hm-ind__pic:nth-child(1), .hm-ind__set:nth-child(even) .hm-ind__pic:nth-child(3) { right: 4%; top: calc(100% - var(--pad) - var(--rise, 26px)); --r: 7deg; --from: -40px; }
+  /* em cima à esquerda */
+  .hm-ind__set:nth-child(odd) .hm-ind__pic:nth-child(2) { left: 3%; bottom: calc(100% - var(--pad) + 8px); --r: -7deg; --from: 40px; }
+  /* em cima à direita */
+  .hm-ind__set:nth-child(odd) .hm-ind__pic:nth-child(3), .hm-ind__set:nth-child(even) .hm-ind__pic:nth-child(1) { right: 5%; bottom: calc(100% - var(--pad) + 8px); --r: 5deg; --from: 40px; }
+  /* embaixo à esquerda */
+  .hm-ind__set:nth-child(even) .hm-ind__pic:nth-child(2) { left: 2%; top: calc(100% - var(--pad) - var(--rise, 20px)); --r: -6deg; --from: -40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-ind__pic, .hm-ind__pic img { transition: none; }
+}
+@media (max-width: 760px) {
+  .hm-ind { --rise: -8px; }
+  .hm-ind__in { grid-template-columns: minmax(0, 1fr); }
+  .hm-ind__title { padding-top: 0; }
+  /* no celular a frase corre de verdade, palavra por palavra, com o ponto logo depois de cada setor */
+  .hm-ind__flow { font-size: clamp(1.3rem, 6.2vw, 1.8rem); text-wrap: pretty; }
+  :is(.is-home, .is-blog, .is-post) .ab-end__title { font-size: 10.6vw; }
+}
+
+/* Tela baixa (celular deitado): tudo parado e visível, mesmo com as passagens ligadas no app.js */
+@media (max-height: 599px) {
+  .is-home .ab-ink { --o: 1 !important; }
+  .is-home [data-scrub] { --k: 1 !important; }
+  .is-home .hp { --p: 1 !important; }
+  .is-home .ab-hello { position: static; }
 }
 
 /* ───────── contact page ───────── */
