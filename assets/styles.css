@@ -122,9 +122,9 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
 
 /* ───────── type scale (use only these) ─────────
    H1     one per page: the home title, the Work / About / Contact titles, a project's name.
-          Florentia Regular, --fs-h1. **bold** in site.yml for emphasis.
+          Florentia Regular, --fs-h1. Sem bold em título (ela, 06/11/2026): destaque é *itálico* ou ==linha coral atrás==.
    H2     every section title, including the big statements, CTA titles and "Next project".
-          Florentia Regular, --fs-h2. *word* in site.yml = coral accent (never italic).
+          Florentia Regular, --fs-h2. O mesmo destaque do H1.
    H3     service names, FAQ questions, fun-fact titles, project names on cards.
           Grotesk semibold caps, --fs-h3.
    Label  the small caps line with a dash above titles (.label).
@@ -149,7 +149,7 @@ h1, h2, h3 { margin: 0; font-weight: inherit; }
 /* a *word* in site.yml becomes Florentia Italic in the same color (her call, 01/11/2026: italic instead of
    coral, which made every title look templated). The only coral left in titles is the ==underline== in the hero. */
 :is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title) em { font-style: italic; font-weight: inherit; color: inherit; }
-:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title) strong { font-weight: 700; }
+:is(.hero__title, .h1, .proj__title, .h2, .statement, .cta__title, .intro__lead, .more__title) strong { font-weight: inherit; }
 
 .svc__name, .faq__q, .ab-fun__q, .pcard__name {
   font-family: var(--f-sans);
@@ -783,8 +783,7 @@ main + .ftr { margin-top: calc(var(--fade) * -0.35); }
 }
 /* "When I'm not designing…" sits in a dark plum block (02/11/2026, like the founder's note at THURO) */
 .outside--dark { background: var(--ink); color: var(--ivory); }
-.outside--dark .h2 { color: var(--ivory); font-weight: 500; }
-.outside--dark .h2 em { font-style: normal; font-weight: 700; }
+.outside--dark .h2 { color: var(--ivory); }
 .outside--dark .outside__copy p { color: rgba(235, 227, 214, 0.85); }
 .outside__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px clamp(40px, 7vw, 120px); align-items: center; }
 .outside__copy { display: grid; gap: 18px; }
@@ -835,11 +834,12 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
 /* ───────── About depois da abertura (05/11/2026) ─────────
    Ela recusou a primeira tentativa ("tem imagens demais e muito repetitivo"). Agora: quase sem imagens e cada seção com
    uma composição e uma passagem só dela. Referência byfayandco.com só para posicionar texto e para as transições.
-   Títulos: Florentia Medium, a palavra *destacada* em Bold, mesma cor. Texto corrido: a sans do site.
+   Títulos: Florentia Regular, o peso do título principal; a palavra *destacada* em itálico, nunca em bold (ela, 06/11/2026).
+   Texto corrido: a sans do site.
    Sem JS ou com "reduzir movimento" nada gruda nem anda, tudo fica visível no lugar final (data-scrub: --k começa em 1). */
 [data-scrub] { --k: 1; }
-.ab-title { font: 500 clamp(2.1rem, 3.7vw, 3.5rem)/1.06 var(--f-display); letter-spacing: -0.012em; text-wrap: balance; max-width: 16ch; }
-:is(.ab-title, .ab-wl__line, .ab-panel__t, .ab-end__title) em { font-style: normal; font-weight: 700; color: inherit; }
+.ab-title { font: 400 clamp(2.1rem, 3.7vw, 3.5rem)/1.06 var(--f-display); letter-spacing: -0.012em; text-wrap: balance; max-width: 16ch; }
+:is(.ab-title, .ab-wl__line, .ab-panel__t, .ab-end__title, .ab-hello__name) em { font-style: italic; font-weight: inherit; color: inherit; }
 
 /* 05/11/2026: em tela muito baixa (celular deitado) as fotos da pilha ficam paradas, numa caixa do tamanho delas: o bloco
    não fica preso e nenhuma foto sai cortada (como as outras seções presas do About) */
@@ -855,7 +855,7 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
 .ab-hello { padding-block: max(calc(var(--hdr) + 16px), clamp(56px, 6vw, 96px)) clamp(52px, 5.4vw, 84px); }
 .ab-hello__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(16px, 1.8vw, 26px) clamp(32px, 5vw, 80px); align-items: start; }
 .ab-hello__lead { display: contents; }
-.ab-hello__name { grid-column: 1; grid-row: 1 / span 2; font: 500 clamp(3.2rem, 6.6vw, 6.2rem)/1 var(--f-display); letter-spacing: -0.015em; color: var(--ink); }
+.ab-hello__name { grid-column: 1; grid-row: 1 / span 2; font: 400 clamp(3.2rem, 6.6vw, 6.2rem)/1 var(--f-display); letter-spacing: -0.015em; color: var(--ink); }
 .ab-hello__rest { --d: 0.25s; grid-column: 2; font: 500 clamp(1.18rem, 1.72vw, 1.56rem)/1.34 var(--f-sans); letter-spacing: -0.008em; color: var(--ink); }
 .ab-hello__more { grid-column: 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 2.4vw, 36px); }
 .ab-hello__more p { font-size: 1rem; line-height: 1.58; color: #563537; }
@@ -871,7 +871,7 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
       (data-hello em app.js: --hello-top), e as palavras vão de claras a firmes (data-ink). 05/11/2026: saiu a borda em
       curva, ela achou estranha porque não aparece em nenhum outro lugar do site */
 .ab-wl { position: relative; z-index: 1; display: grid; align-content: center; padding-block: clamp(56px, 6vw, 96px); background: var(--berry); color: var(--ivory); }
-.ab-wl__line { font: 500 clamp(2.7rem, 5.6vw, 5rem)/1.06 var(--f-display); letter-spacing: -0.015em; }
+.ab-wl__line { font: 400 clamp(2.7rem, 5.6vw, 5rem)/1.06 var(--f-display); letter-spacing: -0.015em; }
 .ab-wl__line .tw { color: var(--tomato); }
 .ab-ink { opacity: calc(0.2 + 0.8 * var(--o, 1)); white-space: nowrap; }
 
@@ -906,7 +906,7 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
 .ab-quote { --green: #3F6951; position: relative; isolation: isolate; display: grid; align-items: center; min-height: clamp(420px, 66vh, 600px); overflow: hidden; background: var(--green); color: var(--ivory); }
 .ab-quote__img { position: absolute; z-index: -2; left: -8vw; top: calc(50% - min(60%, 32vw)); width: auto; height: min(120%, 64vw); max-width: none; }
 .ab-quote__in { width: 100%; display: grid; grid-template-columns: min(34vw, 30rem); justify-content: end; justify-items: start; gap: 14px; padding-block: clamp(48px, 5vw, 76px); }
-.ab-quote__mark { font: 500 clamp(3rem, 5vw, 4.6rem)/0.6 var(--f-display); color: var(--sage); margin-bottom: -0.2em; }
+.ab-quote__mark { font: 400 clamp(3rem, 5vw, 4.6rem)/0.6 var(--f-display); color: var(--sage); margin-bottom: -0.2em; }
 .ab-quote__text { margin: 0; font: 400 clamp(1.6rem, 2.7vw, 2.5rem)/1.2 var(--f-sans); letter-spacing: -0.012em; text-wrap: balance; }
 .ab-quote__who { font: 600 0.78rem/1 var(--f-sans); letter-spacing: 0.14em; text-transform: uppercase; }
 @media (max-width: 860px) {
@@ -928,7 +928,7 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
 .ab-panel { --n: 0; position: relative; padding: 13px clamp(20px, 2.4vw, 34px) 20px; border-radius: var(--radius); background: var(--sage); box-shadow: 0 -10px 28px -20px rgba(58, 28, 30, 0.38); }
 .ab-panel:nth-child(2) { --n: 1; background: color-mix(in oklab, var(--ivory), var(--lilac) 66%); }
 .ab-panel:nth-child(3) { --n: 2; background: color-mix(in oklab, var(--sage), #E8A0A2 55%); }
-.ab-panel__t { font: 500 var(--name)/1.12 var(--f-display); letter-spacing: -0.012em; padding-bottom: 13px; }
+.ab-panel__t { font: 400 var(--name)/1.12 var(--f-display); letter-spacing: -0.012em; padding-bottom: 13px; }
 /* os itens numa linha corrida, com pontinhos coral só entre dois itens da mesma linha: o ponto fica à esquerda de cada
    item e o do primeiro de cada linha cai fora da lista, cortado (nunca sobra ponto na ponta) */
 .ab-panel__items { --gap: 1.3em; overflow: hidden; margin: 0; padding: 0; list-style: none; font: 500 clamp(0.98rem, 1.22vw, 1.1rem)/1.45 var(--f-sans); letter-spacing: -0.005em; }
@@ -970,18 +970,19 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
       rola (data-scrub), depois o texto e o botão. Sem imagem. A cor continua atrás do rodapé, para o degradê dele sair do coral. */
 .ab-end { overflow-x: clip; padding-block: clamp(64px, 7vw, 110px) clamp(112px, 11vw, 160px); background: var(--tomato); color: var(--ivory); }
 .ab-end__in { display: grid; gap: clamp(26px, 3vw, 40px); }
-.ab-end__title { display: grid; font: 500 clamp(3.1rem, 11.2vw, 10.6rem)/1 var(--f-display); letter-spacing: -0.02em; }
+.ab-end__title { display: grid; font: 400 clamp(3.1rem, 11.2vw, 10.6rem)/1 var(--f-display); letter-spacing: -0.02em; }
 .ab-end__line { display: block; opacity: calc(var(--k, 1) * 1.8); transform: translateX(calc((1 - var(--k, 1)) * -62vw)); will-change: transform; }
 .ab-end__line:nth-child(even) { text-align: right; transform: translateX(calc((1 - var(--k, 1)) * 62vw)); }
 .ab-end__dock { display: grid; gap: 18px; justify-items: start; justify-self: end; width: min(100%, 25rem); color: var(--ink); opacity: var(--k, 1); transform: translateY(calc((1 - var(--k, 1)) * 30px)); }
 .ab-end__dock p { font-size: clamp(1.14rem, 1.5vw, 1.32rem); line-height: 1.45; }
 .ab-end__btn { background: var(--ivory); border-color: var(--ivory); color: var(--ink); }
 .ab-end__btn:hover { background: var(--ink); border-color: var(--ink); color: var(--ivory); }
-.is-about .ftr { background-color: var(--tomato); }
+:is(.is-about, .is-blog, .is-post) .ftr { background-color: var(--tomato); }
 @media (max-width: 760px) {
   .ab-end__title { font-size: 12.4vw; line-height: 1.04; }
   .ab-end__line:nth-child(even) { text-align: left; padding-left: 0.5em; }
   .ab-end__dock { justify-self: start; }
+  :is(.is-blog, .is-post) .ab-end__title { font-size: 10.6vw; }
 }
 
 /* ───────── contact page ───────── */
