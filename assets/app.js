@@ -896,6 +896,7 @@
     fd.delete('needs');
     fd.append('needs', needs.join(', ') || '-');
     const done = () => {
+      status.textContent = '';
       $('#form-fields').hidden = true;
       form.classList.add('is-sent');
       const box = $('#form-done');
@@ -916,9 +917,18 @@
     const endpoint = (form.dataset.endpoint || '').trim();
     if (!endpoint) return failed();
     const btn = form.querySelector('[type="submit"]');
+    // The form service can take several seconds to answer: the button says it is sending, so the click
+    // never looks like it did nothing, and after 30 s the visitor gets the error with the e-mail address.
+    const pt = document.documentElement.lang.startsWith('pt');
+    const label = btn.innerHTML;
     btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+    btn.textContent = pt ? 'Enviando…' : 'Sending…';
+    status.textContent = pt ? 'Enviando sua mensagem, pode levar alguns segundos…' : 'Sending your message, this can take a few seconds…';
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 30000);
     try {
-      const res = await fetch(endpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+      const res = await fetch(endpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl.signal });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || String(data.success) === 'false') throw new Error(data.message || String(res.status));
       form.reset();
@@ -926,7 +936,10 @@
     } catch {
       failed();
     } finally {
+      clearTimeout(timer);
       btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+      btn.innerHTML = label;
     }
   });
 
