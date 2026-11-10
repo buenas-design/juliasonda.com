@@ -916,6 +916,19 @@
     // The message goes straight to Julia's inbox through FormSubmit (contact.form_endpoint).
     const endpoint = (form.dataset.endpoint || '').trim();
     if (!endpoint) return failed();
+    // Web3Forms (contact.form_key) answers in a second or two; FormSubmit took 19 s and 25 s in the test of
+    // 10/11/2026. The page keeps FormSubmit's field names (and FormSubmit itself as the action for visitors
+    // without JavaScript), so they are renamed here.
+    let url = endpoint;
+    if (form.dataset.key) {
+      url = 'https://api.web3forms.com/submit';
+      const honey = fd.get('_honey');
+      for (const k of ['_honey', '_template', '_next', '_captcha']) fd.delete(k);
+      if (honey) fd.set('botcheck', 'on');
+      if (fd.has('_subject')) { fd.set('subject', fd.get('_subject')); fd.delete('_subject'); }
+      fd.set('access_key', form.dataset.key);
+      fd.set('from_name', location.hostname.replace(/^www\./, ''));
+    }
     const btn = form.querySelector('[type="submit"]');
     // The form service can take several seconds to answer: the button says it is sending, so the click
     // never looks like it did nothing, and after 60 s the visitor gets the error with the e-mail address
@@ -925,11 +938,11 @@
     btn.disabled = true;
     btn.setAttribute('aria-busy', 'true');
     btn.textContent = pt ? 'Enviando…' : 'Sending…';
-    status.textContent = pt ? 'Enviando sua mensagem, pode levar até 30 segundos…' : 'Sending your message, it can take up to 30 seconds…';
+    status.textContent = pt ? 'Enviando sua mensagem…' : 'Sending your message…';
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 60000);
     try {
-      const res = await fetch(endpoint, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl.signal });
+      const res = await fetch(url, { method: 'POST', body: fd, headers: { Accept: 'application/json' }, signal: ctrl.signal });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || String(data.success) === 'false') throw new Error(data.message || String(res.status));
       form.reset();
