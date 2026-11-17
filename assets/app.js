@@ -957,6 +957,47 @@
     }
   });
 
+  /* ───────── private portfolio pages (content/private.yml): pictures that swap by themselves (data-cycle) and
+     carousels that swipe by themselves (data-carousel). Only while on screen and the tab is visible; with
+     "reduce motion" they stay still (the small pictures under a cycle still switch it on a click). ───────── */
+  const autoplay = (el, count, interval, delay, go) => {
+    if (count < 2 || reduceMotion || !('IntersectionObserver' in window)) return null;
+    let k = 0;
+    let timer = 0;
+    let onScreen = false;
+    const tick = () => { k = (k + 1) % count; go(k); timer = setTimeout(tick, interval); };
+    const start = () => { if (!timer && onScreen && !document.hidden) timer = setTimeout(tick, delay + interval * 0.5); };
+    const stop = () => { clearTimeout(timer); timer = 0; };
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen) start(); else stop(); }, { threshold: 0.3 }).observe(el);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    return { jump: (n) => { k = n; go(n); stop(); delay = 0; start(); } };
+  };
+  $$('[data-cycle]').forEach((box) => {
+    const items = $$('.pv-cycle__item', box);
+    const dots = $$('.pv-cycle__dot', box);
+    let cur = 0;
+    const go = (n) => {
+      if (n === cur || !items[n]) return;
+      items.forEach((it) => it.classList.toggle('was-on', false));
+      items[cur].classList.toggle('is-on', false);
+      items[cur].classList.toggle('was-on', true);
+      items[n].classList.toggle('is-on', true);
+      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === n)));
+      cur = n;
+    };
+    const auto = autoplay(box, items.length, Number(box.dataset.interval) || 3200, Number(box.dataset.delay) || 0, go);
+    dots.forEach((d, i) => d.addEventListener('click', () => (auto ? auto.jump(i) : go(i))));
+  });
+  $$('[data-carousel]').forEach((car) => {
+    const track = $('.pv-car__track', car);
+    const dots = $$('.pv-car__dots i', car);
+    const go = (n) => {
+      track.style.setProperty('--k', String(n));
+      dots.forEach((d, i) => d.classList.toggle('is-on', i === n));
+    };
+    autoplay(car, dots.length, 2600, Number(car.dataset.delay) || 0, go);
+  });
+
   const year = $('#year');
   if (year) year.textContent = String(new Date().getFullYear());
 })();
