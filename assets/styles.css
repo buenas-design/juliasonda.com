@@ -1646,3 +1646,9 @@ img.pile--cut { border-radius: 0; box-shadow: none; object-fit: contain; filter:
   .pv-hp { animation: none; }
   .pv-cycle__item, .pv-car__track { transition: none; }
 }
+
+/* rows share one gap; on a phone a very tall piece in a row of three or more would be a sliver, so it steps out */
+.pv-row { --g: clamp(8px, 1.4vw, 20px); gap: var(--g); }
+@media (max-width: 760px) {
+  .pv-row:has(> :nth-child(3)) > .pv-cell--tall { display: none; }
+}
