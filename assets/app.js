@@ -998,6 +998,147 @@
     autoplay(car, dots.length, 2600, Number(car.dataset.delay) || 0, go);
   });
 
+  /* ───────── multifamily portfolio (19/11/2026): the brand-guide walls only move while they're on screen and the
+     tab is visible; with "reduce motion" they stay still (CSS). The logo builds itself again each time it comes
+     back into view (data-replay). ───────── */
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const walls = $$('[data-wall]');
+    if (walls.length) {
+      const wallIo = new IntersectionObserver((entries) => entries.forEach((e) => e.target.classList.toggle('is-live', e.isIntersecting)), { rootMargin: '10% 0px' });
+      walls.forEach((w) => wallIo.observe(w));
+    }
+    const replays = $$('[data-replay]');
+    if (replays.length) {
+      const replayIo = new IntersectionObserver((entries) => entries.forEach((e) => { if (!e.isIntersecting && e.boundingClientRect.top > 0) e.target.classList.remove('is-in'); }), { threshold: 0 });
+      const backIo = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('is-in'); }), { threshold: 0.35 });
+      replays.forEach((r) => { replayIo.observe(r); backIo.observe(r); });
+    }
+  }
+
+  /* ───────── multifamily pages: the concept gallery (19/11/2026, her request: "quando eu clico na imagem, eu consigo
+     passar para o lado e ver as aplicações… ver os outros conceitos em forma de galeria"). A click on a concept opens
+     its first application; swiping (or the arrows, or the keyboard) goes through all the concepts' applications in
+     order, and the buttons on top jump to a concept. The pictures are only loaded when the gallery opens. ───────── */
+  // multifamily project pages always open at the top, with the story of the project (19/11/2026, her note: "quando eu
+  // clico para abrir o projeto, ele já abre lá embaixo"); a link to a #section still goes there
+  if (document.body.classList.contains('is-private-case') && !location.hash) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    window.addEventListener('load', () => window.scrollTo(0, 0));
+  }
+  const lb = $('.mh-lb');
+  const galJson = $('.mh-gal-data');
+  if (lb && galJson) {
+    let gal = [];
+    try { gal = JSON.parse(galJson.textContent); } catch { gal = []; }
+    const track = $('.mh-lb__track', lb);
+    const cap = $('.mh-lb__cap', lb);
+    const tabs = $('.mh-lb__tabs', lb);
+    let built = false;
+    let lastFocus = null;
+    let cur = 0;
+    const concepts = [...new Set(gal.map((g) => g.concept))];
+    const firstOf = (c) => gal.findIndex((g) => g.concept === c);
+    const build = () => {
+      if (built) return;
+      built = true;
+      gal.forEach((g, i) => {
+        const fig = document.createElement('figure');
+        fig.className = 'mh-lb__slide';
+        fig.style.margin = '0';
+        if (g.title) {
+          // the concept's title screen
+          fig.classList.add('mh-lb__slide--title');
+          const box = document.createElement('div');
+          box.className = 'mh-lb__intro';
+          const k = document.createElement('p'); k.className = 'mh-lb__intro-num'; k.textContent = g.concept;
+          const n = document.createElement('p'); n.className = 'mh-lb__intro-name'; n.textContent = g.name;
+          // sem a quantidade de aplicações escrita (pedido dela, 19/11/2026)
+          box.append(k, n);
+          if (g.chosen) { const t = document.createElement('p'); t.className = 'mh-lb__intro-tag'; t.textContent = 'The chosen one'; box.append(t); }
+          fig.append(box);
+          track.append(fig);
+          return;
+        }
+        const img = document.createElement('img');
+        img.alt = `${g.concept}, ${g.name}: application ${i - firstOf(g.concept)}`;
+        img.decoding = 'async';
+        img.loading = Math.abs(i - cur) < 2 ? 'eager' : 'lazy';
+        if (g.sm) { img.srcset = `${g.sm} 900w, ${g.src} 1800w`; img.sizes = '(max-width: 900px) 100vw, 1500px'; }
+        img.src = g.src;
+        fig.append(img);
+        track.append(fig);
+      });
+      concepts.forEach((c) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'mh-lb__tab' + (gal[firstOf(c)].chosen ? ' is-chosen' : '');
+        b.textContent = c.replace('Concept ', '');
+        b.setAttribute('aria-label', `${c}, ${gal[firstOf(c)].name}`);
+        b.addEventListener('click', () => go(firstOf(c)));
+        tabs.append(b);
+      });
+    };
+    const label = (i) => {
+      const g = gal[i];
+      if (!g) return;
+      const inC = gal.filter((x) => x.concept === g.concept && !x.title);
+      const k = i - firstOf(g.concept);
+      cap.innerHTML = '';
+      cap.append(document.createTextNode(`${g.concept} · ${g.name}`));
+      const n = document.createElement('span');
+      n.textContent = g.title ? (g.chosen ? 'the chosen one' : '') : `${k} / ${inC.length}${g.chosen ? ' · the chosen one' : ''}`;
+      cap.append(n);
+      $$('.mh-lb__tab', tabs).forEach((t, j) => t.setAttribute('aria-current', String(concepts[j] === g.concept)));
+    };
+    const go = (i, smooth = true) => {
+      cur = Math.max(0, Math.min(gal.length - 1, i));
+      track.scrollTo({ left: cur * track.clientWidth, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+      label(cur);
+    };
+    let scrollT = 0;
+    track.addEventListener('scroll', () => {
+      cancelAnimationFrame(scrollT);
+      scrollT = requestAnimationFrame(() => {
+        const i = Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
+        if (i !== cur) { cur = i; label(cur); }
+      });
+    }, { passive: true });
+    const open = (i) => {
+      lastFocus = document.activeElement;
+      cur = i;
+      build();
+      lb.hidden = false;
+      document.documentElement.classList.add('mh-lb-open');
+      requestAnimationFrame(() => { go(i, false); $('.mh-lb__close', lb).focus(); });
+    };
+    const close = () => {
+      lb.hidden = true;
+      document.documentElement.classList.remove('mh-lb-open');
+      lastFocus?.focus?.();
+    };
+    $$('[data-gal-start]').forEach((b) => b.addEventListener('click', () => open(Number(b.dataset.galStart) || 0)));
+    $('.mh-lb__close', lb).addEventListener('click', close);
+    $('.mh-lb__nav--prev', lb).addEventListener('click', () => go(cur - 1));
+    $('.mh-lb__nav--next', lb).addEventListener('click', () => go(cur + 1));
+    // a click on the dark space around a picture closes it, like most galleries
+    track.addEventListener('click', (e) => { if (e.target.classList.contains('mh-lb__slide')) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') go(cur + 1);
+      else if (e.key === 'ArrowLeft') go(cur - 1);
+      else if (e.key === 'Tab') {
+        // keep the focus inside the gallery while it's open
+        const f = $$('button', lb).filter((x) => x.offsetParent !== null);
+        if (!f.length) return;
+        if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      }
+    });
+    window.addEventListener('resize', () => { if (!lb.hidden) go(cur, false); });
+  }
+
   const year = $('#year');
   if (year) year.textContent = String(new Date().getFullYear());
 })();
