@@ -45,6 +45,7 @@
   };
   // muted again from here too: iPhones only let a video play by itself when it is muted at play()
   coverVideos.forEach((v) => { v.muted = true; if (!v.dataset.src) prepare(v); });
+  let resyncCover = null; // syncCover below, for a cover video that failed and gets a new try (end of this file)
   if (coverVideos.length && !reduceMotion && !saveData && 'IntersectionObserver' in window) {
     const SHOW = 0.4; // share of the box on screen before it plays
     // ...except a project page's own video, which on a short screen is only partly in view at the top of the page
@@ -99,6 +100,7 @@
         play(v); // blocked (iPhone in Low Power Mode): it starts at the first touch (wakeUp)
       }, 600));
     };
+    resyncCover = syncCover;
     // watched through the box around it: its curtain (data-reveal="img", clip-path) would hide it from the observer
     const videoOf = new Map(coverVideos.map((v) => [v.parentElement, v]));
     const coverIo = new IntersectionObserver((entries) =>
@@ -1137,6 +1139,73 @@
       }
     });
     window.addEventListener('resize', () => { if (!lb.hidden) go(cur, false); });
+  }
+
+  /* ───────── pictures that fail (25/11/2026). Now and then the server (GitHub Pages) answers "503, try later" to one
+     file when a page asks for many at once, and that picture stayed broken for good (her Frebo page: the Exame post
+     in the Shark Tank row). A picture or video that fails now tries again by itself, twice, after 1.5 and 4 seconds,
+     with ?r=1 / ?r=2 on its address so the browser asks the server again instead of reusing the error. ───────── */
+  const again = (u, n) => {
+    if (!u || /^(data|blob):/.test(u)) return u;
+    const base = u.replace(/[?&]r=\d+$/, '');
+    return `${base}${base.includes('?') ? '&' : '?'}r=${n}`;
+  };
+  const againSet = (set, n) => set.split(',').map((c) => {
+    const [u, ...d] = c.trim().split(/\s+/);
+    return [again(u, n), ...d].join(' ');
+  }).join(', ');
+  const retry = (el) => {
+    const n = Number(el.dataset.retry || 0) + 1;
+    if (n > 2 || el.dataset.retryWait) return; // one try at a time, even if the failure is reported twice
+    el.dataset.retry = String(n);
+    el.dataset.retryWait = '1';
+    setTimeout(() => {
+      delete el.dataset.retryWait;
+      if (el instanceof HTMLVideoElement) {
+        const src = el.getAttribute('src');
+        if (!src) return;
+        el.src = again(src, n); // the video is paused now, like before it ever played
+        if (!el.dataset.wantPlay) return;
+        // a cover video: its own code decides (on screen, not under the next panel, the short wait); it starts again
+        // when it comes back into view otherwise
+        if (resyncCover && el.hasAttribute('data-autoplay')) { resyncCover(el); return; }
+        // any other video (one with controls that the visitor started) plays again if it is still in view
+        const r = el.getBoundingClientRect();
+        if (r.width > 0 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth) el.play()?.catch(() => {});
+        return;
+      }
+      const set = el.getAttribute('srcset');
+      if (set) el.srcset = againSet(set, n);
+      el.src = again(el.getAttribute('src'), n);
+    }, n === 1 ? 1500 : 4000);
+  };
+  // which videos were asked to play (a failed video is paused by the browser, so "paused" alone can't tell)
+  document.addEventListener('play', (e) => { if (e.target instanceof HTMLVideoElement) e.target.dataset.wantPlay = '1'; }, true);
+  document.addEventListener('pause', (e) => { const v = e.target; if (v instanceof HTMLVideoElement && !v.error) delete v.dataset.wantPlay; }, true);
+  // "error" doesn't bubble, so it is caught on its way down (capture)
+  document.addEventListener('error', (e) => {
+    const el = e.target;
+    if ((el instanceof HTMLImageElement && el.getAttribute('src')) || el instanceof HTMLVideoElement) retry(el);
+  }, true);
+  // ...and the pictures that had already failed before this file ran (it runs once the page has been read)
+  $$('img').forEach((im) => {
+    const src = im.getAttribute('src');
+    if (src && im.complete && im.naturalWidth === 0 && !/\.svg(\?|$)/i.test(src)) retry(im);
+  });
+
+  /* ───────── private pages (25/11/2026): the walls, decks, carousels and swapping frames bring their pictures into
+     view by themselves, so as lazy images each one only started downloading when it was already showing, and came in
+     blank for a moment (on the United Way frames, for several seconds). Their pictures now start downloading when the
+     block is about a screen away. Not with "reduce motion" (nothing moves, so the hidden ones never show) or the data
+     saver. ───────── */
+  const movers = $$('.pv-wall, .pv-deck, .pv-cycle, .pv-car, .pv-slide, [data-cycle]');
+  if (movers.length && !reduceMotion && !saveData && 'IntersectionObserver' in window) {
+    const nearMover = new IntersectionObserver((entries, io) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      $$('img[loading="lazy"]', e.target).forEach((im) => { im.loading = 'eager'; });
+    }), { rootMargin: '100% 0px' });
+    movers.forEach((m) => nearMover.observe(m));
   }
 
   const year = $('#year');
